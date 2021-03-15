@@ -1,0 +1,17 @@
+{
+    "codeLens.enable": true,
+    "diagnostic.enableSign": true,
+    "diagnostic.errorSign": "❗",
+	"diagnostic.warningSign": "⚠️",
+	"diagnostic.infoSign": "ℹ️",
+	"diagnostic.hintSign": "💡",
+    "python.linting.enabled": true,
+    "python.linting.pylintEnabled": true,
+    "python.autoComplete.addBrackets": true,
+    "python.linting.pylintArgs": ["--disable=C0116", "--disable=C0115", "--disable=C0114"],
+    "snippets.ultisnips.directories": [
+       "UltiSnips",
+        "~/.config/nvim/utils/snips"
+    ],
+    "clangd.path": "/home/mtaubert/.config/coc/extensions/coc-clangd-data/install/10.0.0/clangd_10.0.0/bin/clangd"
+}
