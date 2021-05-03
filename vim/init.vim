@@ -235,11 +235,10 @@ EOF
 nnoremap <leader>ff <cmd>Telescope find_files<cr>
 nnoremap <C-p> :lua require('telescope.builtin').git_files()<CR>
 nnoremap <leader>lg <cmd>lua require('telescope.builtin').live_grep()<cr>
-"nnoremap <leader>man <cmd>lua require('telescope.builtin').man_pages()<cr>
+nnoremap <leader>lw :lua require('telescope.builtin').grep_string { search = vim.fn.expand("<cword>") }<CR>
+nnoremap <leader>vrc <cmd>:lua require('dotfile_search').search_dotfiles()<cr>
 nnoremap <leader>gs <cmd>lua require('telescope.builtin').git_status()<cr>
 nnoremap <leader>hs <cmd>lua require('telescope.builtin').lsp_references()<cr>
-
-
 
 
                                 " +++ FUZZY FINDER +++ "
