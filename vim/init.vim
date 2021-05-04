@@ -2,7 +2,7 @@ call plug#begin('~/.config/nvim/autoload/plugged')
 
 Plug 'yggdroot/indentline'              " visualize indentations
 
-""" status bar 
+""" status bar
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
@@ -15,14 +15,17 @@ Plug 'jremmen/vim-ripgrep'
 Plug 'preservim/nerdcommenter'
 Plug 'bfrg/vim-cpp-modern'
 
-
 " COLOR
 Plug 'overcache/NeoSolarized'
 Plug 'lifepillar/vim-gruvbox8'
+Plug 'bronson/vim-trailing-whitespace' " TODO maybe map :FixWhitespace
+Plug 'kristijanhusak/vim-hybrid-material'
+Plug 'doums/darcula'
 
 " GIT
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
+
 
 " Telescope
 Plug 'nvim-lua/popup.nvim'
@@ -122,11 +125,46 @@ nnoremap <leader>cc NERDCommenterComment<CR>
 
                                 " +++ COLOR +++ "
 " GRUVBOX
-let g:gruvbox_filetype_hi_groups = 1    " Set to 1 to include syntax highlighting definitions for several filetypes.
-let g:gruvbox_plugin_hi_groups = 1      " Set to 1 to include syntax highlighting definitions for a number of popular plugins
-let g:gruvbox_invert_selection = 1
-set background=dark
-colorscheme gruvbox8_hard
+"let g:gruvbox_filetype_hi_groups = 1    " Set to 1 to include syntax highlighting definitions for several filetypes.
+"let g:gruvbox_plugin_hi_groups = 1      " Set to 1 to include syntax highlighting definitions for a number of popular plugins
+"let g:gruvbox_invert_selection = 1
+"set background=dark
+"colorscheme gruvbox8_hard
+
+colorscheme darcula
+let g:gitgutter_sign_added = '+'
+let g:gitgutter_sign_removed = '▶'
+"let g:gitgutter_sign_modified = ''
+"let g:gitgutter_sign_removed = '-'
+"hi! link GitGutterAdd GitAddStripe
+"hi! link GitGutterChange GitChangeStripe
+"hi! link GitGutterDelete GitDeleteStripe
+
+" fk those shitty signs on the side
+"let g:ale_sign_error = '⚠️'
+"let g:ale_sign_warning = '💡'
+let g:ale_sign_error = ''
+let g:ale_sign_warning = ''
+let g:ale_set_highlights = 0
+
+"hi! link ALEError Error
+"hi! link ALEWarning CodeWarning
+"hi! link ALEInfo CodeInfo
+"hi! link ALEErrorSign ErrorSign
+"hi! link ALEWarningSign WarningSign
+"hi! link ALEInfoSign InfoSign
+
+
+
+"let g:enable_bold_font = 1
+"let g:enable_italic_font = 1
+"let g:hybrid_transparent_background = 1
+"if (has("nvim"))
+  ""For Neovim 0.1.3 and 0.1.4 < https://github.com/neovim/neovim/pull/2198 >
+  "let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+"endif
+"set background=dark
+"colorscheme hybrid_material
 
 " SOLARIZED
 "colorscheme solarized
@@ -170,8 +208,8 @@ let g:cpp_no_function_highlight = 1
 
 lua <<EOF
 require'nvim-treesitter.configs'.setup {
-  ensure_installed = { "c", "python" }, -- one of "all", "maintained" (parsers with maintainers), or a list of languages
-  ignore_install = { "javascript" }, -- List of parsers to ignore installing
+  ensure_installed = { "c", "python", "cpp" }, -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+  ignore_install = { }, -- List of parsers to ignore installing
   highlight = {
     enable = true,              -- false will disable the whole extension
   },
@@ -179,7 +217,7 @@ require'nvim-treesitter.configs'.setup {
 EOF
 
                                 " +++ FUZZY FINDER +++ "
-                                
+
 lua << EOF
 require('telescope').setup{
   defaults = {
@@ -294,6 +332,3 @@ nnoremap <leader>sh :lua vim.lsp.buf.hover()<CR>
 
 " GIT
 nnoremap <leader>gvd :Gvdiffsplit<CR>
-let g:gitgutter_sign_added = '+'
-let g:gitgutter_sign_modified = ''
-let g:gitgutter_sign_removed = '-'
