@@ -32,7 +32,7 @@ SPACESHIP_EXIT_CODE_SYMBOL=
 SPACESHIP_EXIT_CODE_SUFFIX=' '
 SPACESHIP_EXIT_CODE_PREFIX=
 
-
+SPACESHIP_VI_MODE_COLOR=243
 
 SPACESHIP_PROMPT_ORDER=(
     dir
@@ -40,7 +40,7 @@ SPACESHIP_PROMPT_ORDER=(
     exec_time
     line_sep
     exit_code
-    vi_mode
+#    vi_mode
     char
 )
 
@@ -124,7 +124,7 @@ bindkey 'ö' autosuggest-accept
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 
-plugins=(zsh-vi-mode sudo zsh-autosuggestions extract zsh-syntax-highlighting)
+plugins=(sudo zsh-autosuggestions extract zsh-syntax-highlighting)
 export RPS1="%{$reset_color%}"
 source $ZSH/oh-my-zsh.sh
 # Prefix
@@ -155,8 +155,14 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+# typos
+alias clera="clear"
+alias claer="clear"
+alias vmi="vim"
+
 # map vim to be nvim
-alias vim="~/.config/nvim/nvim.appimage"
+# alias vim="~/.config/nvim/nvim.appimage"
+alias vim="~/.config/nvim/nvim-linux64/bin/nvim"
 
 # switch the monitors
 alias startup="~/my_scripts/startup.sh"
@@ -166,14 +172,12 @@ alias ga="git add"
 alias gcm="git commit -m"
 alias gs="git status"
 alias gd="git diff"
+alias gl="git log -p"
 
 # quick dotfiles edits
 alias zshedit="vim ~/.zshrc"
 alias vimedit="vim ~/.config/nvim/init.vim"
 alias i3edit="vim ~/.config/i3/config"
-
-# quick start to clion
-# alias clion="~/my_scripts/clion_start.sh"
 
 # cheatsheet
 alias cht="~/my_scripts/cheatsheet.sh"
@@ -181,9 +185,9 @@ alias cht="~/my_scripts/cheatsheet.sh"
 # EPITECH coding style checker
 alias normcheck="~/my_scripts/norm.sh"
 
-#alias mynew='( . cd $(find ~/GIT/tek2 -mindepth 1 -maxdepth 3 -type d | grep "B-" | fzf -e ))'
-#
+# Quickly finding my repos
 alias mfind=". ~/my_scripts/find.sh"
+alias work=". cd /home/mtaubert/GIT/work/x-mirror-gaia"
 
 # tmux settings
 alias ta="tmux attach"
@@ -192,3 +196,5 @@ alias tl="tmux ls"
 alias tks="tmux kill-server"
 alias tss="tmux switch -t"
 alias td="tmux detach"
+
+alias luamake=/home/mtaubert/.config/nvim/lua-language-server/3rd/luamake/luamake

@@ -10,24 +10,30 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'scrooloose/nerdtree'
 Plug 'unkiwii/vim-nerdtree-sync'
 
+""" Markdown viewer
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 
 Plug 'jremmen/vim-ripgrep'
 Plug 'preservim/nerdcommenter'
 Plug 'bfrg/vim-cpp-modern'
 Plug 'jiangmiao/auto-pairs'
-Plug 'szw/vim-maximizer' " :MaximizerToggle
-Plug 'wsdjeg/vim-todo' "Todo
-Plug 'terryma/vim-multiple-cursors'
+Plug 'szw/vim-maximizer'
+Plug 'wsdjeg/vim-todo'
+Plug 'machakann/vim-highlightedyank'
+Plug 'mg979/vim-visual-multi'
+" Plug 'terryma/vim-multple-cursors'
+
 
 " COLOR
 Plug 'lifepillar/vim-gruvbox8'
 Plug 'bronson/vim-trailing-whitespace'
 Plug 'doums/darcula'
+Plug 'sainnhe/gruvbox-material'
 
 
 " GIT
 Plug 'tpope/vim-fugitive'
-Plug 'airblade/vim-gitgutter'
+" Plug 'airblade/vim-gitgutter'
 
 
 " Telescope
@@ -42,12 +48,13 @@ Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-lua/completion-nvim'
 Plug 'tjdevries/nlua.nvim'
 Plug 'tjdevries/lsp_extensions.nvim'
+Plug 'kabouzeid/nvim-lspinstall'
 
-Plug 'sainnhe/gruvbox-material'
 call plug#end()
                                 " +++ BASICS +++ "
 syntax on
 filetype plugin on
+" set guicursor=
 inoremap ö <esc>
 tnoremap ö <C-\><C-n>
 let mapleader = " "
@@ -118,10 +125,11 @@ nnoremap + :ALEDetail<CR>
 nnoremap <leader>7 :let @/=""<CR>
 
 " NERDTREE
-nnoremap <C-n> :NERDTreeToggle<CR>
+nnoremap <C-m> :NERDTreeToggle<CR>
 nnoremap <leader>cc NERDCommenterComment<CR>
 
-nnoremap <leader>b :!./build.sh<CR>
+nnoremap <leader>b :!./mybuild.sh<CR>
+nnoremap <leader>s :!./send.sh<CR>
 
 
                                 " +++ COLOR +++ "
@@ -130,23 +138,29 @@ nnoremap <leader>b :!./build.sh<CR>
 "let g:gruvbox_invert_selection = 1
 "let g:gruvbox_bold = 0
 "let g:gruvbox_italics = 1
+"let g:gruvbox_italicize_strings = 1
 "let g:gruvbox_filetype_hi_groups = 1    " Set to 1 to include syntax highlighting definitions for several filetypes.
 "let g:gruvbox_plugin_hi_groups = 1      " Set to 1 to include syntax highlighting definitions for a number of popular plugins
 
-set background=dark
-let g:gruvbox_material_enable_italic = 1
-let g:gruvbox_material_diagnostic_text_highlight = 1
-let g:gruvbox_material_background = 'medium'
+let g:gruvbox_material_cursor = 'green'
+let g:gruvbox_material_enable_italic = 0
+" let g:gruvbox_material_enable_italic = 1
 let g:gruvbox_material_enable_bold = 0
-let g:gruvbox_material_cursor = 'purple'
-let g:gruvbox_material_visual = 'blue background'
-let g:gruvbox_material_menu_selection_background = 'green'
-let g:gruvbox_material_diagnostic_virtual_text = 'colored'
+let g:gruvbox_material_diagnostic_text_highlight = 1
+let g:gruvbox_material_background = 'hard'
+let g:gruvbox_material_disable_italic_comment = 0
+let g:gruvbox_material_palette = 'mix'
+"let g:gruvbox_material_enable_bold = 0
+"let g:gruvbox_material_visual = 'blue background'
+"let g:gruvbox_material_menu_selection_background = 'green'
+"let g:gruvbox_material_diagnostic_virtual_text = 'colored'
+"let g:gruvbox_material_transparent_background = 1
+set background=dark
 colorscheme gruvbox-material
+" colorscheme gruvbox8_hard
 
 let g:cmake_compile_commands = 1
-
-"colorscheme darcula
+" colorscheme darcula
 
 let g:gitgutter_sign_added = '+'
 let g:gitgutter_sign_removed = '▶'
@@ -203,8 +217,8 @@ let g:cpp_no_function_highlight = 0
 
 lua <<EOF
 require'nvim-treesitter.configs'.setup {
-  ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
-  ignore = { "python" },
+  ensure_installed = "maintained",
+  ignore_install = { "python" },
   highlight = {
     enable = true,              -- false will disable the whole extension
     use_languagetree = true
@@ -227,7 +241,6 @@ require('telescope').setup{
       '--column',
       '--smart-case'
     },
-    prompt_position = "bottom",
     prompt_prefix = "> ",
     selection_caret = "> ",
     entry_prefix = "  ",
@@ -235,7 +248,7 @@ require('telescope').setup{
     selection_strategy = "reset",
     sorting_strategy = "descending",
     layout_strategy = "horizontal",
-    layout_defaults = {
+    layout_config = {
       horizontal = {
         mirror = false,
       },
@@ -244,18 +257,14 @@ require('telescope').setup{
       },
     },
     file_sorter =  require'telescope.sorters'.get_fuzzy_file,
-    file_ignore_patterns = { './cmake-build-debug', '*/*.o' },
+    file_ignore_patterns = { './cmake/', './cmake-build-debug', '*/*.o' },
     generic_sorter =  require'telescope.sorters'.get_generic_fuzzy_sorter,
-    shorten_path = true,
     winblend = 0,
-    width = 0.75,
-    preview_cutoff = 120,
-    results_height = 1,
-    results_width = 0.8,
     border = {},
     borderchars = { '─', '│', '─', '│', '╭', '╮', '╯', '╰' },
     color_devicons = true,
     use_less = true,
+    path_display = {},
     set_env = { ['COLORTERM'] = 'truecolor' }, -- default = nil,
     file_previewer = require'telescope.previewers'.vim_buffer_cat.new,
     grep_previewer = require'telescope.previewers'.vim_buffer_vimgrep.new,
@@ -263,13 +272,7 @@ require('telescope').setup{
 
     -- Developer configurations: Not meant for general override
     buffer_previewer_maker = require'telescope.previewers'.buffer_previewer_maker
-  },
-  extensions = {
-      media_files = {
-          filetypes = {"png", "webp", "jpg", "jpeg", "pdf"},
-          find_cmd = "rg" -- find command (defaults to `fd`)
-      }
-  },
+  }
 }
 EOF
 
@@ -286,10 +289,12 @@ nnoremap <leader>gs <cmd>lua require('telescope.builtin').git_status()<cr>
 nnoremap <leader>hs <cmd>lua require('telescope.builtin').lsp_references()<cr>
 nnoremap <leader>fb <cmd>lua require('telescope.builtin').file_browser()<cr>
 nnoremap <leader>gc <cmd>lua require('telescope.builtin').git_commits()<cr>
-nnoremap <leader>gbc <cmd>lua require('telescope.builtin').git_bcommits()<cr>
 nnoremap <leader>qf <cmd>lua require('telescope.builtin').lsp_code_actions()<cr>
 nnoremap <leader>asdf <cmd>lua require('telescope.builtin').lsp_implementations()<cr>
 nnoremap <leader>tt <cmd>lua require('telescope.builtin').lsp_definitions()<cr>
+nnoremap <leader>gb :Git blame<cr>
+nnoremap <leader>n :cnext<cr>
+nnoremap <leader>p :cprev<cr>
 
 
                                 " +++ FUZZY FINDER +++ "
@@ -300,22 +305,79 @@ set completeopt-=preview
 
 let g:completion_matching_strategy_list = [ 'exact', 'substring', 'fuzzy' ]
 
-lua << EOF
-local on_attach = require'completion'.on_attach
+"require'lspconfig'.tsserver.setup{
+    "on_attach = require'completion'.on_attach,
+    "root_dir = vim.loop.cwd
+"}
 
-require'lspconfig'.tsserver.setup{
-    on_attach=on_attach,
-    root_dir = vim.loop.cwd
+lua << EOF
+
+local system_name
+if vim.fn.has("mac") == 1 then
+  system_name = "macOS"
+elseif vim.fn.has("unix") == 1 then
+  system_name = "Linux"
+elseif vim.fn.has('win32') == 1 then
+  system_name = "Windows"
+else
+  print("Unsupported system for sumneko")
+end
+
+-- set the path to the sumneko installation; if you previously installed via the now deprecated :LspInstall, use
+-- local sumneko_root_path = vim.fn.stdpath('cache')..'/lspconfig/sumneko_lua/lua-language-server'
+-- local sumneko_root_path = '/home/mtaubert/.local/share/nvim/lspinstall/lua/sumneko-lua/extension/server/bin/Linux/lua-language-server'
+local sumneko_root_path = '/home/mtaubert/.local/share/nvim/lspinstall/lua/sumneko-lua/extension/server'
+local sumneko_binary = sumneko_root_path.."/bin/"..system_name.."/lua-language-server"
+
+local runtime_path = vim.split(package.path, ';')
+table.insert(runtime_path, "lua/?.lua")
+table.insert(runtime_path, "lua/?/init.lua")
+
+require'lspconfig'.sumneko_lua.setup {
+  cmd = {sumneko_binary, "-E", sumneko_root_path .. "/main.lua"};
+  settings = {
+    Lua = {
+      runtime = {
+        -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
+        version = 'LuaJIT',
+        -- Setup your lua path
+        path = runtime_path,
+      },
+      diagnostics = {
+        -- Get the language server to recognize the `vim` global
+        globals = {'vim'},
+      },
+      workspace = {
+        -- Make the server aware of Neovim runtime files
+        library = vim.api.nvim_get_runtime_file("", true),
+      },
+      -- Do not send telemetry data containing a randomized but unique identifier
+      telemetry = {
+        enable = false,
+      },
+    },
+  },
 }
 
+
+local on_attach = require'completion'.on_attach
+
+require'lspconfig'.sumneko_lua.setup{ on_attach=on_attach }
 
 require'lspconfig'.clangd.setup {
     on_attach = require'completion'.on_attach,
     root_dir = vim.loop.cwd
 }
 
-require'lspconfig'.pyright.setup{ on_attach=on_attach }
 require'lspconfig'.gopls.setup{ on_attach=on_attach }
+require'lspconfig'.tsserver.setup{
+    on_attach=on_attach,
+    filetypes = { ".git", "javascript", "typescript", "typescriptreact", "typescript.tsx" },
+    root_dir = function() return vim.loop.cwd() end      -- run lsp for javascript in any directory
+}
+
+require'lspconfig'.cmake.setup{ on_attach=on_attach }
+require'lspconfig'.pyright.setup{ on_attach=on_attach }
 require'lspconfig'.rust_analyzer.setup{ on_attach=on_attach }
 require'lspconfig'.bashls.setup{ on_attach=on_attach }
 EOF
@@ -326,6 +388,30 @@ nnoremap <leader>gi :lua vim.lsp.buf.implementation()<CR>
 nnoremap <leader>gr :lua vim.lsp.buf.references()<CR>
 nnoremap <leader>sh :lua vim.lsp.buf.hover()<CR>
 
+lua << EOF
+require'lspinstall'.setup()
+
+local servers = require'lspinstall'.installed_servers()
+for _, server in pairs(servers) do
+  require'lspconfig'[server].setup{ on_attach=on_attach }
+end
+
+local function setup_servers()
+  require'lspinstall'.setup()
+  local servers = require'lspinstall'.installed_servers()
+  for _, server in pairs(servers) do
+    require'lspconfig'[server].setup{ on_attach=on_attach }
+  end
+end
+
+setup_servers()
+
+-- Automatically reload after `:LspInstall <server>` so we don't have to restart neovim
+require'lspinstall'.post_install_hook = function ()
+  setup_servers() -- reload installed servers
+  vim.cmd("bufdo e") -- this triggers the FileType autocmd that starts the server
+end
+EOF
 
 " GIT
 nnoremap <leader>gvd :Gvdiffsplit<CR>
@@ -346,7 +432,7 @@ nnoremap <leader>todo :OpenTodo<CR>
 let g:multi_cursor_use_default_mapping=0
 
 " Default mapping
-let g:multi_cursor_start_word_key      = '<C-m>'
+" let g:multi_cursor_start_word_key      = '<C-m>'
 let g:multi_cursor_select_all_word_key = '<A-n>'
 let g:multi_cursor_start_key           = 'g<C-n>'
 let g:multi_cursor_select_all_key      = 'g<A-n>'
@@ -355,3 +441,4 @@ let g:multi_cursor_prev_key            = '<C-p>'
 let g:multi_cursor_skip_key            = '<C-x>'
 let g:multi_cursor_quit_key            = '<Esc>'
 
+let g:highlightedyank_highlight_duration = 300
