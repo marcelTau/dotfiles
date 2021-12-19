@@ -1,5 +1,8 @@
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
+export PATH=$HOME/.local/bin/:$PATH
+export PATH=$HOME/.cargo/bin:$PATH
+export EDITOR=$HOME/.config/nvim/nvim-linux64/bin/nvim
 
 # Path to your oh-my-zsh installation.
 export ZSH="/home/mtaubert/.oh-my-zsh"
@@ -8,7 +11,8 @@ export ZSH="/home/mtaubert/.oh-my-zsh"
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 # ZSH_THEME="robbyrussell"
-ZSH_THEME="spaceship"
+#ZSH_THEME="spaceship"
+ZSH_THEME='af-magic'
 SPACESHIP_PROMPT_DEFAULT_PREFIX='/ '
 # eval spaceship_vi_mode_enable
 ## Git replacement symbols
@@ -162,17 +166,20 @@ alias vmi="vim"
 
 # map vim to be nvim
 # alias vim="~/.config/nvim/nvim.appimage"
-alias vim="~/.config/nvim/nvim-linux64/bin/nvim"
+#alias vim="~/.config/nvim/nvim-linux64/bin/nvim"
+alias vim="~/Downloads/nvim6"
 
 # switch the monitors
 alias startup="~/my_scripts/startup.sh"
 
 # GIT remaps
 alias ga="git add"
+alias gap="git add -p"
 alias gcm="git commit -m"
 alias gs="git status"
 alias gd="git diff"
 alias gl="git log -p"
+alias gc-="git checkout -"
 
 # quick dotfiles edits
 alias zshedit="vim ~/.zshrc"
@@ -196,5 +203,11 @@ alias tl="tmux ls"
 alias tks="tmux kill-server"
 alias tss="tmux switch -t"
 alias td="tmux detach"
+alias tfind="~/my_scripts/tmux_session.sh"
+
+alias cppc="~/my_scripts/my_cppcheck.sh"
+
+alias hgrep="history | grep"
+
 
 alias luamake=/home/mtaubert/.config/nvim/lua-language-server/3rd/luamake/luamake

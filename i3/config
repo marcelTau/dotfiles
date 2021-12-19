@@ -11,6 +11,9 @@
 
 set $mod Mod1
 
+# Take a screenshot upon pressing $mod+x (select an area)
+bindsym --release $mod+x exec --no-startup-id scrot -s '/tmp/%F_%T_$wx$h.png' -e 'xclip -selection clipboard -target image/png -i $f'
+
 exec --no-startup-id picom -CGb
 popup_during_fullscreen smart
 # Font for window titles. Will also be used by the bar unless a different font
@@ -45,16 +48,20 @@ floating_modifier $mod
 # start a terminal
 # i3-sensible-terminal
 # xfce4-terminal
-bindsym $mod+Return exec konsole
+#bindsym $mod+Return exec konsole
+bindsym $mod+Return exec kitty --config $HOME/GIT/personal/dotfiles/kitty/kitty.conf
 #bindsym $mod+Return exec gnome-terminal
 
 # kill focused window
 bindsym $mod+Shift+q kill
 
 # start dmenu (a program launcher)
-bindsym $mod+d exec dmenu_run
+#bindsym $mod+d exec rofi -show run drun window -theme /home/mtaubert/rofi-collection/dracula/dracula.rasi
+bindsym $mod+d exec rofi -show run -theme /home/mtaubert/rofi-collection/nord/nord.rasi
+#bindsym $mod+d exec dmenu
 
-bindsym $mod+m exec google-chrome
+#bindsym $mod+m exec google-chrome
+bindsym $mod+m exec brave-browser-stable
 bindsym $mod+n exec systemsettings5
 
 # change focus

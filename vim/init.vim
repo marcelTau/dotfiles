@@ -2,6 +2,12 @@ call plug#begin('~/.config/nvim/autoload/plugged')
 
 Plug 'yggdroot/indentline'              " visualize indentations
 
+
+
+""" New stuff
+Plug 'mhinz/vim-startify'
+
+
 """ status bar
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -13,11 +19,12 @@ Plug 'unkiwii/vim-nerdtree-sync'
 """ Markdown viewer
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 
+Plug 'babaybus/DoxygenToolkit.vim'
+
 Plug 'jremmen/vim-ripgrep'
 Plug 'preservim/nerdcommenter'
 Plug 'bfrg/vim-cpp-modern'
 Plug 'jiangmiao/auto-pairs'
-Plug 'szw/vim-maximizer'
 Plug 'wsdjeg/vim-todo'
 Plug 'machakann/vim-highlightedyank'
 Plug 'mg979/vim-visual-multi'
@@ -25,16 +32,25 @@ Plug 'mg979/vim-visual-multi'
 
 
 " COLOR
-Plug 'lifepillar/vim-gruvbox8'
+"Plug 'lifepillar/vim-gruvbox8'
 Plug 'bronson/vim-trailing-whitespace'
-Plug 'doums/darcula'
-Plug 'sainnhe/gruvbox-material'
-
+"Plug 'doums/darcula'
+"Plug 'sainnhe/gruvbox-material'
+"Plug 'Shatur/neovim-ayu'
+"Plug 'projekt0n/github-nvim-theme'
+Plug 'rktjmp/lush.nvim'
+Plug 'ellisonleao/gruvbox.nvim'
+"Plug 'RishabhRD/gruvy'
+Plug 'tjdevries/colorbuddy.vim'
+Plug 'tjdevries/gruvbuddy.nvim'
 
 " GIT
 Plug 'tpope/vim-fugitive'
-" Plug 'airblade/vim-gitgutter'
 
+
+" Debugger
+Plug 'puremourning/vimspector'
+Plug 'szw/vim-maximizer'
 
 " Telescope
 Plug 'nvim-lua/popup.nvim'
@@ -45,16 +61,19 @@ Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend upda
 Plug 'ilyachur/cmake4vim'
 " LSP
 Plug 'neovim/nvim-lspconfig'
-Plug 'nvim-lua/completion-nvim'
+"Plug 'nvim-lua/completion-nvim'
+Plug 'hrsh7th/nvim-compe'
 Plug 'tjdevries/nlua.nvim'
 Plug 'tjdevries/lsp_extensions.nvim'
 Plug 'kabouzeid/nvim-lspinstall'
-
+Plug 'williamboman/nvim-lsp-installer'
+Plug 'tzachar/compe-tabnine', { 'do': './install.sh' }
+Plug 'glepnir/lspsaga.nvim'
 call plug#end()
                                 " +++ BASICS +++ "
 syntax on
 filetype plugin on
-" set guicursor=
+"set guicursor=     " the cursor thing
 inoremap ö <esc>
 tnoremap ö <C-\><C-n>
 let mapleader = " "
@@ -63,6 +82,7 @@ set nu rnu
 set laststatus=2
 autocmd CompleteDone * if !pumvisible() | pclose | endif
 set belloff+=ctrlg
+set signcolumn=no
 
                                 " +++ SETS +++ "
 set scrolloff=7
@@ -92,7 +112,7 @@ set cmdheight=2
 set updatetime=50
 set shortmess+=c
 set encoding=utf8
-set colorcolumn=80
+"set colorcolumn=80
 " set guifont=Mono
 set splitright
 " set guifont=Droid\ Sans\ Fira\ Mono\ for\ Powerline\ Plus\ Nerd\ File\ Types\ 11
@@ -121,6 +141,8 @@ nnoremap <silent> <Leader>- :vertical resize -10<CR>
 " ERROR INFORMATION
 nnoremap + :ALEDetail<CR>
 
+" SWITCH HPP-CPP
+nnoremap <leader>hi :ClangdSwitchSourceHeader<CR>
 " SEARCH
 nnoremap <leader>7 :let @/=""<CR>
 
@@ -128,7 +150,7 @@ nnoremap <leader>7 :let @/=""<CR>
 nnoremap <C-m> :NERDTreeToggle<CR>
 nnoremap <leader>cc NERDCommenterComment<CR>
 
-nnoremap <leader>b :!./mybuild.sh<CR>
+nnoremap <leader>b :!./build.sh<CR>
 nnoremap <leader>s :!./send.sh<CR>
 
 
@@ -154,13 +176,27 @@ let g:gruvbox_material_palette = 'mix'
 "let g:gruvbox_material_visual = 'blue background'
 "let g:gruvbox_material_menu_selection_background = 'green'
 "let g:gruvbox_material_diagnostic_virtual_text = 'colored'
-"let g:gruvbox_material_transparent_background = 1
+let g:gruvbox_material_transparent_background = 1
 set background=dark
-colorscheme gruvbox-material
-" colorscheme gruvbox8_hard
+"colorscheme gruvbox-material
+ "colorscheme gruvbox8_hard
+"colorscheme gruvbox
+"colorscheme gruvy
+"colorscheme gruvbuddy
+lua << EOF
+require('colorbuddy').colorscheme('gruvbuddy')
+EOF
 
+"lua << EOF
+"require('ayu').setup({
+    "mirage = false, -- Set to `true` to use `mirage` variant instead of `dark` for dark background.
+    "overrides = {}, -- A dictionary with a group names associated with a dictionary with parameters (`bg`, `fg`, `sp` and `style`) and colors in hex.
+"})
+"EOF
+"colorscheme ayu-dark
 let g:cmake_compile_commands = 1
-" colorscheme darcula
+"colorscheme github_dark
+"colorscheme darcula
 
 let g:gitgutter_sign_added = '+'
 let g:gitgutter_sign_removed = '▶'
@@ -169,13 +205,32 @@ let g:gitgutter_sign_removed = '▶'
 "hi! link GitGutterAdd GitAddStripe
 "hi! link GitGutterChange GitChangeStripe
 "hi! link GitGutterDelete GitDeleteStripe
-
 " fk those shitty signs on the side
-let g:ale_sign_error = '⚠️'
-let g:ale_sign_warning = '💡'
+"let g:ale_sign_error = '⚠️'
+ "let g:ale_sign_error = 'E'
+ let g:ale_sign_error = ''
+"let g:ale_sign_warning = '💡'
+ "let g:ale_sign_warning = 'x'
+ let g:ale_sign_warning = ''
 "let g:ale_sign_error = ''
 "let g:ale_sign_warning = ''
 "let g:ale_set_highlights = 0
+let g:ale_sign_column_always = 0
+let g:ale_sign_highlight_linenrs = 1
+
+"let g:ale_sign_error = 'red'
+"let g:ale_sign_warning= 'red'
+"let g:ale_sign_info= 'red'
+"let g:ale_sign_style_error= 'red'
+"let g:ale_sign_style_warning= 'red'
+
+highlight link ALEErrorSignLineNr Error
+highlight link ALEWarningSignLineNr Error
+highlight link ALEInfoSignLineNr Error
+highlight link ALEStyleErrorSignLineNr Error
+highlight link ALEStyleWarningSignLineNr Error
+
+
 
 "hi! link ALEError Error
 "hi! link ALEWarning CodeWarning
@@ -256,8 +311,8 @@ require('telescope').setup{
         mirror = false,
       },
     },
-    file_sorter =  require'telescope.sorters'.get_fuzzy_file,
-    file_ignore_patterns = { './cmake/', './cmake-build-debug', '*/*.o' },
+    file_sorter =  require'telescope.sorters'.get_fzy_sorter,
+    file_ignore_patterns = { '.cmake/', 'CMakeFiles/', './cmake-build-debug', '*/**/*.o', '.clangd/', '.ccls/', '.cache/', '.settings/' },
     generic_sorter =  require'telescope.sorters'.get_generic_fuzzy_sorter,
     winblend = 0,
     border = {},
@@ -309,7 +364,29 @@ let g:completion_matching_strategy_list = [ 'exact', 'substring', 'fuzzy' ]
     "on_attach = require'completion'.on_attach,
     "root_dir = vim.loop.cwd
 "}
+let g:compe = {}
+let g:compe.enabled = v:true
+let g:compe.autocomplete = v:true
+let g:compe.debug = v:false
+let g:compe.min_length = 1
+let g:compe.preselect = 'enable'
+let g:compe.throttle_time = 80
+let g:compe.source_timeout = 200
+let g:compe.incomplete_delay = 400
+let g:compe.max_abbr_width = 100
+let g:compe.max_kind_width = 100
+let g:compe.max_menu_width = 100
+let g:compe.documentation = v:true
 
+
+let g:compe.source = {}
+let g:compe.source.path = v:true
+let g:compe.source.buffer = v:true
+let g:compe.source.calc = v:true
+let g:compe.source.nvim_lsp = v:true
+let g:compe.source.nvim_lua = v:true
+let g:compe.source.vsnip = v:true
+let g:compe.source.tabnine = v:true
 lua << EOF
 
 local system_name
@@ -333,40 +410,20 @@ local runtime_path = vim.split(package.path, ';')
 table.insert(runtime_path, "lua/?.lua")
 table.insert(runtime_path, "lua/?/init.lua")
 
-require'lspconfig'.sumneko_lua.setup {
-  cmd = {sumneko_binary, "-E", sumneko_root_path .. "/main.lua"};
-  settings = {
-    Lua = {
-      runtime = {
-        -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
-        version = 'LuaJIT',
-        -- Setup your lua path
-        path = runtime_path,
-      },
-      diagnostics = {
-        -- Get the language server to recognize the `vim` global
-        globals = {'vim'},
-      },
-      workspace = {
-        -- Make the server aware of Neovim runtime files
-        library = vim.api.nvim_get_runtime_file("", true),
-      },
-      -- Do not send telemetry data containing a randomized but unique identifier
-      telemetry = {
-        enable = false,
-      },
-    },
-  },
-}
-
-
-local on_attach = require'completion'.on_attach
-
-require'lspconfig'.sumneko_lua.setup{ on_attach=on_attach }
+local function on_attach()
+    -- why tf is should this be here
+end
 
 require'lspconfig'.clangd.setup {
-    on_attach = require'completion'.on_attach,
-    root_dir = vim.loop.cwd
+    --on_attach = require'completion'.on_attach,
+    on_attach=on_attach,
+    root_dir = vim.loop.cwd,
+    --autostart = true,
+    --cmd = {
+    --    "clangd",
+    --    "--background-index",
+    --    "-std=c++2a",
+    --},
 }
 
 require'lspconfig'.gopls.setup{ on_attach=on_attach }
@@ -376,45 +433,84 @@ require'lspconfig'.tsserver.setup{
     root_dir = function() return vim.loop.cwd() end      -- run lsp for javascript in any directory
 }
 
+require'lspconfig'.hls.setup{
+    on_attach=on_attach,
+    cmd = {'haskell-language-server-wrapper',
+            '--lsp'
+    },
+    root_dir = function() return vim.loop.cwd() end      -- run lsp for javascript in any directory
+}
 require'lspconfig'.cmake.setup{ on_attach=on_attach }
 require'lspconfig'.pyright.setup{ on_attach=on_attach }
 require'lspconfig'.rust_analyzer.setup{ on_attach=on_attach }
 require'lspconfig'.bashls.setup{ on_attach=on_attach }
 EOF
-
-nnoremap <leader>vn :lua vim.lsp.buf.rename()<CR>
+let g:ale_python_pylint_options = '--disable=W0603 --disable=C0111 --disable=C0114 --disable=C0103 --disable=C0116'
+nnoremap <leader>rn :lua vim.lsp.buf.rename()<CR>
 nnoremap <leader>gd :lua vim.lsp.buf.definition()<CR>
 nnoremap <leader>gi :lua vim.lsp.buf.implementation()<CR>
 nnoremap <leader>gr :lua vim.lsp.buf.references()<CR>
 nnoremap <leader>sh :lua vim.lsp.buf.hover()<CR>
+nnoremap <leader>dn :lua vim.diagnostic.goto_next()<CR>
+nnoremap <leader>dp :lua vim.diagnostic.goto_prev()<CR>
+nnoremap <leader>do :lua vim.diagnostic.open_float()<CR>
 
-lua << EOF
-require'lspinstall'.setup()
+nnoremap <silent> <leader>ft <cmd>lua require('lspsaga.floaterm').open_float_terminal('./build.sh && zsh')<CR>
+nnoremap <silent> <leader>fl <cmd>lua require('lspsaga.floaterm').open_float_terminal()<CR>
+tnoremap <silent> <leader>fl <C-\><C-n>:lua require('lspsaga.floaterm').close_float_terminal()<CR>
+tnoremap <silent> <leader>ft <C-\><C-n>:lua require('lspsaga.floaterm').close_float_terminal()<CR>
 
-local servers = require'lspinstall'.installed_servers()
-for _, server in pairs(servers) do
-  require'lspconfig'[server].setup{ on_attach=on_attach }
-end
+"
+"lua << EOF
+"require'lspinstall'.setup()
 
-local function setup_servers()
-  require'lspinstall'.setup()
-  local servers = require'lspinstall'.installed_servers()
-  for _, server in pairs(servers) do
-    require'lspconfig'[server].setup{ on_attach=on_attach }
-  end
-end
+"local servers = require'lspinstall'.installed_servers()
+"for _, server in pairs(servers) do
+  "require'lspconfig'[server].setup{ on_attach=on_attach }
+"end
 
-setup_servers()
+"local function setup_servers()
+  "require'lspinstall'.setup()
+  "local servers = require'lspinstall'.installed_servers()
+  "for _, server in pairs(servers) do
+    "require'lspconfig'[server].setup{ on_attach=on_attach }
+  "end
+"end
 
--- Automatically reload after `:LspInstall <server>` so we don't have to restart neovim
-require'lspinstall'.post_install_hook = function ()
-  setup_servers() -- reload installed servers
-  vim.cmd("bufdo e") -- this triggers the FileType autocmd that starts the server
-end
-EOF
+"setup_servers()
+
+"-- Automatically reload after `:LspInstall <server>` so we don't have to restart neovim
+"require'lspinstall'.post_install_hook = function ()
+  "setup_servers() -- reload installed servers
+  "vim.cmd("bufdo e") -- this triggers the FileType autocmd that starts the server
+"end
+"EOF
+
+function! s:JbzCppMan()
+    let old_isk = &iskeyword
+    setl iskeyword+=:
+    let str = expand("<cword>")
+    let &l:iskeyword = old_isk
+    execute 'Man ' . str
+endfunction
+command! JbzCppMan :call s:JbzCppMan()
+
+au FileType cpp nnoremap <buffer>H :JbzCppMan<CR>
 
 " GIT
 nnoremap <leader>gvd :Gvdiffsplit<CR>
+
+" Debugger
+
+nnoremap <leader>dl :call vimspector#Launch()<cr>
+nnoremap <leader>db :call vimspector#ToggleBreakpoint()<cr>
+nnoremap <leader>dsb :call vimspector#ListBreakpoints()<cr>
+nnoremap <leader>di :call vimspector#StepInto()<cr>
+nnoremap <leader>do :call vimspector#StepOver()<cr>
+nnoremap <leader>dr :call vimspector#Restart()<cr>
+nnoremap <leader>dc :call vimspector#Continue()<cr>
+nnoremap <leader>dR :VimspectorReset<cr>
+
 
 " AUTOPAIRS
 let g:AutoPairs = { '{':'}' }
@@ -425,6 +521,8 @@ nnoremap <leader>fw :FixWhitespace<CR>
 " Maximizer
 nnoremap <leader>max :MaximizerToggle<CR>
 nnoremap <leader>rmax :MaximizerToggle!<CR>
+
+nnoremap <leader>r :luafile %<CR>
 
 " todo
 nnoremap <leader>todo :OpenTodo<CR>
@@ -442,3 +540,17 @@ let g:multi_cursor_skip_key            = '<C-x>'
 let g:multi_cursor_quit_key            = '<Esc>'
 
 let g:highlightedyank_highlight_duration = 300
+
+let g:ale_cpp_clang_options =           '-std=c++2a -Wall'
+let g:ale_cpp_clangd_options =          '-std=c++2a -Wall'
+let g:ale_cpp_clangcheck_options =      '-std=c++2a'
+let g:ale_cpp_clangtidy_options =       '-std=c++2a'
+let g:ale_cpp_clangtidy_extra_options = '-std=c++2a'
+let g:ale_cpp_cppcheck_options =        '--enable=all'
+let g:ale_cpp_gcc_options =             '-std=c++2a -Wall'
+
+" Doxygen
+let g:DoxygenToolkit_authorName="Marcel Taubert"
+nnoremap <leader>id :Dox<cr>
+
+nnoremap <leader>sl :%!awk '{print; total+=$1}END{print total}'<cr>
