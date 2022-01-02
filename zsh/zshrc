@@ -5,14 +5,19 @@ export PATH=$HOME/.cargo/bin:$PATH
 export EDITOR=$HOME/.config/nvim/nvim-linux64/bin/nvim
 
 # Path to your oh-my-zsh installation.
-export ZSH="/home/mtaubert/.oh-my-zsh"
+ export ZSH="/home/mtaubert/.oh-my-zsh"
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 # ZSH_THEME="robbyrussell"
 #ZSH_THEME="spaceship"
-ZSH_THEME='af-magic'
+#ZSH_THEME='af-magic'
+ZSH_THEME='MinimalisticWithGit'
+#zhann
+#sammy
+#crunch
+#simple
 SPACESHIP_PROMPT_DEFAULT_PREFIX='/ '
 # eval spaceship_vi_mode_enable
 ## Git replacement symbols
@@ -128,7 +133,7 @@ bindkey 'ö' autosuggest-accept
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 
-plugins=(sudo zsh-autosuggestions extract zsh-syntax-highlighting)
+plugins=(sudo zsh-autosuggestions extract zsh-syntax-highlighting web-search)
 export RPS1="%{$reset_color%}"
 source $ZSH/oh-my-zsh.sh
 # Prefix

@@ -35,7 +35,7 @@ Plug 'mg979/vim-visual-multi'
 "Plug 'lifepillar/vim-gruvbox8'
 Plug 'bronson/vim-trailing-whitespace'
 "Plug 'doums/darcula'
-"Plug 'sainnhe/gruvbox-material'
+Plug 'sainnhe/gruvbox-material'
 "Plug 'Shatur/neovim-ayu'
 "Plug 'projekt0n/github-nvim-theme'
 Plug 'rktjmp/lush.nvim'
@@ -184,7 +184,7 @@ set background=dark
 "colorscheme gruvy
 "colorscheme gruvbuddy
 lua << EOF
-require('colorbuddy').colorscheme('gruvbuddy')
+  require('colorbuddy').colorscheme('gruvbuddy')
 EOF
 
 "lua << EOF
@@ -446,7 +446,7 @@ require'lspconfig'.rust_analyzer.setup{ on_attach=on_attach }
 require'lspconfig'.bashls.setup{ on_attach=on_attach }
 EOF
 let g:ale_python_pylint_options = '--disable=W0603 --disable=C0111 --disable=C0114 --disable=C0103 --disable=C0116'
-nnoremap <leader>rn :lua vim.lsp.buf.rename()<CR>
+"nnoremap <leader>rn :lua vim.lsp.buf.rename()<CR>
 nnoremap <leader>gd :lua vim.lsp.buf.definition()<CR>
 nnoremap <leader>gi :lua vim.lsp.buf.implementation()<CR>
 nnoremap <leader>gr :lua vim.lsp.buf.references()<CR>
@@ -454,8 +454,10 @@ nnoremap <leader>sh :lua vim.lsp.buf.hover()<CR>
 nnoremap <leader>dn :lua vim.diagnostic.goto_next()<CR>
 nnoremap <leader>dp :lua vim.diagnostic.goto_prev()<CR>
 nnoremap <leader>do :lua vim.diagnostic.open_float()<CR>
+nnoremap <leader>rn :Lspsaga rename<CR>
 
-nnoremap <silent> <leader>ft <cmd>lua require('lspsaga.floaterm').open_float_terminal('./build.sh && zsh')<CR>
+
+nnoremap <silent> <leader>ft <cmd>lua require('lspsaga.floaterm').open_float_terminal('./run_tests.sh')<CR>
 nnoremap <silent> <leader>fl <cmd>lua require('lspsaga.floaterm').open_float_terminal()<CR>
 tnoremap <silent> <leader>fl <C-\><C-n>:lua require('lspsaga.floaterm').close_float_terminal()<CR>
 tnoremap <silent> <leader>ft <C-\><C-n>:lua require('lspsaga.floaterm').close_float_terminal()<CR>
@@ -491,7 +493,12 @@ function! s:JbzCppMan()
     setl iskeyword+=:
     let str = expand("<cword>")
     let &l:iskeyword = old_isk
+
+    vert split
+    "execute "term"
     execute 'Man ' . str
+    execute ':wincmd j'
+    execute ':q'
 endfunction
 command! JbzCppMan :call s:JbzCppMan()
 
@@ -506,7 +513,7 @@ nnoremap <leader>dl :call vimspector#Launch()<cr>
 nnoremap <leader>db :call vimspector#ToggleBreakpoint()<cr>
 nnoremap <leader>dsb :call vimspector#ListBreakpoints()<cr>
 nnoremap <leader>di :call vimspector#StepInto()<cr>
-nnoremap <leader>do :call vimspector#StepOver()<cr>
+"nnoremap <leader>do :call vimspector#StepOver()<cr>
 nnoremap <leader>dr :call vimspector#Restart()<cr>
 nnoremap <leader>dc :call vimspector#Continue()<cr>
 nnoremap <leader>dR :VimspectorReset<cr>
