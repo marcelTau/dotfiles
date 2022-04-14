@@ -1,67 +1,55 @@
+
 call plug#begin('~/.config/nvim/autoload/plugged')
 
-Plug 'yggdroot/indentline'              " visualize indentations
+" Personal Plugins
+Plug '/home/mtaubert/GIT/personal/FirstLuaPlugin'
 
+Plug 'yggdroot/indentline'              " visualize indentations //@@@@
 
+" Rust
+Plug 'rust-lang/rust.vim'
+Plug 'simrat39/rust-tools.nvim'
 
-""" New stuff
-Plug 'mhinz/vim-startify'
-
-
-""" status bar
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-
-""" file manager
-Plug 'scrooloose/nerdtree'
-Plug 'unkiwii/vim-nerdtree-sync'
-
-""" Markdown viewer
+" Markdown
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
-
+Plug 'christoomey/vim-sort-motion'
+Plug 'vimwiki/vimwiki'
 Plug 'babaybus/DoxygenToolkit.vim'
-
-Plug 'jremmen/vim-ripgrep'
 Plug 'preservim/nerdcommenter'
-Plug 'bfrg/vim-cpp-modern'
 Plug 'jiangmiao/auto-pairs'
 Plug 'wsdjeg/vim-todo'
 Plug 'machakann/vim-highlightedyank'
 Plug 'mg979/vim-visual-multi'
-" Plug 'terryma/vim-multple-cursors'
-
+Plug 'SirVer/ultisnips'
 
 " COLOR
-"Plug 'lifepillar/vim-gruvbox8'
-Plug 'bronson/vim-trailing-whitespace'
-"Plug 'doums/darcula'
-Plug 'sainnhe/gruvbox-material'
-"Plug 'Shatur/neovim-ayu'
-"Plug 'projekt0n/github-nvim-theme'
+Plug 'morhetz/gruvbox'
 Plug 'rktjmp/lush.nvim'
-Plug 'ellisonleao/gruvbox.nvim'
-"Plug 'RishabhRD/gruvy'
 Plug 'tjdevries/colorbuddy.vim'
 Plug 'tjdevries/gruvbuddy.nvim'
 
 " GIT
 Plug 'tpope/vim-fugitive'
 
-
-" Debugger
-Plug 'puremourning/vimspector'
-Plug 'szw/vim-maximizer'
+" Movement
+Plug 'ThePrimeagen/harpoon'
 
 " Telescope
+Plug 'nvim-telescope/telescope-project.nvim'
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
-Plug 'nvim-telescope/telescope-media-files.nvim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
-Plug 'ilyachur/cmake4vim'
+Plug 'nvim-treesitter/playground'
+
+" cmake https://codevion.github.io/#!vim/cpp2.md
+Plug 'cdelledonne/vim-cmake'
+Plug 'alepez/vim-gtest'
+
+
 " LSP
+Plug 'mattn/vim-lsp-settings'
 Plug 'neovim/nvim-lspconfig'
-"Plug 'nvim-lua/completion-nvim'
 Plug 'hrsh7th/nvim-compe'
 Plug 'tjdevries/nlua.nvim'
 Plug 'tjdevries/lsp_extensions.nvim'
@@ -70,159 +58,114 @@ Plug 'williamboman/nvim-lsp-installer'
 Plug 'tzachar/compe-tabnine', { 'do': './install.sh' }
 Plug 'glepnir/lspsaga.nvim'
 call plug#end()
+
                                 " +++ BASICS +++ "
+
+lua << EOF
+P = function(v)
+    print(vim.inspect(v))
+    return v
+end
+EOF
+
+
+"set guicursor=     " the cursor thing
 syntax on
 filetype plugin on
-"set guicursor=     " the cursor thing
+set nocompatible
+
 inoremap ö <esc>
 tnoremap ö <C-\><C-n>
+
 let mapleader = " "
 let g:indentLine_char_list = ['|', '|', '|', '|']
-set nu rnu
+"set nonu
+set nu
+set conceallevel=0
 set laststatus=2
 autocmd CompleteDone * if !pumvisible() | pclose | endif
 set belloff+=ctrlg
+"set signcolumn=number
+"set signcolumn=yes:1
 set signcolumn=no
+set nofixendofline
+
+"set list
+"set listchars=trail:.
 
                                 " +++ SETS +++ "
-set scrolloff=7
+
+" testing
+"set termguicolors
+
+set scrolloff=0
 set autoindent
 set smartindent
 set autoread
-set conceallevel=0
-set autoread
 set inccommand=nosplit " make things auto write while doing a %s/ replacement
-set cursorline
 set mouse=a
-set termguicolors
 set hidden
 set noerrorbells
 set tabstop=4 softtabstop=4
 set shiftwidth=4
 set expandtab
-set smartindent
-set nu rnu
 set nowrap
 set smartcase
 set noswapfile
 set nobackup
 set incsearch
 set clipboard=unnamedplus
-set cmdheight=2
+set cmdheight=1
 set updatetime=50
 set shortmess+=c
 set encoding=utf8
-"set colorcolumn=80
-" set guifont=Mono
 set splitright
-" set guifont=Droid\ Sans\ Fira\ Mono\ for\ Powerline\ Plus\ Nerd\ File\ Types\ 11
-set guifont=Fira\ Code:h12
+set foldmethod=manual
+set timeoutlen=500
 
-
+" Debugging
+packadd termdebug
+let g:termdebug_wide = 1
+let g:TermDebugging = 0
+au User TermdebugStartPre let g:TermDebugging = 1
+au User TermdebugStopPost let g:TermDebugging = 0
                                 " +++ BASIC REMAPS +++ "
 " MOVEMENT
 noremap J 5j
 noremap K 5k
+nnoremap J 5j
+nnoremap K 5k
 vnoremap J 5j
 vnoremap K 5k
-nmap <C-h> :bp<enter>
-nmap <C-l> :bn<enter>
-nnoremap <leader>h :wincmd h<CR>
+nnoremap <leader>H :wincmd h<CR>
 nnoremap <leader>j :wincmd j<CR>
 nnoremap <leader>k :wincmd k<CR>
-nnoremap <leader>l :wincmd l<CR>
+nnoremap <leader>L :wincmd l<CR>
+nnoremap <C-d> :bd <CR>
 
 " RESIZE
-nmap <C-k> :res +5<CR>
-nmap <C-j> :res -5<CR>
 nnoremap <silent> <Leader>+ :vertical resize +10<CR>
 nnoremap <silent> <Leader>- :vertical resize -10<CR>
 
-" ERROR INFORMATION
 nnoremap + :ALEDetail<CR>
-
-" SWITCH HPP-CPP
 nnoremap <leader>hi :ClangdSwitchSourceHeader<CR>
-" SEARCH
 nnoremap <leader>7 :let @/=""<CR>
-
-" NERDTREE
-nnoremap <C-m> :NERDTreeToggle<CR>
 nnoremap <leader>cc NERDCommenterComment<CR>
-
 nnoremap <leader>b :!./build.sh<CR>
 nnoremap <leader>s :!./send.sh<CR>
 
-
-                                " +++ COLOR +++ "
-" GRUVBOX
-"colorscheme gruvbox8_hard
-"let g:gruvbox_invert_selection = 1
-"let g:gruvbox_bold = 0
-"let g:gruvbox_italics = 1
-"let g:gruvbox_italicize_strings = 1
-"let g:gruvbox_filetype_hi_groups = 1    " Set to 1 to include syntax highlighting definitions for several filetypes.
-"let g:gruvbox_plugin_hi_groups = 1      " Set to 1 to include syntax highlighting definitions for a number of popular plugins
-
-let g:gruvbox_material_cursor = 'green'
-let g:gruvbox_material_enable_italic = 0
-" let g:gruvbox_material_enable_italic = 1
-let g:gruvbox_material_enable_bold = 0
-let g:gruvbox_material_diagnostic_text_highlight = 1
-let g:gruvbox_material_background = 'hard'
-let g:gruvbox_material_disable_italic_comment = 0
-let g:gruvbox_material_palette = 'mix'
-"let g:gruvbox_material_enable_bold = 0
-"let g:gruvbox_material_visual = 'blue background'
-"let g:gruvbox_material_menu_selection_background = 'green'
-"let g:gruvbox_material_diagnostic_virtual_text = 'colored'
-let g:gruvbox_material_transparent_background = 1
-set background=dark
-"colorscheme gruvbox-material
- "colorscheme gruvbox8_hard
 "colorscheme gruvbox
-"colorscheme gruvy
-"colorscheme gruvbuddy
+
+"colorscheme default
 lua << EOF
   require('colorbuddy').colorscheme('gruvbuddy')
 EOF
 
-"lua << EOF
-"require('ayu').setup({
-    "mirage = false, -- Set to `true` to use `mirage` variant instead of `dark` for dark background.
-    "overrides = {}, -- A dictionary with a group names associated with a dictionary with parameters (`bg`, `fg`, `sp` and `style`) and colors in hex.
-"})
-"EOF
-"colorscheme ayu-dark
-let g:cmake_compile_commands = 1
-"colorscheme github_dark
-"colorscheme darcula
-
-let g:gitgutter_sign_added = '+'
-let g:gitgutter_sign_removed = '▶'
-"let g:gitgutter_sign_modified = ''
-"let g:gitgutter_sign_removed = '-'
-"hi! link GitGutterAdd GitAddStripe
-"hi! link GitGutterChange GitChangeStripe
-"hi! link GitGutterDelete GitDeleteStripe
-" fk those shitty signs on the side
-"let g:ale_sign_error = '⚠️'
- "let g:ale_sign_error = 'E'
- let g:ale_sign_error = ''
-"let g:ale_sign_warning = '💡'
- "let g:ale_sign_warning = 'x'
- let g:ale_sign_warning = ''
-"let g:ale_sign_error = ''
-"let g:ale_sign_warning = ''
-"let g:ale_set_highlights = 0
+let g:ale_sign_warning = 'W'
+let g:ale_sign_info = 'I'
+let g:ale_sign_error = 'E'
 let g:ale_sign_column_always = 0
 let g:ale_sign_highlight_linenrs = 1
-
-"let g:ale_sign_error = 'red'
-"let g:ale_sign_warning= 'red'
-"let g:ale_sign_info= 'red'
-"let g:ale_sign_style_error= 'red'
-"let g:ale_sign_style_warning= 'red'
 
 highlight link ALEErrorSignLineNr Error
 highlight link ALEWarningSignLineNr Error
@@ -230,47 +173,24 @@ highlight link ALEInfoSignLineNr Error
 highlight link ALEStyleErrorSignLineNr Error
 highlight link ALEStyleWarningSignLineNr Error
 
+hi! link ALEError Error
+hi! link ALEWarning CodeWarning
+hi! link ALEInfo CodeInfo
+hi! link ALEErrorSign ErrorSign
+hi! link ALEWarningSign WarningSign
+hi! link ALEInfoSign InfoSign
 
-
-"hi! link ALEError Error
-"hi! link ALEWarning CodeWarning
-"hi! link ALEInfo CodeInfo
-"hi! link ALEErrorSign ErrorSign
-"hi! link ALEWarningSign WarningSign
-"hi! link ALEInfoSign InfoSign
-
-"let g:gitgutter_override_sign_column_highlight = 0
-
-" AIRLINE
-let g:airline_theme='minimalist'
-let g:airline#extensions#tabline#enabled = 1            " show tabs or all buffers if only one tab open
-let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
-let g:airline_left_sep=''
-let g:airline_right_sep=''
-let g:airline_left_alt_sep=''
-let g:airline_right_alt_sep=''
-let g:airline_section_y = ''
-let g:airline_section_z = ''
-let g:airline_section_error = ''
-let g:airline_section_warning = ''
 
                                 " +++ TERMINAL +++ "
-
 au BufEnter * if &buftype == 'terminal' | endif
 function! OpenTerminal()
   vert split term://zsh
+  set nornu
 endfunction
 nnoremap <leader>#  :call OpenTerminal()<CR>
 
 
-                                " +++ HIGHLIGHTING +++ "
-" C++
-let g:cpp_attributes_highlight = 1
-let g:cpp_member_highlight = 1
-let g:cpp_simple_highlight = 1
-let g:cpp_no_function_highlight = 0
-
-lua <<EOF
+lua << EOF
 require'nvim-treesitter.configs'.setup {
   ensure_installed = "maintained",
   ignore_install = { "python" },
@@ -304,13 +224,19 @@ require('telescope').setup{
     sorting_strategy = "descending",
     layout_strategy = "horizontal",
     layout_config = {
+      prompt_position = "bottom",
       horizontal = {
-        mirror = false,
+        width_padding = 0.04,
+        height_padding = 0.1,
+        preview_width = 0.6,
       },
       vertical = {
-        mirror = false,
+        width_padding = 0.05,
+        height_padding = 1,
+        preview_height = 0.5,
       },
     },
+    preview = false,
     file_sorter =  require'telescope.sorters'.get_fzy_sorter,
     file_ignore_patterns = { '.cmake/', 'CMakeFiles/', './cmake-build-debug', '*/**/*.o', '.clangd/', '.ccls/', '.cache/', '.settings/' },
     generic_sorter =  require'telescope.sorters'.get_generic_fuzzy_sorter,
@@ -321,36 +247,36 @@ require('telescope').setup{
     use_less = true,
     path_display = {},
     set_env = { ['COLORTERM'] = 'truecolor' }, -- default = nil,
-    file_previewer = require'telescope.previewers'.vim_buffer_cat.new,
+    -- file_previewer = require'telescope.previewers'.vim_buffer_cat.new,
     grep_previewer = require'telescope.previewers'.vim_buffer_vimgrep.new,
     qflist_previewer = require'telescope.previewers'.vim_buffer_qflist.new,
 
     -- Developer configurations: Not meant for general override
     buffer_previewer_maker = require'telescope.previewers'.buffer_previewer_maker
-  }
+  },
+  extensions = {
+    project = {
+      base_dirs = {
+        {path = '~/GIT', max_depth = 3},
+        
+      }
+    }
+  },
 }
+require'telescope'.load_extension('project')
 EOF
 
-lua << EOF
-require('telescope').load_extension('media_files')
-EOF
-
-nnoremap <leader>ff <cmd>Telescope find_files<cr>
-nnoremap <C-p> :lua require('telescope.builtin').git_files()<CR>
+nnoremap <leader>ff     <cmd>Telescope find_files<cr>
+nnoremap <C-p>          :lua require('telescope.builtin').git_files( require('telescope.themes').get_ivy( { preview = false }))<CR>
 nnoremap <leader>lg <cmd>lua require('telescope.builtin').live_grep()<cr>
 nnoremap <leader>lw :lua require('telescope.builtin').grep_string { search = vim.fn.expand("<cword>") }<CR>
 nnoremap <leader>vrc <cmd>:lua require('dotfile_search').search_dotfiles()<cr>
-nnoremap <leader>gs <cmd>lua require('telescope.builtin').git_status()<cr>
 nnoremap <leader>hs <cmd>lua require('telescope.builtin').lsp_references()<cr>
-nnoremap <leader>fb <cmd>lua require('telescope.builtin').file_browser()<cr>
-nnoremap <leader>gc <cmd>lua require('telescope.builtin').git_commits()<cr>
 nnoremap <leader>qf <cmd>lua require('telescope.builtin').lsp_code_actions()<cr>
-nnoremap <leader>asdf <cmd>lua require('telescope.builtin').lsp_implementations()<cr>
-nnoremap <leader>tt <cmd>lua require('telescope.builtin').lsp_definitions()<cr>
 nnoremap <leader>gb :Git blame<cr>
 nnoremap <leader>n :cnext<cr>
 nnoremap <leader>p :cprev<cr>
-
+nnoremap <leader>ht :lua require'telescope.builtin'.help_tags()<cr>
 
                                 " +++ FUZZY FINDER +++ "
 
@@ -358,12 +284,9 @@ set completeopt+=menuone
 set completeopt+=noinsert
 set completeopt-=preview
 
-let g:completion_matching_strategy_list = [ 'exact', 'substring', 'fuzzy' ]
+"@todo
+"let g:completion_matching_strategy_list = [ 'exact', 'substring', 'fuzzy' ]
 
-"require'lspconfig'.tsserver.setup{
-    "on_attach = require'completion'.on_attach,
-    "root_dir = vim.loop.cwd
-"}
 let g:compe = {}
 let g:compe.enabled = v:true
 let g:compe.autocomplete = v:true
@@ -378,6 +301,7 @@ let g:compe.max_kind_width = 100
 let g:compe.max_menu_width = 100
 let g:compe.documentation = v:true
 
+highlight link CompeDocumentation Normal
 
 let g:compe.source = {}
 let g:compe.source.path = v:true
@@ -387,43 +311,64 @@ let g:compe.source.nvim_lsp = v:true
 let g:compe.source.nvim_lua = v:true
 let g:compe.source.vsnip = v:true
 let g:compe.source.tabnine = v:true
+
 lua << EOF
 
-local system_name
-if vim.fn.has("mac") == 1 then
-  system_name = "macOS"
-elseif vim.fn.has("unix") == 1 then
-  system_name = "Linux"
-elseif vim.fn.has('win32') == 1 then
-  system_name = "Windows"
-else
-  print("Unsupported system for sumneko")
-end
-
--- set the path to the sumneko installation; if you previously installed via the now deprecated :LspInstall, use
--- local sumneko_root_path = vim.fn.stdpath('cache')..'/lspconfig/sumneko_lua/lua-language-server'
--- local sumneko_root_path = '/home/mtaubert/.local/share/nvim/lspinstall/lua/sumneko-lua/extension/server/bin/Linux/lua-language-server'
+local system_name = "Linux"
 local sumneko_root_path = '/home/mtaubert/.local/share/nvim/lspinstall/lua/sumneko-lua/extension/server'
-local sumneko_binary = sumneko_root_path.."/bin/"..system_name.."/lua-language-server"
-
+local sumneko_binary_path = sumneko_root_path.."/bin/"..system_name.."/lua-language-server"
 local runtime_path = vim.split(package.path, ';')
+
 table.insert(runtime_path, "lua/?.lua")
 table.insert(runtime_path, "lua/?/init.lua")
+
 
 local function on_attach()
     -- why tf is should this be here
 end
 
+--require'lspconfig'.sumneko_lua.setup {
+--    cmd = {sumneko_binary_path, "-E", sumneko_root_path .. "/main.lua"};
+--    settings = {
+--        Lua = {
+--        runtime = {
+--            -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
+--            version = 'LuaJIT',
+--            -- Setup your lua path
+--            path = runtime_path,
+--        },
+--        diagnostics = {
+--            -- Get the language server to recognize the `vim` global
+--            globals = {'vim'},
+--        },
+--        workspace = {
+--            -- Make the server aware of Neovim runtime files
+--            library = vim.api.nvim_get_runtime_file("", true),
+--        },
+--        -- Do not send telemetry data containing a randomized but unique identifier
+--        telemetry = {
+--            enable = false,
+--        },
+--        },
+--    },
+--}
+
 require'lspconfig'.clangd.setup {
-    --on_attach = require'completion'.on_attach,
-    on_attach=on_attach,
+    cmd = {
+      "clangd",
+      "--background-index",
+      "--suggest-missing-includes",
+      "--clang-tidy",
+      "--header-insertion=iwyu",
+    },
+    init_options = {
+      clangdFileStatus = true,
+    },
     root_dir = vim.loop.cwd,
-    --autostart = true,
-    --cmd = {
-    --    "clangd",
-    --    "--background-index",
-    --    "-std=c++2a",
-    --},
+    fallbackFlags = {
+        "-std=c++2a"
+    },
+    on_attach=on_attach
 }
 
 require'lspconfig'.gopls.setup{ on_attach=on_attach }
@@ -442,97 +387,44 @@ require'lspconfig'.hls.setup{
 }
 require'lspconfig'.cmake.setup{ on_attach=on_attach }
 require'lspconfig'.pyright.setup{ on_attach=on_attach }
-require'lspconfig'.rust_analyzer.setup{ on_attach=on_attach }
+require'lspconfig'.rust_analyzer.setup({
+    on_attach=on_attach,
+    root_dir = function() return vim.loop.cwd() end,      -- run lsp for javascript in any directory
+    settings = {
+        ["rust-analyzer"] = {
+            assist = {
+                importGranularity = "module",
+                importPrefix = "by_self",
+            },
+            cargo = {
+                loadOutDirsFromCheck = true
+            },
+            procMacro = {
+                enable = true
+            },
+        }
+    }
+})
 require'lspconfig'.bashls.setup{ on_attach=on_attach }
 EOF
+
 let g:ale_python_pylint_options = '--disable=W0603 --disable=C0111 --disable=C0114 --disable=C0103 --disable=C0116'
-"nnoremap <leader>rn :lua vim.lsp.buf.rename()<CR>
 nnoremap <leader>gd :lua vim.lsp.buf.definition()<CR>
 nnoremap <leader>gi :lua vim.lsp.buf.implementation()<CR>
 nnoremap <leader>gr :lua vim.lsp.buf.references()<CR>
 nnoremap <leader>sh :lua vim.lsp.buf.hover()<CR>
 nnoremap <leader>dn :lua vim.diagnostic.goto_next()<CR>
 nnoremap <leader>dp :lua vim.diagnostic.goto_prev()<CR>
-nnoremap <leader>do :lua vim.diagnostic.open_float()<CR>
 nnoremap <leader>rn :Lspsaga rename<CR>
 
 
-nnoremap <silent> <leader>ft <cmd>lua require('lspsaga.floaterm').open_float_terminal('./run_tests.sh')<CR>
-nnoremap <silent> <leader>fl <cmd>lua require('lspsaga.floaterm').open_float_terminal()<CR>
-tnoremap <silent> <leader>fl <C-\><C-n>:lua require('lspsaga.floaterm').close_float_terminal()<CR>
-tnoremap <silent> <leader>ft <C-\><C-n>:lua require('lspsaga.floaterm').close_float_terminal()<CR>
-
-"
-"lua << EOF
-"require'lspinstall'.setup()
-
-"local servers = require'lspinstall'.installed_servers()
-"for _, server in pairs(servers) do
-  "require'lspconfig'[server].setup{ on_attach=on_attach }
-"end
-
-"local function setup_servers()
-  "require'lspinstall'.setup()
-  "local servers = require'lspinstall'.installed_servers()
-  "for _, server in pairs(servers) do
-    "require'lspconfig'[server].setup{ on_attach=on_attach }
-  "end
-"end
-
-"setup_servers()
-
-"-- Automatically reload after `:LspInstall <server>` so we don't have to restart neovim
-"require'lspinstall'.post_install_hook = function ()
-  "setup_servers() -- reload installed servers
-  "vim.cmd("bufdo e") -- this triggers the FileType autocmd that starts the server
-"end
-"EOF
-
-function! s:JbzCppMan()
-    let old_isk = &iskeyword
-    setl iskeyword+=:
-    let str = expand("<cword>")
-    let &l:iskeyword = old_isk
-
-    vert split
-    "execute "term"
-    execute 'Man ' . str
-    execute ':wincmd j'
-    execute ':q'
-endfunction
-command! JbzCppMan :call s:JbzCppMan()
-
-au FileType cpp nnoremap <buffer>H :JbzCppMan<CR>
+"highlight hl-LspSignatureActiveParameter gui
 
 " GIT
 nnoremap <leader>gvd :Gvdiffsplit<CR>
 
-" Debugger
-
-nnoremap <leader>dl :call vimspector#Launch()<cr>
-nnoremap <leader>db :call vimspector#ToggleBreakpoint()<cr>
-nnoremap <leader>dsb :call vimspector#ListBreakpoints()<cr>
-nnoremap <leader>di :call vimspector#StepInto()<cr>
-"nnoremap <leader>do :call vimspector#StepOver()<cr>
-nnoremap <leader>dr :call vimspector#Restart()<cr>
-nnoremap <leader>dc :call vimspector#Continue()<cr>
-nnoremap <leader>dR :VimspectorReset<cr>
-
-
-" AUTOPAIRS
-let g:AutoPairs = { '{':'}' }
-
 " FIX WHITESPACE
 nnoremap <leader>fw :FixWhitespace<CR>
-
-" Maximizer
-nnoremap <leader>max :MaximizerToggle<CR>
-nnoremap <leader>rmax :MaximizerToggle!<CR>
-
-nnoremap <leader>r :luafile %<CR>
-
-" todo
-nnoremap <leader>todo :OpenTodo<CR>
 
 let g:multi_cursor_use_default_mapping=0
 
@@ -558,6 +450,62 @@ let g:ale_cpp_gcc_options =             '-std=c++2a -Wall'
 
 " Doxygen
 let g:DoxygenToolkit_authorName="Marcel Taubert"
+let g:doxygen_enhanced_color = 1
 nnoremap <leader>id :Dox<cr>
 
-nnoremap <leader>sl :%!awk '{print; total+=$1}END{print total}'<cr>
+" Harpoon
+nnoremap <leader>a :lua require("harpoon.mark").add_file()<CR>
+nnoremap <C-e> :lua require("harpoon.ui").toggle_quick_menu()<CR>
+
+nnoremap <C-j> :lua require("harpoon.ui").nav_file(1)<CR>
+nnoremap <C-k> :lua require("harpoon.ui").nav_file(2)<CR>
+nnoremap <C-l> :lua require("harpoon.ui").nav_file(3)<CR>
+nnoremap <C-t> :lua require("harpoon.term").gotoTerminal(1)<CR>
+
+nnoremap <leader>o :source $MYVIMRC<CR>
+nnoremap <leader>ö :TSHighlightCapturesUnderCursor<CR>
+
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsEditSplit="vertical"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+
+let g:cmake_link_compile_commands = 1
+let g:gtest#gtest_command="./build/tests/Test"
+let g:gtest#print_time = 1
+let g:cmake_default_config = "build"
+
+" AUTOPAIRS
+let g:AutoPairs = { '{':'}' }
+
+" RUST
+autocmd FileType rust nnoremap <leader>b :Cargo build<CR>
+autocmd FileType rust nnoremap <leader>t :RustTest<CR>
+autocmd FileType rust nnoremap <leader>r :Cargo run<CR>
+autocmd FileType rust nnoremap <leader>gt :RustTest!<CR>
+autocmd FileType rust nnoremap <leader>f :RustFmt<CR>
+autocmd FileType rust let b:AutoPairs = { }
+"let g:rustfmt_autosave = 1
+
+
+autocmd FileType lua nnoremap <leader>b :w<cr> :source %<cr>
+
+
+lua<<EOF
+require('rust-tools').setup({})
+require'lsp_extensions'.inlay_hints{
+    highlight = "Comment",
+    prefix = " > ",
+    aligned = false,
+    only_current_line = false,
+    enabled = { "ChainingHint" }
+}
+EOF
+autocmd BufEnter,BufWinEnter,TabEnter,BufWritePost *.rs :lua require('lsp_extensions').inlay_hints{ prefix = ' -> ', enabled = {"TypeHint", "ChainingHint", "ParameterHint"} }
+autocmd VimLeave * silent !echo -ne "\033Ptmux;\033\033[2 q\033\\"
+autocmd VimLeave * silent !echo -ne "\033ktmux;\033\033]12;gray\007\033\\"
+
+nnoremap <leader>T :lua require'todoapp'.open('/home/mtaubert/GIT/personal/FirstLuaPlugin')<cr>
+nnoremap <leader>fl :VimwikiFollowLink<cr>
+
+

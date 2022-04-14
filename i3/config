@@ -12,9 +12,31 @@
 set $mod Mod1
 
 # Take a screenshot upon pressing $mod+x (select an area)
-bindsym --release $mod+x exec --no-startup-id scrot -s '/tmp/%F_%T_$wx$h.png' -e 'xclip -selection clipboard -target image/png -i $f'
+#bindsym --release $mod+x exec --no-startup-id scrot -s '/tmp/%F_%T_$wx$h.png' -e 'xclip -selection clipboard -target image/png -i $f'
+bindsym --release $mod+x exec --no-startup-id maim -s /tmp/ss.png && xclip -sel clip -t image/png -i /tmp/ss.png
+
+gaps inner 15
+gaps outer 10
+
+for_window [class="qemu"] floating enable
+for_window [class="qemu"] default_border normal
+for_window [title="(?i)babel"] floating enable
+for_window [title="(?i)babel"] default_border normal
+for_window [title="bin/babel"] default_border normal
+for_window [title="bin/babel"] floating enable
+for_window [title="(?i)Chip8"] floating enable
+for_window [title="(?i)Chip8"] default_border normal
+for_window [title="bin/Chip8"] default_border normal
+for_window [title="bin/Chip8"] floating enable
+for_window [title="/snap/discord/132/usr/share/discord/Discord"] default_border normal
+for_window [title="/snap/discord/132/usr/share/discord/Discord"] floating enable
+for_window [title="bin/Discord"] default_border normal
+for_window [title="bin/Discord"] floating enable
 
 exec --no-startup-id picom -CGb
+exec killall -q notifier
+exec --no-startup-id dunst -config /home/mtaubert/GIT/personal/dotfiles/dunst/dunstrc
+
 popup_during_fullscreen smart
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
@@ -50,6 +72,7 @@ floating_modifier $mod
 # xfce4-terminal
 #bindsym $mod+Return exec konsole
 bindsym $mod+Return exec kitty --config $HOME/GIT/personal/dotfiles/kitty/kitty.conf
+#bindsym $mod+Return exec contour config $HOME/GIT/personal/dotfiles/contour/contour.yml
 #bindsym $mod+Return exec gnome-terminal
 
 # kill focused window
@@ -127,6 +150,12 @@ set $ws8 "8"
 set $ws9 "9"
 set $ws10 "10"
 
+
+workspace 1 output eDP-1
+workspace "2: vim" output HDMI-2
+workspace "3: browser" output HDMI-2
+workspace "4: discord" output HDMI-2
+
 # switch to workspace
 bindsym $mod+1 workspace number $ws1
 bindsym $mod+2 workspace number $ws2
@@ -150,6 +179,14 @@ bindsym $mod+Shift+7 move container to workspace number $ws7
 bindsym $mod+Shift+8 move container to workspace number $ws8
 bindsym $mod+Shift+9 move container to workspace number $ws9
 bindsym $mod+Shift+0 move container to workspace number $ws10
+
+
+for_window [class="brave-browser"] move to workspace $ws3
+assign [class="brave-browser"] $ws3
+for_window [class="Brave-browser"] move to workspace $ws3
+assign [class="Brave-browser"] $ws3
+for_window [class="discord"] move to workspace $ws4
+assign [class="discord"] $ws4
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
@@ -181,11 +218,14 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
-default_border none
+#default_border none
+default_border pixel
 
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
         status_command i3status
+        position top
+        workspace_min_width 40
 }

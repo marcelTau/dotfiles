@@ -1,7 +1,17 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 export PATH=$HOME/.local/bin/:$PATH
 export PATH=$HOME/.cargo/bin:$PATH
+export PATH=$HOME/.local/share/nvim/lsp_servers/rust:$PATH
+export PATH=$HOME/oclint-21.10/bin:$PATH
+
 export EDITOR=$HOME/.config/nvim/nvim-linux64/bin/nvim
 
 # Path to your oh-my-zsh installation.
@@ -12,8 +22,10 @@ export EDITOR=$HOME/.config/nvim/nvim-linux64/bin/nvim
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 # ZSH_THEME="robbyrussell"
 #ZSH_THEME="spaceship"
+ZSH_THEME="powerlevel10k/powerlevel10k"
 #ZSH_THEME='af-magic'
-ZSH_THEME='MinimalisticWithGit'
+#ZSH_THEME='MinimalisticWithGit'
+#ZSH_THEME='random'
 #zhann
 #sammy
 #crunch
@@ -172,10 +184,11 @@ alias vmi="vim"
 # map vim to be nvim
 # alias vim="~/.config/nvim/nvim.appimage"
 #alias vim="~/.config/nvim/nvim-linux64/bin/nvim"
-alias vim="~/Downloads/nvim6"
+#alias vim="~/Downloads/nvim6"
+alias vim="~/.config/nvim/nvim0-7.appimage"
 
-# switch the monitors
-alias startup="~/my_scripts/startup.sh"
+# my startup routine
+alias startup="~/my_scripts/realstart.sh"
 
 # GIT remaps
 alias ga="git add"
@@ -201,6 +214,9 @@ alias normcheck="~/my_scripts/norm.sh"
 alias mfind=". ~/my_scripts/find.sh"
 alias work=". cd /home/mtaubert/GIT/work/x-mirror-gaia"
 
+# Kill app by name
+alias mkill="~/my_scripts/my_kill.sh"
+
 # tmux settings
 alias ta="tmux attach"
 alias tn="tmux new"
@@ -211,8 +227,15 @@ alias td="tmux detach"
 alias tfind="~/my_scripts/tmux_session.sh"
 
 alias cppc="~/my_scripts/my_cppcheck.sh"
+alias init_vimspector="~/my_scripts/create_vimspector.sh"
 
 alias hgrep="history | grep"
 
+hgr() {
+    history | sort -rn | fzy -l 30
+}
 
 alias luamake=/home/mtaubert/.config/nvim/lua-language-server/3rd/luamake/luamake
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
