@@ -1,0 +1,50 @@
+[user]
+	name = marcel
+	email = marcel.taubert@epitech.eu
+[alias]
+	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+	co = checkout
+
+[core]
+	whitespace = tabwidth=4
+	#pager = less -x4 -FRSX
+    pager = delta
+    editor = ~/Downloads/nvim6
+[interactive]
+    diffFilter = delta --color-only
+[delta]
+    navigate = true
+    side-by-side = true
+
+[grep]
+	lineNumber = true
+
+[diff]
+    colorMoved = default
+
+[color]
+	ui = auto
+
+[color "decorate"]
+	branch = bold green
+	remoteBranch = bold yellow
+	tag = bold blue
+	stash = bold yellow
+	HEAD = bold cyan
+
+[color "branch"]
+  remote = bold cyan
+  local = white
+
+[color "diff"]
+	meta = bold white
+	old = bold red
+	new = bold green
+
+[color "status"]
+	added = bold white
+	updated = bold yellow
+	changed = bold red
+	untracked = bold blue
+	branch = green
+	nobranch = bold red
