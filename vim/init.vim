@@ -46,16 +46,21 @@ Plug 'nvim-treesitter/playground'
 Plug 'cdelledonne/vim-cmake'
 Plug 'alepez/vim-gtest'
 
-
 " LSP
+Plug 'hrsh7th/nvim-cmp'
+Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/cmp-path'
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-nvim-lua'
+Plug 'onsails/lspkind-nvim'
+
 Plug 'mattn/vim-lsp-settings'
 Plug 'neovim/nvim-lspconfig'
-Plug 'hrsh7th/nvim-compe'
 Plug 'tjdevries/nlua.nvim'
 Plug 'tjdevries/lsp_extensions.nvim'
 Plug 'kabouzeid/nvim-lspinstall'
 Plug 'williamboman/nvim-lsp-installer'
-Plug 'tzachar/compe-tabnine', { 'do': './install.sh' }
+"Plug 'tzachar/compe-tabnine', { 'do': './install.sh' }
 Plug 'glepnir/lspsaga.nvim'
 call plug#end()
 
@@ -79,8 +84,8 @@ tnoremap ö <C-\><C-n>
 
 let mapleader = " "
 let g:indentLine_char_list = ['|', '|', '|', '|']
-"set nonu
-set nu
+set nonu
+"set nu
 set conceallevel=0
 set laststatus=2
 autocmd CompleteDone * if !pumvisible() | pclose | endif
@@ -116,6 +121,7 @@ set nobackup
 set incsearch
 set clipboard=unnamedplus
 set cmdheight=1
+set nowritebackup
 set updatetime=50
 set shortmess+=c
 set encoding=utf8
@@ -192,8 +198,8 @@ nnoremap <leader>#  :call OpenTerminal()<CR>
 
 lua << EOF
 require'nvim-treesitter.configs'.setup {
-  ensure_installed = "maintained",
-  ignore_install = { "python" },
+  ensure_installed = "all",
+  ignore_install = {},
   highlight = {
     enable = true,              -- false will disable the whole extension
     use_languagetree = true
@@ -283,34 +289,6 @@ nnoremap <leader>ht :lua require'telescope.builtin'.help_tags()<cr>
 set completeopt+=menuone
 set completeopt+=noinsert
 set completeopt-=preview
-
-"@todo
-"let g:completion_matching_strategy_list = [ 'exact', 'substring', 'fuzzy' ]
-
-let g:compe = {}
-let g:compe.enabled = v:true
-let g:compe.autocomplete = v:true
-let g:compe.debug = v:false
-let g:compe.min_length = 1
-let g:compe.preselect = 'enable'
-let g:compe.throttle_time = 80
-let g:compe.source_timeout = 200
-let g:compe.incomplete_delay = 400
-let g:compe.max_abbr_width = 100
-let g:compe.max_kind_width = 100
-let g:compe.max_menu_width = 100
-let g:compe.documentation = v:true
-
-highlight link CompeDocumentation Normal
-
-let g:compe.source = {}
-let g:compe.source.path = v:true
-let g:compe.source.buffer = v:true
-let g:compe.source.calc = v:true
-let g:compe.source.nvim_lsp = v:true
-let g:compe.source.nvim_lua = v:true
-let g:compe.source.vsnip = v:true
-let g:compe.source.tabnine = v:true
 
 lua << EOF
 
@@ -500,6 +478,44 @@ require'lsp_extensions'.inlay_hints{
     only_current_line = false,
     enabled = { "ChainingHint" }
 }
+
+local lspkind = require('lspkind')
+lspkind.init()
+
+local cmp = require('cmp')
+cmp.setup {
+    mapping = cmp.mapping.preset.insert({
+        ['<C-p>'] = cmp.mapping.select_prev_item(),
+        ['<C-n>'] = cmp.mapping.select_next_item(),
+        ['<C-j>'] = cmp.mapping.scroll_docs(4),
+        ['<C-k>'] = cmp.mapping.scroll_docs(-4),
+        ['<CR>'] = cmp.mapping.confirm({
+            behavior = cmp.ConfirmBehavior.Insert,
+            select = true,
+        }),
+    }),
+    sources = cmp.config.sources({
+        { name = "nvim_lua" }, -- max_item_count
+        { name = "nvim_lsp" }, -- max_item_count
+        { name = "path" },
+        { name = "buffer", keyword_length = 5 },
+    }),
+    formatting = {
+        format = lspkind.cmp_format {
+            with_text = true,
+            menu = {
+                buffer = '[buf]',
+                nvim_lsp = '[LSP]',
+                nvim_lua = '[api]',
+                path = '[path]',
+            }
+        }
+    },
+    experimental = {
+        native_menu = false,
+    },
+}
+
 EOF
 autocmd BufEnter,BufWinEnter,TabEnter,BufWritePost *.rs :lua require('lsp_extensions').inlay_hints{ prefix = ' -> ', enabled = {"TypeHint", "ChainingHint", "ParameterHint"} }
 autocmd VimLeave * silent !echo -ne "\033Ptmux;\033\033[2 q\033\\"
@@ -507,5 +523,3 @@ autocmd VimLeave * silent !echo -ne "\033ktmux;\033\033]12;gray\007\033\\"
 
 nnoremap <leader>T :lua require'todoapp'.open('/home/mtaubert/GIT/personal/FirstLuaPlugin')<cr>
 nnoremap <leader>fl :VimwikiFollowLink<cr>
-
-
