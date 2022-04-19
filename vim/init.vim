@@ -27,9 +27,11 @@ Plug 'morhetz/gruvbox'
 Plug 'rktjmp/lush.nvim'
 Plug 'tjdevries/colorbuddy.vim'
 Plug 'tjdevries/gruvbuddy.nvim'
+Plug 'sainnhe/gruvbox-material'
 
 " GIT
 Plug 'tpope/vim-fugitive'
+Plug 'rhysd/committia.vim'
 
 " Movement
 Plug 'ThePrimeagen/harpoon'
@@ -84,8 +86,8 @@ tnoremap ö <C-\><C-n>
 
 let mapleader = " "
 let g:indentLine_char_list = ['|', '|', '|', '|']
-set nonu
-"set nu
+"set nonu
+set nu
 set conceallevel=0
 set laststatus=2
 autocmd CompleteDone * if !pumvisible() | pclose | endif
@@ -162,10 +164,17 @@ nnoremap <leader>s :!./send.sh<CR>
 
 "colorscheme gruvbox
 
+
+let g:gruvbox_material_background = 'hard'
+let g:gruvbox_material_better_performance = 1
+let g:gruvbox_material_ui_contrast='high'
+let g:gruvbox_material_palette='original'
+
+colorscheme gruvbox-material
 "colorscheme default
-lua << EOF
-  require('colorbuddy').colorscheme('gruvbuddy')
-EOF
+"lua << EOF
+  "require('colorbuddy').colorscheme('gruvbuddy')
+"EOF
 
 let g:ale_sign_warning = 'W'
 let g:ale_sign_info = 'I'

@@ -188,7 +188,7 @@ alias vmi="vim"
 alias vim="~/.config/nvim/nvim0-7.appimage"
 
 # my startup routine
-alias startup="~/my_scripts/realstart.sh"
+alias startup="~/GIT/personal/dotfiles/scripts/realstart.sh"
 
 # GIT remaps
 alias ga="git add"
@@ -204,18 +204,9 @@ alias zshedit="vim ~/.zshrc"
 alias vimedit="vim ~/.config/nvim/init.vim"
 alias i3edit="vim ~/.config/i3/config"
 
-# cheatsheet
-alias cht="~/my_scripts/cheatsheet.sh"
-
-# EPITECH coding style checker
-alias normcheck="~/my_scripts/norm.sh"
-
 # Quickly finding my repos
-alias mfind=". ~/my_scripts/find.sh"
+alias mfind=". ~/GIT/personal/dotfiles/scripts/find.sh"
 alias work=". cd /home/mtaubert/GIT/work/x-mirror-gaia"
-
-# Kill app by name
-alias mkill="~/my_scripts/my_kill.sh"
 
 # tmux settings
 alias ta="tmux attach"
@@ -224,11 +215,7 @@ alias tl="tmux ls"
 alias tks="tmux kill-server"
 alias tss="tmux switch -t"
 alias td="tmux detach"
-alias tfind="~/my_scripts/tmux_session.sh"
-
-alias cppc="~/my_scripts/my_cppcheck.sh"
-alias init_vimspector="~/my_scripts/create_vimspector.sh"
-
+alias tfind="~/GIT/personal/dotfiles/scripts/tmux_session.sh"
 alias hgrep="history | grep"
 
 hgr() {
