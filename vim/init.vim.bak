@@ -3,34 +3,32 @@ call plug#begin('~/.config/nvim/autoload/plugged')
 
 " Personal Plugins
 Plug '/home/mtaubert/GIT/personal/FirstLuaPlugin'
-Plug '/home/mtaubert/GIT/public/scratchpad.nvim'
+
+Plug 'yggdroot/indentline'              " visualize indentations //@@@@
 
 " Rust
 Plug 'rust-lang/rust.vim'
 Plug 'simrat39/rust-tools.nvim'
-Plug 'togglebyte/togglerust'
-Plug 'mattn/webapi-vim'
 
 " Markdown
-Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
+"Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
+"Plug 'christoomey/vim-sort-motion'
 Plug 'vimwiki/vimwiki'
 Plug 'babaybus/DoxygenToolkit.vim'
 Plug 'preservim/nerdcommenter'
-"Plug 'jiangmiao/auto-pairs'
+Plug 'jiangmiao/auto-pairs'
+"Plug 'wsdjeg/vim-todo'
+"Plug 'machakann/vim-highlightedyank'
 Plug 'mg979/vim-visual-multi'
-
-Plug 'tpope/vim-dispatch'
-Plug 'tpope/vim-dadbod'
+Plug 'SirVer/ultisnips'
 
 " COLOR
 Plug 'morhetz/gruvbox'
+Plug 'rktjmp/lush.nvim'
 Plug 'tjdevries/colorbuddy.vim'
 Plug 'tjdevries/gruvbuddy.nvim'
 Plug 'sainnhe/gruvbox-material'
-Plug 'joshdick/onedark.vim'
-Plug 'briones-gabriel/darcula-solid.nvim'
-Plug 'rktjmp/lush.nvim'
-Plug 'doums/darcula'
+
 " GIT
 Plug 'tpope/vim-fugitive'
 Plug 'rhysd/committia.vim'
@@ -45,8 +43,6 @@ Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
 Plug 'nvim-treesitter/playground'
 
-Plug 'emilienlemaire/clang-tidy.nvim'
-
 " LSP
 Plug 'hrsh7th/nvim-cmp'
 Plug 'hrsh7th/cmp-buffer'
@@ -54,11 +50,12 @@ Plug 'hrsh7th/cmp-path'
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-nvim-lua'
 Plug 'onsails/lspkind-nvim'
-Plug 'https://github.com/mphe/grayout.vim'
+
 Plug 'mattn/vim-lsp-settings'
 Plug 'neovim/nvim-lspconfig'
 Plug 'tjdevries/nlua.nvim'
 Plug 'tjdevries/lsp_extensions.nvim'
+Plug 'kabouzeid/nvim-lspinstall'
 Plug 'williamboman/nvim-lsp-installer'
 Plug 'glepnir/lspsaga.nvim'
 call plug#end()
@@ -73,23 +70,20 @@ end
 EOF
 
 
-"set guicursor=     " the cursor thingy
+"set guicursor=     " the cursor thing
 syntax on
 filetype plugin on
-
-" -- set nocompatible
+set nocompatible
 
 inoremap ö <esc>
 tnoremap ö <C-\><C-n>
 
 let mapleader = " "
 let g:indentLine_char_list = ['|', '|', '|', '|']
-"set nonu
-"set rnu
-set nu
+set nonu
+"set nu
 set conceallevel=0
 set laststatus=3
-
 autocmd CompleteDone * if !pumvisible() | pclose | endif
 set belloff+=ctrlg
 "set signcolumn=number
@@ -97,7 +91,6 @@ set belloff+=ctrlg
 set signcolumn=no
 set nofixendofline
 
-set fillchars+=vert:│
 "set list
 "set listchars=trail:.
 
@@ -110,7 +103,7 @@ set scrolloff=0
 set autoindent
 set smartindent
 set autoread
-set inccommand=split
+set inccommand=nosplit " make things auto write while doing a %s/ replacement
 set mouse=a
 set hidden
 set noerrorbells
@@ -160,43 +153,19 @@ nnoremap + :ALEDetail<CR>
 nnoremap <leader>hi :ClangdSwitchSourceHeader<CR>
 nnoremap <leader>7 :let @/=""<CR>
 nnoremap <leader>cc NERDCommenterComment<CR>
-nnoremap <C-Space> <plug>NERDCommenterComment
-vnoremap <C-Space> <plug>NERDCommenterComment
 nnoremap <leader>b :!./build.sh<CR>
 nnoremap <leader>s :!./send.sh<CR>
 
-"set background=dark
-let g:gruvbox_material_background = 'soft'
-let g:gruvbox_material_enable_italic = 1
-"let g:gruvbox_material_ui_contrast='high'
+let g:gruvbox_material_background = 'hard'
+let g:gruvbox_material_ui_contrast='high'
 let g:gruvbox_material_palette='original'
-let g:gruvbox_material_transparent_background=0
+let g:gruvbox_material_transparent_background=1
 
-
-"highlight IncSearch    ctermbg=Grey   ctermfg=0
-"highlight Search    ctermbg=Grey   ctermfg=0
-
+colorscheme gruvbox-material
 "colorscheme default
-
-"highlight PmenuSel ctermbg=Black ctermfg=White guibg=Black guifg=White
-"highlight Pmenu ctermbg=Black ctermfg=White guibg=Black guifg=White
-"highlight Pmenu ctermbg=Black ctermfg=White guibg=Black guifg=White
-
-"hi debugPc guifg=NONE ctermfg=NONE guibg=#cc241d ctermbg=160 gui=NONE cterm=NONE
-"hi debugBreakpoint guifg=#cc241d ctermfg=160 guibg=NONE ctermbg=NONE gui=reverse cterm=reverse
-
-"highlight Normal guibg=Black guifg=White ctermbg=Black ctermfg=White
-"highlight Normal guibg=#282c34 guifg=White ctermbg=Black ctermfg=White "!!!!!!!!!!!!!!!!!!!!
-" highlight debugPc
-
- "colorscheme gruvbox-material
-"highlight Normal ctermbg=Black
-"highlight NonText ctermbg=Black
-lua << EOF
-  require('colorbuddy').colorscheme('gruvbuddy')
-EOF
-highlight WinSeparator guibg=None
-set termguicolors
+"lua << EOF
+  "require('colorbuddy').colorscheme('gruvbuddy')
+"EOF
 
 let g:ale_sign_warning = 'W'
 let g:ale_sign_info = 'I'
@@ -210,17 +179,6 @@ highlight link ALEInfoSignLineNr Error
 highlight link ALEStyleErrorSignLineNr Error
 highlight link ALEStyleWarningSignLineNr Error
 
-"highlight link NormalFloat Error
-"highlight link Pmenu Error
-
-" those are good
-"hi Float guifg=#fabd2f ctermfg=214 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
-"hi Pmenu guifg=#ebdbb2 ctermfg=223 guibg=#3c3836 ctermbg=237 gui=NONE cterm=NONE
-"hi PmenuSel guifg=#282828 ctermfg=235 guibg=#458588 ctermbg=66 gui=NONE cterm=NONE
-"hi PmenuSbar guifg=NONE ctermfg=NONE guibg=#665c54 ctermbg=59 gui=NONE cterm=NONE
-"hi PmenuThumb guifg=NONE ctermfg=NONE guibg=#ebdbb2 ctermbg=223 gui=NONE cterm=NONE
-
-let g:ale_set_highlights = 0
 hi! link ALEError Error
 hi! link ALEWarning CodeWarning
 hi! link ALEInfo CodeInfo
@@ -242,9 +200,6 @@ lua << EOF
 require'nvim-treesitter.configs'.setup {
   ensure_installed = "c rust cpp javascript bash cmake lua make python tsx",
   ignore_install = {},
-  indent = {
-      enable = true
-  },
   highlight = {
     enable = true,              -- false will disable the whole extension
     use_languagetree = true
@@ -275,10 +230,19 @@ require('telescope').setup{
     sorting_strategy = "descending",
     layout_strategy = "horizontal",
     layout_config = {
-        prompt_position = "top",
-        height = 0.95,
-        preview = true,
+      prompt_position = "bottom",
+      horizontal = {
+        width_padding = 0.04,
+        height_padding = 0.1,
+        preview_width = 0.6,
+      },
+      vertical = {
+        width_padding = 0.05,
+        height_padding = 1,
+        preview_height = 0.5,
+      },
     },
+    preview = false,
     file_sorter =  require'telescope.sorters'.get_fzy_sorter,
     file_ignore_patterns = { '.cmake/', 'CMakeFiles/', './cmake-build-debug', '*/**/*.o', '.clangd/', '.ccls/', '.cache/', '.settings/' },
     generic_sorter =  require'telescope.sorters'.get_generic_fuzzy_sorter,
@@ -299,14 +263,13 @@ require('telescope').setup{
 }
 EOF
 
-nnoremap <leader>ff     :lua require('telescope.builtin').find_files(require('telescope.themes').get_dropdown({ previewer = false }))<CR>
-nnoremap <C-p>          :lua require('telescope.builtin').git_files(require('telescope.themes').get_dropdown({ previewer = false }))<CR>
+nnoremap <leader>ff     <cmd>Telescope find_files<cr>
+nnoremap <C-p>          :lua require('telescope.builtin').git_files( require('telescope.themes').get_ivy( { preview = false }))<CR>
 nnoremap <leader>lg <cmd>lua require('telescope.builtin').live_grep()<cr>
 nnoremap <leader>lw :lua require('telescope.builtin').grep_string { search = vim.fn.expand("<cword>") }<CR>
 nnoremap <leader>vrc <cmd>:lua require('dotfile_search').search_dotfiles()<cr>
 nnoremap <leader>hs <cmd>lua require('telescope.builtin').lsp_references()<cr>
-" nnoremap <leader>qf <cmd>lua require('telescope.builtin').lsp_code_actions()<cr>
-nnoremap <leader>qf <cmd>lua vim.lsp.buf.code_action()<cr>
+nnoremap <leader>qf <cmd>lua require('telescope.builtin').lsp_code_actions()<cr>
 nnoremap <leader>gb :Git blame<cr>
 nnoremap <leader>n :cnext<cr>
 nnoremap <leader>p :cprev<cr>
@@ -332,17 +295,6 @@ table.insert(runtime_path, "lua/?/init.lua")
 local function on_attach()
     -- why tf is should this be here
 end
-require("nvim-lsp-installer").setup {
-    automatic_installation = true
-}
-require'lspconfig'.jdtls.setup{}
-require'lspconfig'.volar.setup{}
-require'lspconfig'.asm_lsp.setup{}
-require'lspconfig'.diagnosticls.setup{}
-require'lspconfig'.graphql.setup{}
-require'lspconfig'.html.setup{}
-require'lspconfig'.jsonls.setup{}
-require'lspconfig'.prosemd_lsp.setup{}
 
 require'lspconfig'.sumneko_lua.setup {
     cmd = {sumneko_binary_path, "-E", sumneko_root_path .. "/main.lua"};
@@ -369,88 +321,24 @@ require'lspconfig'.sumneko_lua.setup {
         },
     },
 }
-local util = require 'lspconfig/util'
-require'lspconfig'.vuels.setup {
-    on_attach = function(client)
-    --[[
-    Internal Vetur formatting is not supported out of the box
-
-    This line below is required if you:
-    - want to format using Nvim's native `vim.lsp.buf.formatting**()`
-    - want to use Vetur's formatting config instead, e.g, settings.vetur.format {...}
-    --]]
-    client.resolved_capabilities.document_formatting = true
-    on_attach(client)
-    end,
-    capabilities = capabilities,
-    settings = {
-        vetur = {
-            completion = {
-                autoImport = true,
-                useScaffoldSnippets = true
-                },
-            format = {
-                defaultFormatter = {
-                    html = "none",
-                    js = "prettier",
-                    ts = "prettier",
-                    }
-                },
-            validation = {
-                template = true,
-                script = true,
-                style = true,
-                templateProps = true,
-                interpolation = true
-                },
-            experimental = {
-                templateInterpolationService = true
-                }
-            }
-        },
-        root_dir = util.root_pattern("header.php", "package.json", "style.css", 'webpack.config.js')
-}
 
 require'lspconfig'.clangd.setup {
-    on_attach=on_attach,
     cmd = {
-        "clangd",
-        "--background-index",
-        "-j=5",
-        "--clang-tidy",
-        "--suggest-missing-includes",
-        "--all-scopes-completion",
-        "--header-insertion=iwyu",
-        "--completion-style=bundled",
-        "--cross-file-rename",
-        -- "--completion-style=detailed", this gives errors
-        "--header-insertion-decorators",
+      "clangd",
+      "--background-index",
+      "--suggest-missing-includes",
+      "--clang-tidy",
+      "--header-insertion=iwyu",
     },
-
     init_options = {
-        clangdFileStatus = true, -- Provides information about activity on clangd’s per-file worker thread
-        usePlaceholders = true,
-        completeUnimported = true,
-        semanticHighlighting = true,
+      clangdFileStatus = true,
     },
     root_dir = vim.loop.cwd,
     fallbackFlags = {
         "-std=c++2a"
     },
+    on_attach=on_attach
 }
-
--- require('clang-tidy').setup{
---   checks = {
---     '-*',
---     'bugprone-*',
---     'cppcoreguidelines-avoid-*',
---     'readability-identifier-naming',
---     'misc-assert-side-effect',
---     'readability-container-size-empty-*',
---     'modernize-*'
---   },
---   ignore_severity = {}
--- }
 
 require'lspconfig'.gopls.setup{ on_attach=on_attach }
 require'lspconfig'.tsserver.setup{
@@ -459,13 +347,13 @@ require'lspconfig'.tsserver.setup{
     root_dir = function() return vim.loop.cwd() end      -- run lsp for javascript in any directory
 }
 
--- require'lspconfig'.hls.setup{
---     on_attach=on_attach,
---     cmd = {'haskell-language-server-wrapper',
---             '--lsp'
---     },
---     root_dir = function() return vim.loop.cwd() end      -- run lsp for javascript in any directory
--- }
+require'lspconfig'.hls.setup{
+    on_attach=on_attach,
+    cmd = {'haskell-language-server-wrapper',
+            '--lsp'
+    },
+    root_dir = function() return vim.loop.cwd() end      -- run lsp for javascript in any directory
+}
 require'lspconfig'.cmake.setup{ on_attach=on_attach }
 require'lspconfig'.pyright.setup{ on_attach=on_attach }
 require'lspconfig'.rust_analyzer.setup({
@@ -548,15 +436,15 @@ let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
 
 " AUTOPAIRS
-"let g:AutoPairs = {  }
+let g:AutoPairs = { '{':'}' }
 
 " RUST
-autocmd FileType rust nnoremap <leader>b :Compile<CR>
+autocmd FileType rust nnoremap <leader>b :Cargo build<CR>
 autocmd FileType rust nnoremap <leader>t :RustTest<CR>
 autocmd FileType rust nnoremap <leader>r :Cargo run<CR>
 autocmd FileType rust nnoremap <leader>gt :RustTest!<CR>
 autocmd FileType rust nnoremap <leader>f :RustFmt<CR>
-autocmd FileType rust :RustDisableInlayHints
+autocmd FileType rust let b:AutoPairs = { }
 "let g:rustfmt_autosave = 1
 
 
@@ -565,19 +453,17 @@ autocmd FileType lua nnoremap <leader>b :w<cr> :source %<cr>
 
 lua<<EOF
 require('rust-tools').setup({})
--- require'lsp_extensions'.inlay_hints{
---     highlight = "Comment",
---     prefix = " > ",
---     aligned = false,
---     only_current_line = false,
---     enabled = { "ChainingHint" }
--- }
--- disable inlay hints
-require('rust-tools.inlay_hints').disable_inlay_hints()
+require'lsp_extensions'.inlay_hints{
+    highlight = "Comment",
+    prefix = " > ",
+    aligned = false,
+    only_current_line = false,
+    enabled = { "ChainingHint" }
+}
 
-local lspkind = require('lspkind')
-lspkind.init() -- @todo was init
-
+-- local lspkind = require('lspkind')
+-- lspkind.init()
+-- 
 -- local cmp = require('cmp')
 -- cmp.setup {
 --     mapping = cmp.mapping.preset.insert({
@@ -613,19 +499,9 @@ lspkind.init() -- @todo was init
 -- }
 
 EOF
-" autocmd BufEnter,BufWinEnter,TabEnter,BufWritePost *.rs :lua require('lsp_extensions').inlay_hints{ prefix = ' -> ', enabled = {"TypeHint", "ChainingHint", "ParameterHint"} }
+autocmd BufEnter,BufWinEnter,TabEnter,BufWritePost *.rs :lua require('lsp_extensions').inlay_hints{ prefix = ' -> ', enabled = {"TypeHint", "ChainingHint", "ParameterHint"} }
 autocmd VimLeave * silent !echo -ne "\033Ptmux;\033\033[2 q\033\\"
 autocmd VimLeave * silent !echo -ne "\033ktmux;\033\033]12;gray\007\033\\"
 
-autocmd BufEnter, ColroschemePre, BufWinEnter, BufAdd, BufReadCmd, BufReadPre * silent :TSBufEnable highlight
-autocmd VimEnter :TSBufEnable highlight
-
 "nnoremap <leader>T :lua require'todoapp'.open('/home/mtaubert/GIT/personal/FirstLuaPlugin')<cr>
 nnoremap <leader>fl :VimwikiFollowLink<cr>
-autocmd BufReadPost,BufWritePost * if &ft == 'c' || &ft == 'cpp' || &ft == 'hpp' || &ft == 'h'| exec 'GrayoutUpdate' | endif
-let g:grayout_default_args = [ '-x', 'c++', '-std=c++11' ]
-let g:grayout_libclang_path = '/home/mtaubert/.local/lib/python3.10/site-packages/clang/native/'
-
-nnoremap <leader>d :lua require('scratchpad').toggle_buffer("cpp")<CR>
-nnoremap <leader>f :lua package.loaded["scratchpad"] = nil<CR>
-nnoremap <leader>g :lua require('scratchpad').run_code()<CR>

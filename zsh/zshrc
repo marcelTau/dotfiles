@@ -11,8 +11,8 @@ export PATH=$HOME/.local/bin/:$PATH
 export PATH=$HOME/.cargo/bin:$PATH
 export PATH=$HOME/.local/share/nvim/lsp_servers/rust:$PATH
 export PATH=$HOME/oclint-21.10/bin:$PATH
-
-export EDITOR=$HOME/.config/nvim/nvim-linux64/bin/nvim
+#export EDITOR=$HOME/.config/nvim/nvim-linux64/bin/nvim
+export EDITOR=$HOME/Downloads/nvim0-7release.appimage
 
 # Path to your oh-my-zsh installation.
  export ZSH="/home/mtaubert/.oh-my-zsh"
@@ -22,8 +22,8 @@ export EDITOR=$HOME/.config/nvim/nvim-linux64/bin/nvim
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 # ZSH_THEME="robbyrussell"
 #ZSH_THEME="spaceship"
-ZSH_THEME="powerlevel10k/powerlevel10k"
-#ZSH_THEME='af-magic'
+#ZSH_THEME="powerlevel10k/powerlevel10k"
+ZSH_THEME='af-magic'
 #ZSH_THEME='MinimalisticWithGit'
 #ZSH_THEME='random'
 #zhann
@@ -61,7 +61,7 @@ SPACESHIP_PROMPT_ORDER=(
     exec_time
     line_sep
     exit_code
-#    vi_mode
+    vi_mode
     char
 )
 
@@ -145,9 +145,23 @@ bindkey 'ö' autosuggest-accept
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 
-plugins=(sudo zsh-autosuggestions extract zsh-syntax-highlighting web-search)
+#ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=60'
+plugins=(sudo colored-man-pages colorize extract zsh-syntax-highlighting zsh-autosuggestions zsh-history-substring-search fzf-zsh-plugin)
+
+#plugins=(
+	#git
+	#colored-man-pages
+	#colorize
+	#command-not-found
+	#zsh-autosuggestions
+	#zsh-syntax-highlighting
+#)
+#AUTOSUGGESTION_HIGHLIGHT_COLOR="fg=cyan"
 export RPS1="%{$reset_color%}"
 source $ZSH/oh-my-zsh.sh
+#ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=60'
+#ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#ff00ff,bg=cyan,bold,underline"
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=2"
 # Prefix
 # Prompt replacement symbols
 # User configuration
@@ -176,6 +190,10 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+typeset -A ZSH_HIGHLIGHT_STYLES
+ZSH_HIGHLIGHT_STYLES[comment]='fg=#909090'
+
+
 # typos
 alias clera="clear"
 alias claer="clear"
@@ -185,7 +203,8 @@ alias vmi="vim"
 # alias vim="~/.config/nvim/nvim.appimage"
 #alias vim="~/.config/nvim/nvim-linux64/bin/nvim"
 #alias vim="~/Downloads/nvim6"
-alias vim="~/.config/nvim/nvim0-7.appimage"
+#alias vim="~/.config/nvim/nvim0-7release.appimage"
+alias vim="$EDITOR"
 
 # my startup routine
 alias startup="~/GIT/personal/dotfiles/scripts/realstart.sh"
@@ -198,6 +217,7 @@ alias gs="git status"
 alias gd="git diff"
 alias gl="git log -p"
 alias gc-="git checkout -"
+alias mr="make clean && make"
 
 # quick dotfiles edits
 alias zshedit="vim ~/.zshrc"
@@ -217,6 +237,7 @@ alias tss="tmux switch -t"
 alias td="tmux detach"
 alias tfind="~/GIT/personal/dotfiles/scripts/tmux_session.sh"
 alias hgrep="history | grep"
+alias tf="tail -f"
 
 hgr() {
     history | sort -rn | fzy -l 30
@@ -224,5 +245,9 @@ hgr() {
 
 alias luamake=/home/mtaubert/.config/nvim/lua-language-server/3rd/luamake/luamake
 
+
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+# [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+# [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh

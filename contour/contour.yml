@@ -3,12 +3,7 @@
 # Word delimiters when selecting word-wise.
 word_delimiters: " /\\()\"'-.,:;<>~!@#$%^&*+=[]{}~?|│"
 
-experimental:
-    # Enables experimental support for termcap/terminfo queries
-    tcap: true
-
 default_profile: main
-#default_profile: mobile
 
 # visual scrollbar support
 scrollbar:
@@ -49,10 +44,12 @@ profiles:
         font:
             size: 12
             render_mode: gray
-            only_monospace: false
-            regular: "JetBrains Mono Medium"
-            bold: "JetBrains Mono Bold"
-            italic: "JetBrains Mono Medium Italic"
+            regular: "JetBrains Mono NL Medium"
+            bold: "JetBrains Mono NL Bold"
+            italic: "JetBrains Mono NL Medium Italic"
+            #regular: "Comic Mono"
+            #bold: "Comic Mono"
+            #italic: "Comic Mono"
             bold_italic: "Hack:style=bold italic"
         tab_width: 8
         cursor:
@@ -60,7 +57,7 @@ profiles:
             blinking: false
             blinking_interval: 500
         background:
-            opacity: 0.9
+            opacity: 0.85
             blur: true
         colors: "default"
 
@@ -94,7 +91,7 @@ profiles:
             blinking: false
             blinking_interval: 500
         background:
-            opacity: 1.0
+            opacity: 0.8
             blur: true
         colors: "default"
 
@@ -199,8 +196,8 @@ color_schemes:
             foreground: '#d5d8d6'
         # Normal colors
         background_image:
-          path: '/home/mtaubert/Pictures/blue2.jpeg'
-          opacity: 0.2
+          path: 'ssmbshare/x-mirror-gaia/newFedora.png'
+          opacity: 0.4
           blur: true
         normal:
             black:   '#000000'
@@ -334,8 +331,8 @@ input_mapping:
     - { mods: [Shift],          key: UpArrow,       action: ScrollOneUp }
     - { mods: [Control, Alt],   key: 'k',           action: ScrollMarkUp }
     - { mods: [Control, Alt],   key: 'j',           action: ScrollMarkDown }
-    - { mods: [Control, Alt],   key: '1',           action: ChangeProfile, name: 'main' }
-    - { mods: [Control, Alt],   key: '2',           action: ChangeProfile, name: 'mobile' }
+    - { mods: [Control],   key: '1',           action: ChangeProfile, name: 'main' }
+    - { mods: [Control],   key: '2',           action: ChangeProfile, name: 'mobile' }
     - { mods: [Control, Alt],   key: P,             action: WriteScreen, chars: '\e]888\e\\' }
     - { mods: [Control, Shift], key: M,             action: CopyPreviousMarkRange }
     - { mods: [],               mouse: Middle,      action: PasteSelection }
