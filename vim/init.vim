@@ -19,6 +19,7 @@ Plug 'preservim/nerdcommenter'
 "Plug 'jiangmiao/auto-pairs'
 Plug 'mg979/vim-visual-multi'
 
+Plug 'tpope/vim-heroku'
 Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-dadbod'
 
@@ -237,6 +238,21 @@ function! OpenTerminal()
 endfunction
 nnoremap <leader>#  :call OpenTerminal()<CR>
 
+function! HerokuLogDcBot()
+    Heroku logs --app marcel-discord-bot --tail
+endfunction
+
+function! HerokuLogDynaDev()
+    Heroku logs --app dynafood-development --tail
+endfunction
+
+function! HerokuLogDynaDep()
+    Heroku logs --app dynafood-deployment --tail
+endfunction
+
+function! HerokuLogDynaServer()
+    Heroku logs --app dynafood-server --tail
+endfunction
 
 lua << EOF
 require'nvim-treesitter.configs'.setup {
