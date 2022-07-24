@@ -42,10 +42,9 @@ profiles:
             auto_scroll_on_update: false
             scroll_multiplier: 3
         font:
-            size: 12
+            size: 18
             render_mode: gray
             regular: "JetBrains Mono NL Medium"
-            bold: "JetBrains Mono NL Bold"
             italic: "JetBrains Mono NL Medium Italic"
             #regular: "Comic Mono"
             #bold: "Comic Mono"

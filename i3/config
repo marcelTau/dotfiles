@@ -73,7 +73,7 @@ floating_modifier $mod
 #bindsym $mod+Return exec konsole
 # bindsym $mod+Return exec kitty --config $HOME/GIT/personal/dotfiles/kitty/kitty.conf
 bindsym $mod+Return exec contour config $HOME/GIT/personal/dotfiles/contour/contour.yml
-#bindsym $mod+Return exec gnome-terminal
+# bindsym $mod+Return exec kitty
 
 # kill focused window
 bindsym $mod+Shift+q kill

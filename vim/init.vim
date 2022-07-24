@@ -5,6 +5,8 @@ call plug#begin('~/.config/nvim/autoload/plugged')
 Plug '/home/mtaubert/GIT/personal/FirstLuaPlugin'
 Plug '/home/mtaubert/GIT/public/scratchpad.nvim'
 
+Plug 'alvarosevilla95/luatab.nvim'
+
 " Rust
 Plug 'rust-lang/rust.vim'
 Plug 'simrat39/rust-tools.nvim'
@@ -22,6 +24,8 @@ Plug 'mg979/vim-visual-multi'
 Plug 'tpope/vim-heroku'
 Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-dadbod'
+Plug 'kristijanhusak/vim-dadbod-ui'
+"Plug 'tpope/vim-surround'
 
 " COLOR
 Plug 'morhetz/gruvbox'
@@ -32,6 +36,9 @@ Plug 'joshdick/onedark.vim'
 Plug 'briones-gabriel/darcula-solid.nvim'
 Plug 'rktjmp/lush.nvim'
 Plug 'doums/darcula'
+Plug 'folke/tokyonight.nvim'
+
+
 " GIT
 Plug 'tpope/vim-fugitive'
 Plug 'rhysd/committia.vim'
@@ -49,11 +56,16 @@ Plug 'nvim-treesitter/playground'
 Plug 'emilienlemaire/clang-tidy.nvim'
 
 " LSP
+Plug 'pierreglaser/folding-nvim'
+
 Plug 'hrsh7th/nvim-cmp'
 Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/cmp-path'
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-nvim-lua'
+Plug 'hrsh7th/cmp-calc'
+Plug 'kristijanhusak/vim-dadbod-completion'
+
 Plug 'onsails/lspkind-nvim'
 Plug 'https://github.com/mphe/grayout.vim'
 Plug 'mattn/vim-lsp-settings'
@@ -105,7 +117,7 @@ set fillchars+=vert:│
                                 " +++ SETS +++ "
 
 " testing
-"set termguicolors
+set termguicolors
 
 set scrolloff=0
 set autoindent
@@ -167,35 +179,39 @@ nnoremap <leader>b :!./build.sh<CR>
 nnoremap <leader>s :!./send.sh<CR>
 
 "set background=dark
-let g:gruvbox_material_background = 'soft'
-let g:gruvbox_material_enable_italic = 1
-"let g:gruvbox_material_ui_contrast='high'
-let g:gruvbox_material_palette='original'
-let g:gruvbox_material_transparent_background=0
+"let g:gruvbox_material_background = 'soft'
+"let g:gruvbox_material_enable_italic = 1
+""let g:gruvbox_material_ui_contrast='high'
+"let g:gruvbox_material_palette='original'
+"let g:gruvbox_material_transparent_background=0
 
+
+"highlight Normal guibg=#282c34 guifg=White ctermbg=Black ctermfg=White "!!!!!!!!!!!!!!!!!!!!
+"colorscheme default
+"highlight PmenuSel ctermbg=Black ctermfg=White guibg=Black guifg=White
+"highlight Pmenu ctermbg=Black ctermfg=White guibg=Black guifg=White
+
+colorscheme tokyonight
+"colorscheme gruvbox
+"highlight Normal guibg=#282c34 guifg=White ctermbg=Black ctermfg=White "!!!!!!!!!!!!!!!!!!!!
 
 "highlight IncSearch    ctermbg=Grey   ctermfg=0
 "highlight Search    ctermbg=Grey   ctermfg=0
 
-"colorscheme default
-
-"highlight PmenuSel ctermbg=Black ctermfg=White guibg=Black guifg=White
-"highlight Pmenu ctermbg=Black ctermfg=White guibg=Black guifg=White
 "highlight Pmenu ctermbg=Black ctermfg=White guibg=Black guifg=White
 
 "hi debugPc guifg=NONE ctermfg=NONE guibg=#cc241d ctermbg=160 gui=NONE cterm=NONE
 "hi debugBreakpoint guifg=#cc241d ctermfg=160 guibg=NONE ctermbg=NONE gui=reverse cterm=reverse
 
+
 "highlight Normal guibg=Black guifg=White ctermbg=Black ctermfg=White
-"highlight Normal guibg=#282c34 guifg=White ctermbg=Black ctermfg=White "!!!!!!!!!!!!!!!!!!!!
 " highlight debugPc
 
- "colorscheme gruvbox-material
 "highlight Normal ctermbg=Black
 "highlight NonText ctermbg=Black
-lua << EOF
-  require('colorbuddy').colorscheme('gruvbuddy')
-EOF
+"lua << EOF
+  "require('colorbuddy').colorscheme('gruvbuddy')
+"EOF
 highlight WinSeparator guibg=None
 set termguicolors
 
@@ -594,39 +610,41 @@ require('rust-tools.inlay_hints').disable_inlay_hints()
 local lspkind = require('lspkind')
 lspkind.init() -- @todo was init
 
--- local cmp = require('cmp')
--- cmp.setup {
---     mapping = cmp.mapping.preset.insert({
---         ['<C-p>'] = cmp.mapping.select_prev_item(),
---         ['<C-n>'] = cmp.mapping.select_next_item(),
---         ['<C-j>'] = cmp.mapping.scroll_docs(4),
---         ['<C-k>'] = cmp.mapping.scroll_docs(-4),
---         ['<CR>'] = cmp.mapping.confirm({
---             behavior = cmp.ConfirmBehavior.Insert,
---             select = true,
---         }),
---     }),
---     sources = cmp.config.sources({
---         { name = "nvim_lua" }, -- max_item_count
---         { name = "nvim_lsp" }, -- max_item_count
---         { name = "path" },
---         { name = "buffer", keyword_length = 5 },
---     }),
---     formatting = {
---         format = lspkind.cmp_format {
---             with_text = true,
---             menu = {
---                 buffer = '[buf]',
---                 nvim_lsp = '[LSP]',
---                 nvim_lua = '[api]',
---                 path = '[path]',
---             }
---         }
---     },
---     experimental = {
---         native_menu = false,
---     },
--- }
+local cmp = require('cmp')
+cmp.setup {
+    mapping = cmp.mapping.preset.insert({
+        ['<C-p>'] = cmp.mapping.select_prev_item(),
+        ['<C-n>'] = cmp.mapping.select_next_item(),
+        ['<C-j>'] = cmp.mapping.scroll_docs(4),
+        ['<C-k>'] = cmp.mapping.scroll_docs(-4),
+        ['<CR>'] = cmp.mapping.confirm({
+            behavior = cmp.ConfirmBehavior.Insert,
+            select = true,
+        }),
+    }),
+    sources = cmp.config.sources({
+        { name = 'calc' },
+        { name = 'vim-dadbod-completion' },
+        { name = "nvim_lua" }, -- max_item_count
+        { name = "nvim_lsp" }, -- max_item_count
+        { name = "path" },
+        { name = "buffer", keyword_length = 5 },
+    }),
+    formatting = {
+        format = lspkind.cmp_format {
+            with_text = true,
+            menu = {
+                buffer = '[buf]',
+                nvim_lsp = '[LSP]',
+                nvim_lua = '[api]',
+                path = '[path]',
+            }
+        }
+    },
+    experimental = {
+        native_menu = false,
+    },
+}
 
 EOF
 " autocmd BufEnter,BufWinEnter,TabEnter,BufWritePost *.rs :lua require('lsp_extensions').inlay_hints{ prefix = ' -> ', enabled = {"TypeHint", "ChainingHint", "ParameterHint"} }
