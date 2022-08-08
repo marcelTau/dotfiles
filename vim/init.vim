@@ -1,4 +1,3 @@
-
 call plug#begin('~/.config/nvim/autoload/plugged')
 
 " Personal Plugins
@@ -25,7 +24,6 @@ Plug 'tpope/vim-heroku'
 Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-dadbod'
 Plug 'kristijanhusak/vim-dadbod-ui'
-"Plug 'tpope/vim-surround'
 
 " COLOR
 Plug 'morhetz/gruvbox'
@@ -35,8 +33,8 @@ Plug 'sainnhe/gruvbox-material'
 Plug 'joshdick/onedark.vim'
 Plug 'briones-gabriel/darcula-solid.nvim'
 Plug 'rktjmp/lush.nvim'
-Plug 'doums/darcula'
 Plug 'folke/tokyonight.nvim'
+Plug 'Mofiqul/vscode.nvim'
 
 
 " GIT
@@ -56,8 +54,6 @@ Plug 'nvim-treesitter/playground'
 Plug 'emilienlemaire/clang-tidy.nvim'
 
 " LSP
-Plug 'pierreglaser/folding-nvim'
-
 Plug 'hrsh7th/nvim-cmp'
 Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/cmp-path'
@@ -67,7 +63,7 @@ Plug 'hrsh7th/cmp-calc'
 Plug 'kristijanhusak/vim-dadbod-completion'
 
 Plug 'onsails/lspkind-nvim'
-Plug 'https://github.com/mphe/grayout.vim'
+"Plug 'https://github.com/mphe/grayout.vim'
 Plug 'mattn/vim-lsp-settings'
 Plug 'neovim/nvim-lspconfig'
 Plug 'tjdevries/nlua.nvim'
@@ -78,6 +74,8 @@ call plug#end()
 
                                 " +++ BASICS +++ "
 
+let g:vim_lcov_marker_fold = 0
+
 lua << EOF
 P = function(v)
     print(vim.inspect(v))
@@ -86,7 +84,7 @@ end
 EOF
 
 
-"set guicursor=     " the cursor thingy
+set guicursor=     " the cursor thingy
 syntax on
 filetype plugin on
 
@@ -97,9 +95,9 @@ tnoremap ö <C-\><C-n>
 
 let mapleader = " "
 let g:indentLine_char_list = ['|', '|', '|', '|']
-"set nonu
+set nonu
 "set rnu
-set nu
+" set nu
 set conceallevel=0
 set laststatus=3
 
@@ -191,8 +189,49 @@ nnoremap <leader>s :!./send.sh<CR>
 "highlight PmenuSel ctermbg=Black ctermfg=White guibg=Black guifg=White
 "highlight Pmenu ctermbg=Black ctermfg=White guibg=Black guifg=White
 
-colorscheme tokyonight
+"colorscheme tokyonight
 "colorscheme gruvbox
+
+"colorscheme darcula
+
+
+lua << EOF
+-- Lua:
+-- For dark theme (neovim's default)
+vim.o.background = 'dark'
+
+local c = require('vscode.colors')
+require('vscode').setup({
+    -- Enable transparent background
+    transparent = false,
+
+    -- Enable italic comment
+    italic_comments = true,
+
+    -- Disable nvim-tree background color
+    disable_nvimtree_bg = true,
+
+    -- Override colors (see ./lua/vscode/colors.lua)
+    --color_overrides = {
+    --    vscLineNumber = '#FFFFFF',
+    --},
+
+    -- Override highlight groups (see ./lua/vscode/theme.lua)
+    -- group_overrides = {
+        -- this supports the same val table as vim.api.nvim_set_hl
+        -- use colors from this colorscheme by requiring vscode.colors!
+      --    Cursor = { fg=c.vscDarkBlue, bg=c.vscLightGreen, bold=true },
+    --  }
+})
+EOF
+
+" hi default CursorWord cterm=underline gui=underline
+"hi default CursorWord  guibg=Search
+
+
+"" Enable this to highlight the current word
+"hi link CursorWord Search
+
 "highlight Normal guibg=#282c34 guifg=White ctermbg=Black ctermfg=White "!!!!!!!!!!!!!!!!!!!!
 
 "highlight IncSearch    ctermbg=Grey   ctermfg=0
@@ -656,10 +695,29 @@ autocmd VimEnter :TSBufEnable highlight
 
 "nnoremap <leader>T :lua require'todoapp'.open('/home/mtaubert/GIT/personal/FirstLuaPlugin')<cr>
 nnoremap <leader>fl :VimwikiFollowLink<cr>
-autocmd BufReadPost,BufWritePost * if &ft == 'c' || &ft == 'cpp' || &ft == 'hpp' || &ft == 'h'| exec 'GrayoutUpdate' | endif
-let g:grayout_default_args = [ '-x', 'c++', '-std=c++11' ]
-let g:grayout_libclang_path = '/home/mtaubert/.local/lib/python3.10/site-packages/clang/native/'
+"autocmd BufReadPost,BufWritePost * if &ft == 'c' || &ft == 'cpp' || &ft == 'hpp' || &ft == 'h'| exec 'GrayoutUpdate' | endif
+"let g:grayout_default_args = [ '-x', 'c++', '-std=c++11' ]
+"let g:grayout_libclang_path = '/home/mtaubert/.local/lib/python3.10/site-packages/clang/native/'
 
-nnoremap <leader>d :lua require('scratchpad').toggle_buffer("cpp")<CR>
-nnoremap <leader>f :lua package.loaded["scratchpad"] = nil<CR>
-nnoremap <leader>g :lua require('scratchpad').run_code()<CR>
+"nnoremap <leader>d :lua require('scratchpad').toggle_buffer("cpp")<CR>
+"nnoremap <leader>f :lua package.loaded["scratchpad"] = nil<CR>
+"nnoremap <leader>g :lua require('scratchpad').run_code()<CR>
+
+
+" Specify the path to `coverage.json` file relative to your current working directory.
+let g:coverage_json_report_path = 'coverage.json'
+
+" Define the symbol display for covered lines
+let g:coverage_sign_covered = '⦿'
+
+" Define the interval time of updating the coverage lines
+let g:coverage_interval = 5000
+
+" Do not display signs on covered lines
+let g:coverage_show_covered = 0
+
+" Display signs on uncovered lines
+let g:coverage_show_uncovered = 1
+
+
+

@@ -12,20 +12,23 @@ export PATH=$HOME/.cargo/bin:$PATH
 export PATH=$HOME/.local/share/nvim/lsp_servers/rust:$PATH
 export PATH=$HOME/oclint-21.10/bin:$PATH
 #export EDITOR=$HOME/.config/nvim/nvim-linux64/bin/nvim
-export EDITOR=$HOME/Downloads/nvim0-7release.appimage
+export EDITOR=nvim
 
 # Path to your oh-my-zsh installation.
- export ZSH="/home/mtaubert/.oh-my-zsh"
+export ZSH="/home/mtaubert/.oh-my-zsh"
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-# ZSH_THEME="robbyrussell"
+#ZSH_THEME="robbyrussell"
 #ZSH_THEME="spaceship"
-ZSH_THEME="powerlevel10k/powerlevel10k"
+#ZSH_THEME="powerlevel10k/powerlevel10k"
 #ZSH_THEME='af-magic'
 #ZSH_THEME='MinimalisticWithGit'
 #ZSH_THEME='random'
+#ZSH_THEME='AAA'
+# ZSH_THEME='avit'
+ZSH_THEME='daveverwer'
 #zhann
 #sammy
 #crunch
@@ -204,7 +207,7 @@ alias vmi="vim"
 #alias vim="~/.config/nvim/nvim-linux64/bin/nvim"
 #alias vim="~/Downloads/nvim6"
 #alias vim="~/.config/nvim/nvim0-7release.appimage"
-alias vim="$EDITOR"
+alias vim="nvim"
 
 # my startup routine
 alias startup="~/GIT/personal/dotfiles/scripts/realstart.sh"
@@ -246,7 +249,10 @@ hgr() {
 alias luamake=/home/mtaubert/.config/nvim/lua-language-server/3rd/luamake/luamake
 function tfind() { tfind && ta ; zle reset-prompt; zle redisplay}
 zle -N tfind
-bindkey '^t' tfind
+ #bindkey '^t' tfind
+
+export EDITOR=nvim
+alias vim=nvim
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 # [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
@@ -259,3 +265,6 @@ bindkey '^t' tfind
 
 # show me the usage of a random cli program, when I open a new terminal
 tldr --random
+
+
+
