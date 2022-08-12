@@ -1,8 +1,9 @@
+" set runtimepath=~/.config/nvim/,$VIMRUNTIME
 call plug#begin('~/.config/nvim/autoload/plugged')
 
 " Personal Plugins
-Plug '/home/mtaubert/GIT/personal/FirstLuaPlugin'
-Plug '/home/mtaubert/GIT/public/scratchpad.nvim'
+Plug '/home/mt/git/personal/FirstLuaPlugin'
+Plug '/home/mt/git/public/scratchpad.nvim'
 
 Plug 'alvarosevilla95/luatab.nvim'
 
@@ -50,7 +51,6 @@ Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
 Plug 'nvim-treesitter/playground'
-
 Plug 'emilienlemaire/clang-tidy.nvim'
 
 " LSP
@@ -189,41 +189,10 @@ nnoremap <leader>s :!./send.sh<CR>
 "highlight PmenuSel ctermbg=Black ctermfg=White guibg=Black guifg=White
 "highlight Pmenu ctermbg=Black ctermfg=White guibg=Black guifg=White
 
-"colorscheme tokyonight
+colorscheme tokyonight
 "colorscheme gruvbox
 
 "colorscheme darcula
-
-
-lua << EOF
--- Lua:
--- For dark theme (neovim's default)
-vim.o.background = 'dark'
-
-local c = require('vscode.colors')
-require('vscode').setup({
-    -- Enable transparent background
-    transparent = false,
-
-    -- Enable italic comment
-    italic_comments = true,
-
-    -- Disable nvim-tree background color
-    disable_nvimtree_bg = true,
-
-    -- Override colors (see ./lua/vscode/colors.lua)
-    --color_overrides = {
-    --    vscLineNumber = '#FFFFFF',
-    --},
-
-    -- Override highlight groups (see ./lua/vscode/theme.lua)
-    -- group_overrides = {
-        -- this supports the same val table as vim.api.nvim_set_hl
-        -- use colors from this colorscheme by requiring vscode.colors!
-      --    Cursor = { fg=c.vscDarkBlue, bg=c.vscLightGreen, bold=true },
-    --  }
-})
-EOF
 
 " hi default CursorWord cterm=underline gui=underline
 "hi default CursorWord  guibg=Search
@@ -392,7 +361,7 @@ set completeopt-=preview
 lua << EOF
 
 local system_name = "Linux"
-local sumneko_root_path = '/home/mtaubert/.local/share/nvim/lspinstall/lua/sumneko-lua/extension/server'
+local sumneko_root_path = '/home/mt/.local/share/nvim/lspinstall/lua/sumneko-lua/extension/server'
 local sumneko_binary_path = sumneko_root_path.."/bin/Linux/lua-language-server"
 local runtime_path = vim.split(package.path, ';')
 
@@ -406,9 +375,7 @@ end
 require("nvim-lsp-installer").setup {
     automatic_installation = true
 }
-require'lspconfig'.jdtls.setup{}
 require'lspconfig'.volar.setup{}
-require'lspconfig'.asm_lsp.setup{}
 require'lspconfig'.diagnosticls.setup{}
 require'lspconfig'.graphql.setup{}
 require'lspconfig'.html.setup{}
@@ -644,7 +611,7 @@ require('rust-tools').setup({})
 --     enabled = { "ChainingHint" }
 -- }
 -- disable inlay hints
-require('rust-tools.inlay_hints').disable_inlay_hints()
+--require('rust-tools.inlay_hints').disable_inlay_hints()
 
 local lspkind = require('lspkind')
 lspkind.init() -- @todo was init
@@ -690,8 +657,8 @@ EOF
 autocmd VimLeave * silent !echo -ne "\033Ptmux;\033\033[2 q\033\\"
 autocmd VimLeave * silent !echo -ne "\033ktmux;\033\033]12;gray\007\033\\"
 
-autocmd BufEnter, ColroschemePre, BufWinEnter, BufAdd, BufReadCmd, BufReadPre * silent :TSBufEnable highlight
-autocmd VimEnter :TSBufEnable highlight
+" autocmd BufEnter, ColroschemePre, BufWinEnter, BufAdd, BufReadCmd, BufReadPre * silent :TSBufEnable highlight
+" autocmd VimEnter :TSBufEnable highlight
 
 "nnoremap <leader>T :lua require'todoapp'.open('/home/mtaubert/GIT/personal/FirstLuaPlugin')<cr>
 nnoremap <leader>fl :VimwikiFollowLink<cr>

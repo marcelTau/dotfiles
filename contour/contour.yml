@@ -33,7 +33,6 @@ profiles:
             lines: 30
         environment:
             TERM_OLD: xterm-256color
-            TERM: xterm-kitty # for curly underline
             COLORTERM: truecolor
         maximized: false
         fullscreen: false
@@ -46,9 +45,9 @@ profiles:
             render_mode: gray
             regular: "JetBrains Mono NL Medium"
             italic: "JetBrains Mono NL Medium Italic"
-            #regular: "Comic Mono"
+            #regular: "Comic Shanns Regular"
             #bold: "Comic Mono"
-            #italic: "Comic Mono"
+            #italic: "Comic Shanns Italic"
             bold_italic: "Hack:style=bold italic"
         tab_width: 8
         cursor:
@@ -195,8 +194,8 @@ color_schemes:
             foreground: '#d5d8d6'
         # Normal colors
         background_image:
-          path: 'ssmbshare/x-mirror-gaia/newFedora.png'
-          opacity: 0.4
+          path: '//home/mt/Pictures/PopOS.jpg'
+          opacity: 0.3
           blur: true
         normal:
             black:   '#000000'

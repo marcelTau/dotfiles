@@ -9,13 +9,12 @@
 	whitespace = tabwidth=4
 	#pager = less -x4 -FRSX
     pager = delta
-    editor = ~/.config/nvim/nvim0-7.appimage
+    editor = nvim
 [interactive]
     diffFilter = delta --color-only
 [delta]
     navigate = true
     side-by-side = true
-    syntax-theme = gruvbox
 
 [grep]
 	lineNumber = true

@@ -4,8 +4,8 @@
 
 # cd $(find ~/GIT/tek2 -mindepth 1 -maxdepth 2 -type d | grep "B-" | fzf -e )
 
-#directories=$(find ~/GIT -mindepth 1 -maxdepth 5 -name .git -type d | sed 's|.git||g')
-directories=$(find ~/GIT -mindepth 1 -maxdepth 5 -name .git -type d | replace '.git' '')
+directories=$(find ~/git -mindepth 1 -maxdepth 5 -name .git -type d | sed 's|\.git||g')
+#directories=$(find ~/git -mindepth 1 -maxdepth 5 -name .git -type d | replace '.git' '')
 
 cd $(echo "$directories" | fzf)
 

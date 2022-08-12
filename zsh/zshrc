@@ -15,7 +15,7 @@ export PATH=$HOME/oclint-21.10/bin:$PATH
 export EDITOR=nvim
 
 # Path to your oh-my-zsh installation.
-export ZSH="/home/mtaubert/.oh-my-zsh"
+export ZSH="/home/mt/.oh-my-zsh"
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
@@ -118,8 +118,6 @@ SPACESHIP_RPROMPT_ORDER=(
 # Uncomment the following line to enable command auto-correction.
 # ENABLE_CORRECTION="true"
 
-bindkey 'Ö' autosuggest-accept
-bindkey 'ö' autosuggest-accept
 
 # Uncomment the following line to display red dots whilst waiting for completion.
 # Caution: this setting can cause issues with multiline prompts (zsh 5.7.1 and newer seem to work)
@@ -149,7 +147,9 @@ bindkey 'ö' autosuggest-accept
 # Add wisely, as too many plugins slow down shell startup.
 
 #ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=60'
-plugins=(sudo colored-man-pages colorize extract zsh-syntax-highlighting zsh-autosuggestions zsh-history-substring-search fzf-zsh-plugin)
+plugins=(sudo colored-man-pages colorize extract zsh-autosuggestions zsh-history-substring-search fzf-zsh-plugin zsh-syntax-highlighting)
+
+bindkey 'ö' autosuggest-accept
 
 #plugins=(
 	#git
@@ -193,8 +193,8 @@ ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=2"
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-typeset -A ZSH_HIGHLIGHT_STYLES
-ZSH_HIGHLIGHT_STYLES[comment]='fg=#909090'
+#typeset -A ZSH_HIGHLIGHT_STYLES
+#ZSH_HIGHLIGHT_STYLES[comment]='fg=#909090'
 
 
 # typos
@@ -210,7 +210,7 @@ alias vmi="vim"
 alias vim="nvim"
 
 # my startup routine
-alias startup="~/GIT/personal/dotfiles/scripts/realstart.sh"
+alias startup="~/git/personal/dotfiles/scripts/realstart.sh"
 
 # GIT remaps
 alias ga="git add"
@@ -218,18 +218,9 @@ alias gap="git add -p"
 alias gcm="git commit -m"
 alias gs="git status"
 alias gd="git diff"
-alias gl="git log -p"
-alias gc-="git checkout -"
-alias mr="make clean && make"
-
-# quick dotfiles edits
-alias zshedit="vim ~/.zshrc"
-alias vimedit="vim ~/.config/nvim/init.vim"
-alias i3edit="vim ~/.config/i3/config"
 
 # Quickly finding my repos rararara // Is this really doing anything
-alias mfind=". ~/GIT/personal/dotfiles/scripts/find.sh"
-alias work=". cd /home/mtaubert/GIT/work/x-mirror-gaia"
+alias mfind=". ~/git/personal/dotfiles/scripts/find.sh"
 
 # tmux settings
 alias ta="tmux attach"
@@ -238,15 +229,10 @@ alias tl="tmux ls"
 alias tks="tmux kill-server"
 alias tss="tmux switch -t"
 alias td="tmux detach"
-alias tfind="~/GIT/personal/dotfiles/scripts/tmux_session.sh"
+alias tfind="~/git/personal/dotfiles/scripts/tmux_session.sh"
 alias hgrep="history | grep"
-alias tf="tail -f"
 
-hgr() {
-    history | sort -rn | fzy -l 30
-}
-
-alias luamake=/home/mtaubert/.config/nvim/lua-language-server/3rd/luamake/luamake
+alias luamake=/home/mt/.config/nvim/lua-language-server/3rd/luamake/luamake
 function tfind() { tfind && ta ; zle reset-prompt; zle redisplay}
 zle -N tfind
  #bindkey '^t' tfind
