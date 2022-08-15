@@ -1,11 +1,16 @@
+set rtp+=~/git/personal/dotfiles/vim
 " set runtimepath=~/.config/nvim/,$VIMRUNTIME
 call plug#begin('~/.config/nvim/autoload/plugged')
+
+Plug '/home/mt/git/personal/dotfiles/vim'
+Plug 'marcelTau/number-representation.nvim'
 
 " Personal Plugins
 Plug '/home/mt/git/personal/FirstLuaPlugin'
 Plug '/home/mt/git/public/scratchpad.nvim'
 
 Plug 'alvarosevilla95/luatab.nvim'
+Plug 'L3MON4D3/LuaSnip'
 
 " Rust
 Plug 'rust-lang/rust.vim'
@@ -60,6 +65,7 @@ Plug 'hrsh7th/cmp-path'
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-nvim-lua'
 Plug 'hrsh7th/cmp-calc'
+Plug 'saadparwaiz1/cmp_luasnip'
 Plug 'kristijanhusak/vim-dadbod-completion'
 
 Plug 'onsails/lspkind-nvim'
@@ -125,9 +131,9 @@ set inccommand=split
 set mouse=a
 set hidden
 set noerrorbells
+set expandtab
 set tabstop=4 softtabstop=4
 set shiftwidth=4
-set expandtab
 set nowrap
 set smartcase
 set noswapfile
@@ -174,7 +180,7 @@ nnoremap <leader>cc NERDCommenterComment<CR>
 nnoremap <C-Space> <plug>NERDCommenterComment
 vnoremap <C-Space> <plug>NERDCommenterComment
 nnoremap <leader>b :!./build.sh<CR>
-nnoremap <leader>s :!./send.sh<CR>
+"nnoremap <leader>s :!./send.sh<CR>
 
 "set background=dark
 "let g:gruvbox_material_background = 'soft'
@@ -189,8 +195,8 @@ nnoremap <leader>s :!./send.sh<CR>
 "highlight PmenuSel ctermbg=Black ctermfg=White guibg=Black guifg=White
 "highlight Pmenu ctermbg=Black ctermfg=White guibg=Black guifg=White
 
-colorscheme tokyonight
-"colorscheme gruvbox
+"colorscheme tokyonight
+colorscheme gruvbox
 
 "colorscheme darcula
 
@@ -361,8 +367,9 @@ set completeopt-=preview
 lua << EOF
 
 local system_name = "Linux"
-local sumneko_root_path = '/home/mt/.local/share/nvim/lspinstall/lua/sumneko-lua/extension/server'
-local sumneko_binary_path = sumneko_root_path.."/bin/Linux/lua-language-server"
+local sumneko_root_path = '/home/mt/lua-language-server'
+-- local sumneko_binary_path = sumneko_root_path.."/bin/Linux/lua-language-server"
+local sumneko_binary_path = '/home/mt/lua-language-server/bin/lua-language-server'
 local runtime_path = vim.split(package.path, ';')
 
 table.insert(runtime_path, "lua/?.lua")
@@ -628,8 +635,14 @@ cmp.setup {
             select = true,
         }),
     }),
+    snippet = {
+        expand = function(args)
+            require'luasnip'.lsp_expand(args.body)
+        end
+    },
     sources = cmp.config.sources({
         { name = 'calc' },
+        { name = 'luasnip' },
         { name = 'vim-dadbod-completion' },
         { name = "nvim_lua" }, -- max_item_count
         { name = "nvim_lsp" }, -- max_item_count
@@ -659,32 +672,8 @@ autocmd VimLeave * silent !echo -ne "\033ktmux;\033\033]12;gray\007\033\\"
 
 " autocmd BufEnter, ColroschemePre, BufWinEnter, BufAdd, BufReadCmd, BufReadPre * silent :TSBufEnable highlight
 " autocmd VimEnter :TSBufEnable highlight
-
-"nnoremap <leader>T :lua require'todoapp'.open('/home/mtaubert/GIT/personal/FirstLuaPlugin')<cr>
 nnoremap <leader>fl :VimwikiFollowLink<cr>
-"autocmd BufReadPost,BufWritePost * if &ft == 'c' || &ft == 'cpp' || &ft == 'hpp' || &ft == 'h'| exec 'GrayoutUpdate' | endif
-"let g:grayout_default_args = [ '-x', 'c++', '-std=c++11' ]
-"let g:grayout_libclang_path = '/home/mtaubert/.local/lib/python3.10/site-packages/clang/native/'
-
-"nnoremap <leader>d :lua require('scratchpad').toggle_buffer("cpp")<CR>
-"nnoremap <leader>f :lua package.loaded["scratchpad"] = nil<CR>
-"nnoremap <leader>g :lua require('scratchpad').run_code()<CR>
-
-
-" Specify the path to `coverage.json` file relative to your current working directory.
-let g:coverage_json_report_path = 'coverage.json'
-
-" Define the symbol display for covered lines
-let g:coverage_sign_covered = '⦿'
-
-" Define the interval time of updating the coverage lines
-let g:coverage_interval = 5000
-
-" Do not display signs on covered lines
-let g:coverage_show_covered = 0
-
-" Display signs on uncovered lines
-let g:coverage_show_uncovered = 1
-
-
-
+lua << EOF
+require "luasnip-config"
+EOF
+nnoremap <leader>x :lua require('number-representation').get_representation()<CR>

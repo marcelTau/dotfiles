@@ -250,7 +250,7 @@ alias vim=nvim
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 # show me the usage of a random cli program, when I open a new terminal
-tldr --random
+#tldr --random
 
 
 
