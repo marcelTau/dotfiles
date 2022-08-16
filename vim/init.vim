@@ -1,4 +1,9 @@
 set rtp+=~/git/personal/dotfiles/vim
+
+lua << EOF
+require("globals")
+EOF
+
 " set runtimepath=~/.config/nvim/,$VIMRUNTIME
 call plug#begin('~/.config/nvim/autoload/plugged')
 
@@ -8,6 +13,9 @@ Plug 'marcelTau/number-representation.nvim'
 " Personal Plugins
 Plug '/home/mt/git/personal/FirstLuaPlugin'
 Plug '/home/mt/git/public/scratchpad.nvim'
+
+" Lua
+Plug 'folke/lua-dev.nvim'
 
 Plug 'alvarosevilla95/luatab.nvim'
 Plug 'L3MON4D3/LuaSnip'
@@ -82,15 +90,8 @@ call plug#end()
 
 let g:vim_lcov_marker_fold = 0
 
-lua << EOF
-P = function(v)
-    print(vim.inspect(v))
-    return v
-end
-EOF
 
-
-set guicursor=     " the cursor thingy
+" set guicursor=     " the cursor thingy
 syntax on
 filetype plugin on
 
@@ -196,7 +197,8 @@ nnoremap <leader>b :!./build.sh<CR>
 "highlight Pmenu ctermbg=Black ctermfg=White guibg=Black guifg=White
 
 "colorscheme tokyonight
-colorscheme gruvbox
+"colorscheme gruvbox
+"highlight Normal guibg=#282c34 guifg=White ctermbg=Black ctermfg=White "!!!!!!!!!!!!!!!!!!!!
 
 "colorscheme darcula
 
@@ -223,9 +225,9 @@ colorscheme gruvbox
 
 "highlight Normal ctermbg=Black
 "highlight NonText ctermbg=Black
-"lua << EOF
-  "require('colorbuddy').colorscheme('gruvbuddy')
-"EOF
+lua << EOF
+  require('colorbuddy').colorscheme('gruvbuddy')
+EOF
 highlight WinSeparator guibg=None
 set termguicolors
 
@@ -258,7 +260,6 @@ hi! link ALEInfo CodeInfo
 hi! link ALEErrorSign ErrorSign
 hi! link ALEWarningSign WarningSign
 hi! link ALEInfoSign InfoSign
-
 
                                 " +++ TERMINAL +++ "
 au BufEnter * if &buftype == 'terminal' | endif
@@ -389,72 +390,103 @@ require'lspconfig'.html.setup{}
 require'lspconfig'.jsonls.setup{}
 require'lspconfig'.prosemd_lsp.setup{}
 
-require'lspconfig'.sumneko_lua.setup {
-    cmd = {sumneko_binary_path, "-E", sumneko_root_path .. "/main.lua"};
-    settings = {
-        Lua = {
-        runtime = {
-            -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
-            version = 'LuaJIT',
-            -- Setup your lua path
-            path = runtime_path,
-        },
-        diagnostics = {
-            -- Get the language server to recognize the `vim` global
-            globals = {'vim'},
-        },
-        workspace = {
-            -- Make the server aware of Neovim runtime files
-            library = vim.api.nvim_get_runtime_file("", true),
-        },
-        -- Do not send telemetry data containing a randomized but unique identifier
-        telemetry = {
-            enable = false,
-        },
-        },
-    },
-}
-local util = require 'lspconfig/util'
-require'lspconfig'.vuels.setup {
-    on_attach = function(client)
-    --[[
-    Internal Vetur formatting is not supported out of the box
-
-    This line below is required if you:
-    - want to format using Nvim's native `vim.lsp.buf.formatting**()`
-    - want to use Vetur's formatting config instead, e.g, settings.vetur.format {...}
-    --]]
-    client.resolved_capabilities.document_formatting = true
-    on_attach(client)
-    end,
-    capabilities = capabilities,
-    settings = {
-        vetur = {
-            completion = {
-                autoImport = true,
-                useScaffoldSnippets = true
+local luadev = require("lua-dev").setup({
+    library = {vimruntime = true, types = true, plugins = true},
+    lspconfig = {
+        capabilities = capabilities,
+        on_attach = on_attach,
+        cmd = {sumneko_binary_path, "-E", sumneko_root_path .. "/main.lua"},
+        settings = {
+            Lua = {
+                runtime = {
+                    -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
+                    version = 'LuaJIT',
+                    -- Setup your lua path
+                    path = vim.split(package.path, ';')
                 },
-            format = {
-                defaultFormatter = {
-                    html = "none",
-                    js = "prettier",
-                    ts = "prettier",
+                diagnostics = {
+                    -- Get the language server to recognize the `vim` global
+                    globals = {'vim'}
+                },
+                workspace = {
+                    -- Make the server aware of Neovim runtime files
+                    library = {
+                        [vim.fn.expand('$VIMRUNTIME/lua')] = true,
+                        [vim.fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true
                     }
-                },
-            validation = {
-                template = true,
-                script = true,
-                style = true,
-                templateProps = true,
-                interpolation = true
-                },
-            experimental = {
-                templateInterpolationService = true
                 }
             }
-        },
-        root_dir = util.root_pattern("header.php", "package.json", "style.css", 'webpack.config.js')
-}
+        }
+    }
+})
+require'lspconfig'.sumneko_lua.setup(luadev)
+
+-- require'lspconfig'.sumneko_lua.setup {
+--     cmd = {sumneko_binary_path, "-E", sumneko_root_path .. "/main.lua"};
+--     settings = {
+--         Lua = {
+--         runtime = {
+--             -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
+--             version = 'LuaJIT',
+--             -- Setup your lua path
+--             path = runtime_path,
+--         },
+--         diagnostics = {
+--             -- Get the language server to recognize the `vim` global
+--             globals = {'vim'},
+--         },
+--         workspace = {
+--             -- Make the server aware of Neovim runtime files
+--             library = vim.api.nvim_get_runtime_file("", true),
+--         },
+--         -- Do not send telemetry data containing a randomized but unique identifier
+--         telemetry = {
+--             enable = false,
+--         },
+--         },
+--     },
+-- }
+local util = require 'lspconfig/util'
+-- require'lspconfig'.vuels.setup {
+--     on_attach = function(client)
+--     --[[
+--     Internal Vetur formatting is not supported out of the box
+-- 
+--     This line below is required if you:
+--     - want to format using Nvim's native `vim.lsp.buf.formatting**()`
+--     - want to use Vetur's formatting config instead, e.g, settings.vetur.format {...}
+--     --]]
+--     client.resolved_capabilities.document_formatting = true
+--     on_attach(client)
+--     end,
+--     capabilities = capabilities,
+--     settings = {
+--         vetur = {
+--             completion = {
+--                 autoImport = true,
+--                 useScaffoldSnippets = true
+--                 },
+--             format = {
+--                 defaultFormatter = {
+--                     html = "none",
+--                     js = "prettier",
+--                     ts = "prettier",
+--                     }
+--                 },
+--             validation = {
+--                 template = true,
+--                 script = true,
+--                 style = true,
+--                 templateProps = true,
+--                 interpolation = true
+--                 },
+--             experimental = {
+--                 templateInterpolationService = true
+--                 }
+--             }
+--         },
+--         root_dir = util.root_pattern("header.php", "package.json", "style.css", 'webpack.config.js')
+-- }
 
 require'lspconfig'.clangd.setup {
     on_attach=on_attach,
@@ -497,11 +529,10 @@ require'lspconfig'.clangd.setup {
 --   ignore_severity = {}
 -- }
 
-require'lspconfig'.gopls.setup{ on_attach=on_attach }
 require'lspconfig'.tsserver.setup{
     on_attach=on_attach,
-    filetypes = { ".git", "javascript", "typescript", "typescriptreact", "typescript.tsx" },
-    root_dir = function() return vim.loop.cwd() end      -- run lsp for javascript in any directory
+    -- filetypes = { ".git", "javascript", "typescript", "typescriptreact", "typescript.tsx" },
+    -- root_dir = function() return vim.loop.cwd() end      -- run lsp for javascript in any directory
 }
 
 -- require'lspconfig'.hls.setup{
@@ -667,8 +698,8 @@ cmp.setup {
 
 EOF
 " autocmd BufEnter,BufWinEnter,TabEnter,BufWritePost *.rs :lua require('lsp_extensions').inlay_hints{ prefix = ' -> ', enabled = {"TypeHint", "ChainingHint", "ParameterHint"} }
-autocmd VimLeave * silent !echo -ne "\033Ptmux;\033\033[2 q\033\\"
-autocmd VimLeave * silent !echo -ne "\033ktmux;\033\033]12;gray\007\033\\"
+"autocmd VimLeave * silent !echo -ne "\033Ptmux;\033\033[2 q\033\\"
+"autocmd VimLeave * silent !echo -ne "\033ktmux;\033\033]12;gray\007\033\\"
 
 " autocmd BufEnter, ColroschemePre, BufWinEnter, BufAdd, BufReadCmd, BufReadPre * silent :TSBufEnable highlight
 " autocmd VimEnter :TSBufEnable highlight
@@ -677,3 +708,16 @@ lua << EOF
 require "luasnip-config"
 EOF
 nnoremap <leader>x :lua require('number-representation').get_representation()<CR>
+
+nnoremap <leader><leader>x :luafile %<cr>
+
+"let &t_SI = "\<Esc>[6 q"
+"let &t_SR = "\<Esc>[4 q"
+"let &t_EI = "\<Esc>[2 q"
+
+"let &t_SI = "\<esc>[5 q"
+"let &t_SR = "\<esc>[5 q"
+"let &t_EI = "\<esc>[2 q"
+
+au InsertEnter * silent execute "!print -n '\033[6 q'"
+au InsertLeave * silent execute "!print -n '\033[1 q'"

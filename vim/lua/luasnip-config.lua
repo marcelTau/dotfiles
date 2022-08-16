@@ -1,12 +1,12 @@
 local ls = require("luasnip")
 
 -- some shorthands...
-local snip = ls.snippet
-local node = ls.snippet_node -- can be returned from a dynamic node
-local text = ls.text_node
-local insert = ls.insert_node
-local func = ls.function_node
-local choice = ls.choice_node
+local s = ls.snippet
+local sn = ls.snippet_node -- can be returned from a dynamic node
+local t = ls.text_node
+local i = ls.insert_node
+local f = ls.function_node
+local c = ls.choice_node
 local dyn = ls.dynamic_node
 local types = require("luasnip.util.types")
 local fmt = require("luasnip.extras.fmt").fmt
@@ -36,50 +36,51 @@ ls.config.set_config {
   },
 }
 
+
 local date = function() return {os.date('%Y-%m-%d')} end
 keymap("n", "<leader><leader>g", "<cmd>source ~/.config/nvim/lua/luasnip-config.lua<CR>", opts)
 ls.add_snippets(nil, {
     all = {
-        snip({
+        s({
             trig = "date",
             namr = "Date",
             dscr = "Date in the form of YYYY-MM-DD",
         }, {
-            func(date, {}),
+            f(date, {}),
         }),
-
-        --snip({
-            --trig = "x",
-            --namr = "Comment",
-            --dscr = "Big Comment",
-        --}, fmt("local {} = require('{}')", {
-            --insert(1, "default"),
-            --rep(1), -- repeat what was inserted into (1)
-        --})),
-
-        snip({
-            trig = "x",
-            namr = "x",
-            dscr = "x",
+    },
+    cmake = {
+        s("cmakeinit", fmt([[
+cmake_minimum_required(VERSION {})
+project({})
+set(CMAKE_CXX_STANDARD 20)
+        ]], { c(1, { t("3.22.1"), t("")}), i(2) })),
+    },
+    cpp = {
+        s({
+            trig = "header",
+            namr = "header",
+            dscr = "header",
         }, {
-            text("#ifdef "), insert(1, "DEFAULT_HEADER_H_"),
-            text({"",
+            t("#ifdef "), i(1, "DEFAULT_HEADER_H_"),
+            t({"",
             "#define "}), rep(1),
-            text({"",
-            ""}), insert(0),
-            text({"",
+            t({"",
+            ""}), i(0),
+            t({"",
             ""}),
-            text({"",
+            t({"",
             "#endif // "}), rep(1),
         })
     },
     rust = {
-        snip({
+        s("ils", fmt([[if let Some({}) = {}]], { i(1), i(0) })),
+        s({
             trig = "derive",
             namr = "full derive",
             desc = "full derive template",
         }, {
-            text("#[derive(Debug, Copy, Clone, PartialEq, Eq)]")
+            t("#[derive(Debug, Copy, Clone, PartialEq, Eq)]")
         }),
 
     },

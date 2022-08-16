@@ -14,13 +14,15 @@ export PATH=$HOME/oclint-21.10/bin:$PATH
 #export EDITOR=$HOME/.config/nvim/nvim-linux64/bin/nvim
 export EDITOR=nvim
 
+export shell=zsh
+
 # Path to your oh-my-zsh installation.
 export ZSH="/home/mt/.oh-my-zsh"
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-#ZSH_THEME="robbyrussell"
+ZSH_THEME="robbyrussell"
 #ZSH_THEME="spaceship"
 #ZSH_THEME="powerlevel10k/powerlevel10k"
 #ZSH_THEME='af-magic'
@@ -28,7 +30,7 @@ export ZSH="/home/mt/.oh-my-zsh"
 #ZSH_THEME='random'
 #ZSH_THEME='AAA'
 # ZSH_THEME='avit'
-ZSH_THEME='daveverwer'
+#ZSH_THEME='daveverwer'
 #zhann
 #sammy
 #crunch
@@ -252,5 +254,10 @@ alias vim=nvim
 # show me the usage of a random cli program, when I open a new terminal
 #tldr --random
 
-
+if test -n "$KITTY_INSTALLATION_DIR"; then
+    export KITTY_SHELL_INTEGRATION="enabled"
+    autoload -Uz -- "$KITTY_INSTALLATION_DIR"/shell-integration/zsh/kitty-integration
+    kitty-integration
+    unfunction kitty-integration
+fi
 
