@@ -11,8 +11,11 @@ export PATH=$HOME/.local/bin/:$PATH
 export PATH=$HOME/.cargo/bin:$PATH
 export PATH=$HOME/.local/share/nvim/lsp_servers/rust:$PATH
 export PATH=$HOME/oclint-21.10/bin:$PATH
+export PATH=$HOME/Downloads/teams_1.5.00.10453_amd64/data/usr/share/teams:$PATH
 #export EDITOR=$HOME/.config/nvim/nvim-linux64/bin/nvim
 export EDITOR=nvim
+
+export UMBRELLO_INCPATH=/home/mt/git/work/deltax/
 
 export shell=zsh
 
@@ -213,6 +216,8 @@ alias vim="nvim"
 
 # my startup routine
 alias startup="~/git/personal/dotfiles/scripts/realstart.sh"
+alias keys="sudo systemctl restart keyd && sudo systemctl enable keyd && sudo systemctl start keyd"
+
 
 # GIT remaps
 alias ga="git add"
@@ -241,6 +246,7 @@ zle -N tfind
 
 export EDITOR=nvim
 alias vim=nvim
+alias vimdiff='vim -d'
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 # [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
@@ -261,3 +267,6 @@ if test -n "$KITTY_INSTALLATION_DIR"; then
     unfunction kitty-integration
 fi
 
+pass() {
+    bw get password "$1" | xclip -se c
+}

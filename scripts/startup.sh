@@ -21,4 +21,4 @@ xrandr --newmode "2880x1200_60.00"  290.00  2880 3080 3384 3888  1200 1203 1213 
 xrandr --addmode HDMI-2 "2880x1200_60.00"
 xrandr --output HDMI-2 --mode "2880x1200_60.00"
 
-feh --bg-scale ~/Pictures/linuxWallpaper.jpeg ~/Pictures/BB.png
+feh --bg-scale ~/Pictures/background.jpeg

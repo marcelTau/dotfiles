@@ -9,7 +9,7 @@
 #
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
 
-set $mod Mod1
+set $mod Mod4
 
 # Take a screenshot upon pressing $mod+x (select an area)
 #bindsym --release $mod+x exec --no-startup-id scrot -s '/tmp/%F_%T_$wx$h.png' -e 'xclip -selection clipboard -target image/png -i $f'
@@ -35,12 +35,14 @@ for_window [title="bin/Discord"] floating enable
 
 exec --no-startup-id picom -CGb
 exec killall -q notifier
-exec --no-startup-id dunst -config /home/mtaubert/GIT/personal/dotfiles/dunst/dunstrc
+exec --no-startup-id dunst
+
+exec_always --no-startup-id keyd-application-mapper -d
 
 popup_during_fullscreen smart
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
-font pango:monospace 8
+font pango:UbuntuMono 12
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
@@ -71,8 +73,8 @@ floating_modifier $mod
 # i3-sensible-terminal
 # xfce4-terminal
 #bindsym $mod+Return exec konsole
-# bindsym $mod+Return exec kitty --config $HOME/GIT/personal/dotfiles/kitty/kitty.conf
-bindsym $mod+Return exec contour config $HOME/GIT/personal/dotfiles/contour/contour.yml
+bindsym $mod+Return exec kitty --config $HOME/git/personal/dotfiles/kitty/kitty.conf
+#bindsym $mod+Return exec contour config $HOME/GIT/personal/dotfiles/contour/contour.yml
 # bindsym $mod+Return exec kitty
 
 # kill focused window
@@ -80,11 +82,12 @@ bindsym $mod+Shift+q kill
 
 # start dmenu (a program launcher)
 #bindsym $mod+d exec rofi -show run drun window -theme /home/mtaubert/rofi-collection/dracula/dracula.rasi
-bindsym $mod+d exec rofi -show run -theme /home/mtaubert/rofi-collection/nord/nord.rasi
+#bindsym $mod+d exec rofi -show run -theme /home/mtaubert/rofi-collection/nord/nord.rasi
+bindsym $mod+d exec rofi -show drun
 #bindsym $mod+d exec dmenu
 
 #bindsym $mod+m exec google-chrome
-bindsym $mod+m exec brave-browser-stable
+bindsym $mod+m exec firefox
 bindsym $mod+n exec systemsettings5
 
 # change focus
@@ -225,7 +228,8 @@ default_border pixel
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
-        status_command i3status
+        status_command SCRIPT_DIR=~/.config/i3blocks/ i3blocks
         position top
         workspace_min_width 40
 }
+

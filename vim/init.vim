@@ -10,9 +10,17 @@ call plug#begin('~/.config/nvim/autoload/plugged')
 Plug '/home/mt/git/personal/dotfiles/vim'
 Plug 'marcelTau/number-representation.nvim'
 
+" UML
+Plug 'aklt/plantuml-syntax'
+Plug 'tyru/open-browser.vim'
+Plug 'weirongxu/plantuml-previewer.vim'
+
 " Personal Plugins
 Plug '/home/mt/git/personal/FirstLuaPlugin'
 Plug '/home/mt/git/public/scratchpad.nvim'
+
+Plug 'Civitasv/cmake-tools.nvim'
+Plug 'mfussenegger/nvim-dap'
 
 " Lua
 Plug 'folke/lua-dev.nvim'
@@ -31,7 +39,6 @@ Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': 
 Plug 'vimwiki/vimwiki'
 Plug 'babaybus/DoxygenToolkit.vim'
 Plug 'preservim/nerdcommenter'
-"Plug 'jiangmiao/auto-pairs'
 Plug 'mg979/vim-visual-multi'
 
 Plug 'tpope/vim-heroku'
@@ -73,6 +80,7 @@ Plug 'hrsh7th/cmp-path'
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-nvim-lua'
 Plug 'hrsh7th/cmp-calc'
+Plug 'hrsh7th/cmp-nvim-lsp-signature-help'
 Plug 'saadparwaiz1/cmp_luasnip'
 Plug 'kristijanhusak/vim-dadbod-completion'
 
@@ -88,8 +96,6 @@ call plug#end()
 
                                 " +++ BASICS +++ "
 
-let g:vim_lcov_marker_fold = 0
-
 
 " set guicursor=     " the cursor thingy
 syntax on
@@ -102,8 +108,9 @@ tnoremap ö <C-\><C-n>
 
 let mapleader = " "
 let g:indentLine_char_list = ['|', '|', '|', '|']
-set nonu
-"set rnu
+
+"set nonu
+set nu rnu
 " set nu
 set conceallevel=0
 set laststatus=3
@@ -170,6 +177,9 @@ nnoremap <leader>k :wincmd k<CR>
 nnoremap <leader>L :wincmd l<CR>
 nnoremap <C-d> :bd <CR>
 
+nnoremap <C-f> :tabp<CR>
+nnoremap <C-h> :tabn<CR>
+
 " RESIZE
 nnoremap <silent> <Leader>+ :vertical resize +10<CR>
 nnoremap <silent> <Leader>- :vertical resize -10<CR>
@@ -197,7 +207,7 @@ nnoremap <leader>b :!./build.sh<CR>
 "highlight Pmenu ctermbg=Black ctermfg=White guibg=Black guifg=White
 
 "colorscheme tokyonight
-"colorscheme gruvbox
+colorscheme gruvbox
 "highlight Normal guibg=#282c34 guifg=White ctermbg=Black ctermfg=White "!!!!!!!!!!!!!!!!!!!!
 
 "colorscheme darcula
@@ -219,15 +229,14 @@ nnoremap <leader>b :!./build.sh<CR>
 "hi debugPc guifg=NONE ctermfg=NONE guibg=#cc241d ctermbg=160 gui=NONE cterm=NONE
 "hi debugBreakpoint guifg=#cc241d ctermfg=160 guibg=NONE ctermbg=NONE gui=reverse cterm=reverse
 
-
 "highlight Normal guibg=Black guifg=White ctermbg=Black ctermfg=White
 " highlight debugPc
 
 "highlight Normal ctermbg=Black
 "highlight NonText ctermbg=Black
-lua << EOF
-  require('colorbuddy').colorscheme('gruvbuddy')
-EOF
+"lua << EOF
+  "require('colorbuddy').colorscheme('gruvbuddy')
+"EOF
 highlight WinSeparator guibg=None
 set termguicolors
 
@@ -674,9 +683,10 @@ cmp.setup {
     sources = cmp.config.sources({
         { name = 'calc' },
         { name = 'luasnip' },
+        { name = 'nvim_lsp_signature_help' },
         { name = 'vim-dadbod-completion' },
-        { name = "nvim_lua" }, -- max_item_count
-        { name = "nvim_lsp" }, -- max_item_count
+        { name = "nvim_lua" },
+        { name = "nvim_lsp" },
         { name = "path" },
         { name = "buffer", keyword_length = 5 },
     }),
@@ -721,3 +731,18 @@ nnoremap <leader><leader>x :luafile %<cr>
 
 au InsertEnter * silent execute "!print -n '\033[6 q'"
 au InsertLeave * silent execute "!print -n '\033[1 q'"
+
+
+lua << EOF
+require("cmake-tools").setup {
+  cmake_command = "cmake",
+  cmake_build_directory = "build",
+  cmake_build_type = "Debug",
+  cmake_generate_options = { "-D", "CMAKE_EXPORT_COMPILE_COMMANDS=1" },
+  cmake_build_options = {},
+  cmake_console_size = 10, -- cmake output window height
+  cmake_show_console = "always", -- "always", "only_on_error"
+  -- cmake_dap_configuration = { name = "cpp", type = "codelldb", request = "launch" }, -- dap configuration, optional
+  -- cmake_dap_open_command = require("dap").repl.open, -- optional
+}
+EOF
