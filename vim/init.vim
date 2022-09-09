@@ -10,6 +10,9 @@ call plug#begin('~/.config/nvim/autoload/plugged')
 Plug '/home/mt/git/personal/dotfiles/vim'
 Plug 'marcelTau/number-representation.nvim'
 
+Plug 'voldikss/vim-floaterm'
+Plug 'ThePrimeagen/refactoring.nvim'
+
 " UML
 Plug 'aklt/plantuml-syntax'
 Plug 'tyru/open-browser.vim'
@@ -33,6 +36,8 @@ Plug 'rust-lang/rust.vim'
 Plug 'simrat39/rust-tools.nvim'
 Plug 'togglebyte/togglerust'
 Plug 'mattn/webapi-vim'
+
+Plug 'vim-test/vim-test'
 
 " Markdown
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
@@ -61,6 +66,7 @@ Plug 'Mofiqul/vscode.nvim'
 " GIT
 Plug 'tpope/vim-fugitive'
 Plug 'rhysd/committia.vim'
+Plug 'lewis6991/gitsigns.nvim'
 
 " Movement
 Plug 'ThePrimeagen/harpoon'
@@ -110,16 +116,16 @@ let mapleader = " "
 let g:indentLine_char_list = ['|', '|', '|', '|']
 
 "set nonu
-set nu rnu
-" set nu
+"set nu rnu
+set nu
 set conceallevel=0
 set laststatus=3
 
 autocmd CompleteDone * if !pumvisible() | pclose | endif
 set belloff+=ctrlg
 "set signcolumn=number
-"set signcolumn=yes:1
-set signcolumn=no
+set signcolumn=yes:1
+"set signcolumn=no
 set nofixendofline
 
 set fillchars+=vert:│
@@ -207,9 +213,9 @@ nnoremap <leader>b :!./build.sh<CR>
 "highlight Pmenu ctermbg=Black ctermfg=White guibg=Black guifg=White
 
 "colorscheme tokyonight
-colorscheme gruvbox
+"colorscheme gruvbox
 "highlight Normal guibg=#282c34 guifg=White ctermbg=Black ctermfg=White "!!!!!!!!!!!!!!!!!!!!
-
+"highlight Normal guibg=#0d0f31 guifg=White
 "colorscheme darcula
 
 " hi default CursorWord cterm=underline gui=underline
@@ -234,9 +240,9 @@ colorscheme gruvbox
 
 "highlight Normal ctermbg=Black
 "highlight NonText ctermbg=Black
-"lua << EOF
-  "require('colorbuddy').colorscheme('gruvbuddy')
-"EOF
+lua << EOF
+  require('colorbuddy').colorscheme('gruvbuddy')
+EOF
 highlight WinSeparator guibg=None
 set termguicolors
 
@@ -296,6 +302,7 @@ endfunction
 
 lua << EOF
 require'nvim-treesitter.configs'.setup {
+  playground = { enable = true },
   ensure_installed = "c rust cpp javascript bash cmake lua make python tsx",
   ignore_install = {},
   indent = {
@@ -644,6 +651,14 @@ autocmd FileType rust nnoremap <leader>f :RustFmt<CR>
 autocmd FileType rust :RustDisableInlayHints
 "let g:rustfmt_autosave = 1
 
+autocmd FileType cpp nnoremap <leader>r :CMakeRun<CR>
+autocmd FileType cpp nnoremap <leader>t :FloatermNew! cmake -B build && cmake --build build && ./build/acompiler_tests --gtest_color=yes <CR>
+
+"let test#strategy = {
+  "\ 'nearest': 'kitty',
+  "\ 'file':    'kitty',
+  "\ 'suite':   'kitty',
+"\}
 
 autocmd FileType lua nnoremap <leader>b :w<cr> :source %<cr>
 
@@ -746,3 +761,47 @@ require("cmake-tools").setup {
   -- cmake_dap_open_command = require("dap").repl.open, -- optional
 }
 EOF
+
+lua << EOF
+require('gitsigns').setup()
+EOF
+
+lua << EOF
+-- load refactoring Telescope extension
+require('refactoring').setup({
+  -- overriding printf statement for cpp
+  printf_statements = {
+      -- add a custom printf statement for cpp
+      cpp = {
+          'std::cout << "%s" << std::endl;'
+      }
+  }
+})
+require("telescope").load_extension("refactoring")
+
+-- remap to open the Telescope refactoring menu in visual mode
+vim.api.nvim_set_keymap(
+	"v",
+	"<leader>rr",
+	"<Esc><cmd>lua require('telescope').extensions.refactoring.refactors()<CR>",
+	{ noremap = true }
+)
+vim.api.nvim_set_keymap(
+    "n", 
+    "<leader>v", 
+    ":lua require('refactoring').debug.print_var({ normal = true })<CR>", 
+    { noremap = true }
+)
+EOF
+
+
+
+
+
+
+
+
+
+
+
+

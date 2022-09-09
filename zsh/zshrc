@@ -18,6 +18,7 @@ export EDITOR=nvim
 export UMBRELLO_INCPATH=/home/mt/git/work/deltax/
 
 export shell=zsh
+export KITTY_LISTEN_ON=unix:/tmp/mykitty
 
 # Path to your oh-my-zsh installation.
 export ZSH="/home/mt/.oh-my-zsh"
@@ -216,7 +217,7 @@ alias vim="nvim"
 
 # my startup routine
 alias startup="~/git/personal/dotfiles/scripts/realstart.sh"
-alias keys="sudo systemctl restart keyd && sudo systemctl enable keyd && sudo systemctl start keyd"
+alias keys="sudo systemctl restart keyd && sudo systemctl enable keyd && sudo systemctl start keyd && setxkbmap -option compose:menu"
 
 
 # GIT remaps
@@ -266,6 +267,18 @@ if test -n "$KITTY_INSTALLATION_DIR"; then
     kitty-integration
     unfunction kitty-integration
 fi
+
+function iplot {
+    cat <<EOF | gnuplot
+    set terminal pngcairo enhanced font 'Fira Sans,10'
+    set autoscale
+    set samples 1000
+    set output '|kitty +kitten icat --stdin yes'
+    set object 1 rectangle from screen 0,0 to screen 1,1 fillcolor rgb"#fdf6e3" behind
+    plot $@
+    set output '/dev/null'
+EOF
+}
 
 pass() {
     bw get password "$1" | xclip -se c
