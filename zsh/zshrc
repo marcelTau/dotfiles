@@ -15,8 +15,6 @@ export PATH=$HOME/Downloads/teams_1.5.00.10453_amd64/data/usr/share/teams:$PATH
 #export EDITOR=$HOME/.config/nvim/nvim-linux64/bin/nvim
 export EDITOR=nvim
 
-export UMBRELLO_INCPATH=/home/mt/git/work/deltax/
-
 export shell=zsh
 export KITTY_LISTEN_ON=unix:/tmp/mykitty
 
@@ -225,7 +223,9 @@ alias ga="git add"
 alias gap="git add -p"
 alias gcm="git commit -m"
 alias gs="git status"
+alias gss="git status --short --branch"
 alias gd="git diff"
+alias sfind="~/git/personal/dotfiles/scripts/sfind.sh"
 
 # Quickly finding my repos rararara // Is this really doing anything
 alias mfind=". ~/git/personal/dotfiles/scripts/find.sh"
@@ -283,3 +283,5 @@ EOF
 pass() {
     bw get password "$1" | xclip -se c
 }
+
+#tldr --random
