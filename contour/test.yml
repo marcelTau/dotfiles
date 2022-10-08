@@ -112,10 +112,6 @@ color_schemes:
             normal: '#f0f0c0'
             hover: '#ff0000'
         # Default colors
-        background_image:
-          path: '//home/mt/Pictures/term_bg.jpeg'
-          opacity: 0.3
-          blur: true
         default:
             # Default background color (this can be made transparent, see above).
             #background: '#1d1f21'
