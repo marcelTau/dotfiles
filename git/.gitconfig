@@ -21,6 +21,15 @@
 
 [diff]
     colorMoved = default
+    tool = nvimdiff
+    guitool = nvimdiff
+
+[merge]
+    tool = nvimdiff
+    conflictstyle = diff3
+
+[mergetool "nvimdiff"]
+    layout = LOCAL,MERGED,REMOTE
 
 [color]
 	ui = auto

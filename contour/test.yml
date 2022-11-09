@@ -43,18 +43,19 @@ profiles:
             auto_scroll_on_update: true
             scroll_multiplier: 3
         font:
-            size: 12
+            size: 16
             render_mode: gray
             only_monospace: false
-            regular: "JetBrainsMono Nerd Font Mono"
+            #regular: "JetBrainsMono Nerd Font Mono"
+            regular: "Fira Mono"
         tab_width: 8
         cursor:
             shape: "block"
             blinking: false
             blinking_interval: 500
         background:
-            opacity: 0.9
-            blur: true
+            opacity: 1.0
+            blur: false
         colors: "default"
 
 # Color Profiles

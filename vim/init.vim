@@ -12,6 +12,8 @@ Plug 'marcelTau/number-representation.nvim'
 
 Plug 'voldikss/vim-floaterm'
 Plug 'ThePrimeagen/refactoring.nvim'
+Plug 'vuciv/vim-bujo'
+Plug 'stevearc/vim-arduino'
 
 " UML
 Plug 'aklt/plantuml-syntax'
@@ -96,6 +98,7 @@ Plug 'kristijanhusak/vim-dadbod-completion'
 
 Plug 'onsails/lspkind-nvim'
 "Plug 'https://github.com/mphe/grayout.vim'
+Plug 'prabirshrestha/vim-lsp'
 Plug 'mattn/vim-lsp-settings'
 Plug 'neovim/nvim-lspconfig'
 Plug 'tjdevries/nlua.nvim'
@@ -105,7 +108,6 @@ Plug 'glepnir/lspsaga.nvim'
 call plug#end()
 
                                 " +++ BASICS +++ "
-
 
 " set guicursor=     " the cursor thingy
 syntax on
@@ -119,9 +121,11 @@ tnoremap ö <C-\><C-n>
 let mapleader = " "
 let g:indentLine_char_list = ['|', '|', '|', '|']
 
-"set nonu
+let g:bujo#window_width = 40
+
+set nonu
 "set nu rnu
-set nu
+"set nu
 set conceallevel=0
 set laststatus=3
 
@@ -164,8 +168,9 @@ set updatetime=50
 set shortmess+=c
 set encoding=utf8
 set splitright
-set foldmethod=manual
+"set foldmethod=manual
 set timeoutlen=500
+set nofoldenable    " disable folding
 
 " Debugging
 packadd termdebug
@@ -205,11 +210,11 @@ nnoremap <leader>b :!./build.sh<CR>
 "nnoremap <leader>s :!./send.sh<CR>
 
 "set background=dark
-"let g:gruvbox_material_background = 'soft'
-"let g:gruvbox_material_enable_italic = 1
-""let g:gruvbox_material_ui_contrast='high'
-"let g:gruvbox_material_palette='original'
-"let g:gruvbox_material_transparent_background=0
+let g:gruvbox_material_background = 'hard'
+let g:gruvbox_material_enable_italic = 1
+let g:gruvbox_material_ui_contrast='high'
+let g:gruvbox_material_palette='original'
+let g:gruvbox_material_transparent_background=1
 
 
 "highlight Normal guibg=#282c34 guifg=White ctermbg=Black ctermfg=White "!!!!!!!!!!!!!!!!!!!!
@@ -218,7 +223,7 @@ nnoremap <leader>b :!./build.sh<CR>
 "highlight Pmenu ctermbg=Black ctermfg=White guibg=Black guifg=White
 
 "colorscheme tokyonight
-colorscheme gruvbox
+colorscheme gruvbox-material
 "highlight Normal guibg=#282c34 guifg=White ctermbg=Black ctermfg=White "!!!!!!!!!!!!!!!!!!!!
 "highlight Normal guibg=#0d0f31 guifg=White
 "colorscheme darcula
@@ -410,14 +415,28 @@ require'lspconfig'.graphql.setup{}
 require'lspconfig'.html.setup{}
 require'lspconfig'.jsonls.setup{}
 require'lspconfig'.prosemd_lsp.setup{}
--- require'lspconfig'.arduino_language_server.setup{
---     cmd = {
---         j
---     }
--- }
--- require'lspconfig'.jdtls.setup{}
+require'lspconfig'.arduino_language_server.setup{
+    on_attach=on_attach,
+    cmd = {
+        "arduino-language-server",
+        "-cli-config", "/home/mt/.arduino15/arduino-cli.yaml",
+        "-clangd", "/usr/bin/clangd",
+        "-cli", "/usr/bin/arduino-cli",
+        "-fqbn", "arduino:avr:uno"
+    }
+}
 
--- See `:help vim.lsp.start_client` for an overview of the supported `config` options.
+local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ':p:h:t')
+
+local workspace_dir = '/path/to/workspace-root/' .. project_name
+
+-- local config = {
+--     cmd = {'/home/mt/bin/jdtls'},
+--     root_dir = vim.fs.dirname(vim.fs.find({'.gradlew', '.git', 'mvnw'}, { upward = true })[1]),
+-- }
+-- require('jdtls').start_or_attach(config)
+-- require'lspconfig'.jdtls.setup{config}
+
 -- local config = {
 --   -- The command that starts the language server
 --   -- See: https://github.com/eclipse/eclipse.jdt.ls#running-from-the-command-line
@@ -438,14 +457,15 @@ require'lspconfig'.prosemd_lsp.setup{}
 --     '--add-opens', 'java.base/java.lang=ALL-UNNAMED',
 -- 
 --     -- 💀
---     '-jar', '/home/mt/.local/share/nvim/lsp_servers/jdtls/plugins/org.eclipse.equinox.launcher_1.6.400.v20210924-0641.jar',
+--     -- '-jar', '/home/mt/.local/share/nvim/lsp_servers/jdtls/plugins/org.eclipse.equinox.launcher_1.6.400.v20210924-0641.jar',
+--     '-jar', '/home/mt/plugins/org.eclipse.equinox.launcher_1.6.400.v20210924-0641.jar',
 --          -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^                                       ^^^^^^^^^^^^^^
 --          -- Must point to the                                                     Change this to
 --          -- eclipse.jdt.ls installation                                           the actual version
 -- 
 -- 
 --     -- 💀
---     '-configuration', '/home/mt/.local/share/nvim/lsp_servers/jdtls/config_linux',
+--     '-configuration', '/home/mt/config_linux',
 --                     -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^        ^^^^^^
 --                     -- Must point to the                      Change to one of `linux`, `win` or `mac`
 --                     -- eclipse.jdt.ls installation            Depending on your system.
@@ -453,10 +473,11 @@ require'lspconfig'.prosemd_lsp.setup{}
 -- 
 --     -- 💀
 --     -- See `data directory configuration` section in the README
---     '-data', '/tmp'
+--     '-data', workspace_dir,
 --   },
 -- 
 --   root_dir = require('jdtls.setup').find_root({'.git', 'mvnw', 'gradlew'}),
+--   -- root_dir = require('jdtls.setup').find_root('.git'),
 -- 
 --   -- Here you can configure eclipse.jdt.ls specific settings
 --   -- See https://github.com/eclipse/eclipse.jdt.ls/wiki/Running-the-JAVA-LS-server-from-the-command-line#initialize-request
@@ -479,10 +500,8 @@ require'lspconfig'.prosemd_lsp.setup{}
 -- }
 -- -- This starts a new client & server,
 -- -- or attaches to an existing client & server depending on the `root_dir`.
--- -- require('jdtls').start_or_attach(config)
--- require'lspconfig'.jdtls.setup(config)
-
-local luadev = require("lua-dev").setup({
+-- require('jdtls').start_or_attach(config)
+local luadev = require("neodev").setup({
     library = {vimruntime = true, types = true, plugins = true},
     lspconfig = {
         capabilities = capabilities,
@@ -539,47 +558,6 @@ require'lspconfig'.sumneko_lua.setup(luadev)
 --     },
 -- }
 local util = require 'lspconfig/util'
--- require'lspconfig'.vuels.setup {
---     on_attach = function(client)
---     --[[
---     Internal Vetur formatting is not supported out of the box
--- 
---     This line below is required if you:
---     - want to format using Nvim's native `vim.lsp.buf.formatting**()`
---     - want to use Vetur's formatting config instead, e.g, settings.vetur.format {...}
---     --]]
---     client.resolved_capabilities.document_formatting = true
---     on_attach(client)
---     end,
---     capabilities = capabilities,
---     settings = {
---         vetur = {
---             completion = {
---                 autoImport = true,
---                 useScaffoldSnippets = true
---                 },
---             format = {
---                 defaultFormatter = {
---                     html = "none",
---                     js = "prettier",
---                     ts = "prettier",
---                     }
---                 },
---             validation = {
---                 template = true,
---                 script = true,
---                 style = true,
---                 templateProps = true,
---                 interpolation = true
---                 },
---             experimental = {
---                 templateInterpolationService = true
---                 }
---             }
---         },
---         root_dir = util.root_pattern("header.php", "package.json", "style.css", 'webpack.config.js')
--- }
-
 require'lspconfig'.clangd.setup {
     on_attach=on_attach,
     cmd = {
@@ -738,6 +716,7 @@ autocmd FileType cpp nnoremap <leader>t :FloatermNew! cmake -B build && cmake --
 
 autocmd FileType lua nnoremap <leader>b :w<cr> :source %<cr>
 
+autocmd FileType markdown nnoremap <leader>n <Plug>BujoChecknormal<cr>
 
 lua<<EOF
 require('rust-tools').setup({})
@@ -802,8 +781,7 @@ EOF
 "autocmd VimLeave * silent !echo -ne "\033Ptmux;\033\033[2 q\033\\"
 "autocmd VimLeave * silent !echo -ne "\033ktmux;\033\033]12;gray\007\033\\"
 
-" autocmd BufEnter, ColroschemePre, BufWinEnter, BufAdd, BufReadCmd, BufReadPre * silent :TSBufEnable highlight
-" autocmd VimEnter :TSBufEnable highlight
+autocmd BufEnter silent :TSBufEnable highlight<cr>
 nnoremap <leader>fl :VimwikiFollowLink<cr>
 lua << EOF
 require "luasnip-config"
@@ -841,43 +819,3 @@ EOF
 lua << EOF
 require('gitsigns').setup()
 EOF
-
-lua << EOF
--- load refactoring Telescope extension
-require('refactoring').setup({
-  -- overriding printf statement for cpp
-  printf_statements = {
-      -- add a custom printf statement for cpp
-      cpp = {
-          'std::cout << "%s" << std::endl;'
-      }
-  }
-})
-require("telescope").load_extension("refactoring")
-
--- remap to open the Telescope refactoring menu in visual mode
-vim.api.nvim_set_keymap(
-	"v",
-	"<leader>rr",
-	"<Esc><cmd>lua require('telescope').extensions.refactoring.refactors()<CR>",
-	{ noremap = true }
-)
-vim.api.nvim_set_keymap(
-    "n", 
-    "<leader>v", 
-    ":lua require('refactoring').debug.print_var({ normal = true })<CR>", 
-    { noremap = true }
-)
-EOF
-
-
-
-
-
-
-
-
-
-
-
-

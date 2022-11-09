@@ -24,13 +24,15 @@ export ZSH="/home/mt/.oh-my-zsh"
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="robbyrussell"
+#ZSH_THEME="robbyrussell"
 #ZSH_THEME="spaceship"
 #ZSH_THEME="powerlevel10k/powerlevel10k"
 #ZSH_THEME='af-magic'
 #ZSH_THEME='MinimalisticWithGit'
-#ZSH_THEME='random'
+#ZSH_THEME='mlh'
+ZSH_THEME='gentoo'
 #ZSH_THEME='AAA'
+# steeef, gentoo <- good
 # ZSH_THEME='avit'
 #ZSH_THEME='daveverwer'
 #zhann
@@ -285,3 +287,8 @@ pass() {
 }
 
 #tldr --random
+
+# pnpm
+export PNPM_HOME="/home/mt/.local/share/pnpm"
+export PATH="$PNPM_HOME:$PATH"
+# pnpm end
