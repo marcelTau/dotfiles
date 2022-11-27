@@ -232,6 +232,8 @@ alias sfind="~/git/personal/dotfiles/scripts/sfind.sh"
 # Quickly finding my repos rararara // Is this really doing anything
 alias mfind=". ~/git/personal/dotfiles/scripts/find.sh"
 
+alias ls="exa"
+
 # tmux settings
 alias ta="tmux attach"
 alias tn="tmux new"
@@ -241,6 +243,10 @@ alias tss="tmux switch -t"
 alias td="tmux detach"
 alias tfind="~/git/personal/dotfiles/scripts/tmux_session.sh"
 alias hgrep="history | grep"
+
+alias sshserv="kitty +kitten ssh admin_backend@x2024dynafood545437452001.westeurope.cloudapp.azure.com -p 54646"
+alias sshdb="kitty +kitten ssh db_vm@x2024dynafood545437452001.westeurope.cloudapp.azure.com -p 62222"
+#alias sshdb="ssh admin_backend@x2024dynafood545437452001.westeurope.cloudapp.azure.com -p 64133"
 
 alias luamake=/home/mt/.config/nvim/lua-language-server/3rd/luamake/luamake
 function tfind() { tfind && ta ; zle reset-prompt; zle redisplay}

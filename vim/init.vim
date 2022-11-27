@@ -207,7 +207,7 @@ nnoremap <leader>cc NERDCommenterComment<CR>
 nnoremap <C-Space> <plug>NERDCommenterComment
 vnoremap <C-Space> <plug>NERDCommenterComment
 nnoremap <leader>b :!./build.sh<CR>
-"nnoremap <leader>s :!./send.sh<CR>
+nnoremap <leader>s :!./send.sh<CR>
 
 "set background=dark
 let g:gruvbox_material_background = 'hard'
