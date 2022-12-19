@@ -11,8 +11,8 @@
 
 set $mod Mod4
 
-gaps inner 10
-gaps outer 10
+gaps inner 0
+gaps outer 0
 
 for_window [class="qemu"] floating enable
 for_window [class="qemu"] default_border normal
@@ -38,24 +38,17 @@ exec --no-startup-id dunst
 # ============================================================================
 exec_always --no-startup-id keyd-application-mapper -d
 exec_always xset r rate 200 35
+exec_always xinput set-prop "SYNA7DB5:01 06CB:CD7E Touchpad" "libinput Tapping Enabled" 1
 
 # ============================================================================
 # Binds
 # ============================================================================
-# Screenshots
 bindsym --release $mod+x exec --no-startup-id maim -s /tmp/ss.png && xclip -sel clip -t image/png -i /tmp/ss.png
-
-# Auto connect with my airpods
-bindsym --release $mod+b exec --no-startup-id bash /home/mt/git/personal/dotfiles/scripts/connectAirPods.sh
-
-# Terminal shortcut
+bindsym --release $mod+b exec --no-startup-id bash $HOME/git/personal/dotfiles/scripts/connectAirPods.sh
 bindsym $mod+Return exec kitty --config $HOME/git/personal/dotfiles/kitty/kitty.conf
-
-# Application runner
 bindsym $mod+d exec rofi -show drun
-
-# Run firefox
 bindsym $mod+m exec firefox
+bindsym $mod+s exec gnome-control-center
 
 
 
@@ -118,7 +111,7 @@ bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
 # split in horizontal orientation
-#bindsym $mod+s+h split h
+bindsym $mod+c split h
 
 # split in vertical orientation
 bindsym $mod+v split v
@@ -127,8 +120,8 @@ bindsym $mod+v split v
 bindsym $mod+f fullscreen toggle
 
 # change container layout (stacked, tabbed, toggle split)
-bindsym $mod+s layout stacking
-bindsym $mod+w layout tabbed
+#bindsym $mod+s layout stacking
+bindsym $mod+t layout tabbed
 bindsym $mod+e layout toggle split
 
 # toggle tiling / floating
@@ -217,8 +210,9 @@ default_border pixel
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
-        status_command SCRIPT_DIR=~/.config/i3blocks/ i3blocks
-        position top
+        #status_command SCRIPT_DIR=~/.config/i3blocks/ i3blocks
+        status_command i3status
+        position bottom
         workspace_min_width 40
 }
 

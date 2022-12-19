@@ -232,7 +232,8 @@ alias sfind="~/git/personal/dotfiles/scripts/sfind.sh"
 # Quickly finding my repos rararara // Is this really doing anything
 alias mfind=". ~/git/personal/dotfiles/scripts/find.sh"
 
-alias ls="exa"
+alias ll="exa -l"
+alias ls='ls --color=auto'
 
 # tmux settings
 alias ta="tmux attach"

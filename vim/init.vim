@@ -28,7 +28,7 @@ Plug 'Civitasv/cmake-tools.nvim'
 Plug 'mfussenegger/nvim-dap'
 
 " Java
-Plug 'mfussenegger/nvim-jdtls'
+"Plug 'mfussenegger/nvim-jdtls'
 
 " Lua
 Plug 'folke/lua-dev.nvim'
@@ -46,7 +46,7 @@ Plug 'vim-test/vim-test'
 
 " Markdown
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
-"Plug 'vimwiki/vimwiki'
+Plug 'vimwiki/vimwiki'
 Plug 'babaybus/DoxygenToolkit.vim'
 Plug 'preservim/nerdcommenter'
 Plug 'mg979/vim-visual-multi'
@@ -98,12 +98,15 @@ Plug 'kristijanhusak/vim-dadbod-completion'
 
 Plug 'onsails/lspkind-nvim'
 "Plug 'https://github.com/mphe/grayout.vim'
-Plug 'prabirshrestha/vim-lsp'
-Plug 'mattn/vim-lsp-settings'
+
+"* Plug 'prabirshrestha/vim-lsp'
+"* Plug 'mattn/vim-lsp-settings'
 Plug 'neovim/nvim-lspconfig'
 Plug 'tjdevries/nlua.nvim'
 Plug 'tjdevries/lsp_extensions.nvim'
-Plug 'williamboman/nvim-lsp-installer'
+"* Plug 'williamboman/nvim-lsp-installer'
+Plug 'williamboman/mason.nvim'
+Plug 'williamboman/mason-lspconfig.nvim'
 Plug 'glepnir/lspsaga.nvim'
 call plug#end()
 
@@ -150,7 +153,7 @@ set autoindent
 set smartindent
 set autoread
 set inccommand=split
-set mouse=a
+"set mouse=a
 set hidden
 set noerrorbells
 set expandtab
@@ -214,7 +217,7 @@ let g:gruvbox_material_background = 'hard'
 let g:gruvbox_material_enable_italic = 1
 let g:gruvbox_material_ui_contrast='high'
 let g:gruvbox_material_palette='original'
-let g:gruvbox_material_transparent_background=1
+let g:gruvbox_material_transparent_background=0
 
 
 "highlight Normal guibg=#282c34 guifg=White ctermbg=Black ctermfg=White "!!!!!!!!!!!!!!!!!!!!
@@ -403,104 +406,41 @@ table.insert(runtime_path, "lua/?.lua")
 table.insert(runtime_path, "lua/?/init.lua")
 
 
+
+require('mason').setup()
+require('mason-lspconfig').setup({
+    ensure_installed = { "sumneko_lua", "rust_analyzer" }
+
+})
+
+require'lspconfig'.jdtls.setup{}
 local function on_attach()
     -- why tf is should this be here
 end
-require("nvim-lsp-installer").setup {
-    automatic_installation = true
-}
-require'lspconfig'.volar.setup{}
-require'lspconfig'.diagnosticls.setup{}
-require'lspconfig'.graphql.setup{}
-require'lspconfig'.html.setup{}
-require'lspconfig'.jsonls.setup{}
-require'lspconfig'.prosemd_lsp.setup{}
-require'lspconfig'.arduino_language_server.setup{
-    on_attach=on_attach,
-    cmd = {
-        "arduino-language-server",
-        "-cli-config", "/home/mt/.arduino15/arduino-cli.yaml",
-        "-clangd", "/usr/bin/clangd",
-        "-cli", "/usr/bin/arduino-cli",
-        "-fqbn", "arduino:avr:uno"
-    }
-}
+-- require("nvim-lsp-installer").setup {
+--     automatic_installation = true
+-- }
+-- require'lspconfig'.volar.setup{}
+-- require'lspconfig'.diagnosticls.setup{}
+-- require'lspconfig'.graphql.setup{}
+-- require'lspconfig'.html.setup{}
+-- require'lspconfig'.jsonls.setup{}
+-- require'lspconfig'.prosemd_lsp.setup{}
+-- require'lspconfig'.arduino_language_server.setup{
+--     on_attach=on_attach,
+--     cmd = {
+--         "arduino-language-server",
+--         "-cli-config", "/home/mt/.arduino15/arduino-cli.yaml",
+--         "-clangd", "/usr/bin/clangd",
+--         "-cli", "/usr/bin/arduino-cli",
+--         "-fqbn", "arduino:avr:uno"
+--     }
+-- }
 
 local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ':p:h:t')
 
 local workspace_dir = '/path/to/workspace-root/' .. project_name
 
--- local config = {
---     cmd = {'/home/mt/bin/jdtls'},
---     root_dir = vim.fs.dirname(vim.fs.find({'.gradlew', '.git', 'mvnw'}, { upward = true })[1]),
--- }
--- require('jdtls').start_or_attach(config)
--- require'lspconfig'.jdtls.setup{config}
-
--- local config = {
---   -- The command that starts the language server
---   -- See: https://github.com/eclipse/eclipse.jdt.ls#running-from-the-command-line
---   cmd = {
--- 
---     -- 💀
---     'java', -- or '/path/to/java17_or_newer/bin/java'
---             -- depends on if `java` is in your $PATH env variable and if it points to the right version.
--- 
---     '-Declipse.application=org.eclipse.jdt.ls.core.id1',
---     '-Dosgi.bundles.defaultStartLevel=4',
---     '-Declipse.product=org.eclipse.jdt.ls.core.product',
---     '-Dlog.protocol=true',
---     '-Dlog.level=ALL',
---     '-Xms1g',
---     '--add-modules=ALL-SYSTEM',
---     '--add-opens', 'java.base/java.util=ALL-UNNAMED',
---     '--add-opens', 'java.base/java.lang=ALL-UNNAMED',
--- 
---     -- 💀
---     -- '-jar', '/home/mt/.local/share/nvim/lsp_servers/jdtls/plugins/org.eclipse.equinox.launcher_1.6.400.v20210924-0641.jar',
---     '-jar', '/home/mt/plugins/org.eclipse.equinox.launcher_1.6.400.v20210924-0641.jar',
---          -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^                                       ^^^^^^^^^^^^^^
---          -- Must point to the                                                     Change this to
---          -- eclipse.jdt.ls installation                                           the actual version
--- 
--- 
---     -- 💀
---     '-configuration', '/home/mt/config_linux',
---                     -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^        ^^^^^^
---                     -- Must point to the                      Change to one of `linux`, `win` or `mac`
---                     -- eclipse.jdt.ls installation            Depending on your system.
--- 
--- 
---     -- 💀
---     -- See `data directory configuration` section in the README
---     '-data', workspace_dir,
---   },
--- 
---   root_dir = require('jdtls.setup').find_root({'.git', 'mvnw', 'gradlew'}),
---   -- root_dir = require('jdtls.setup').find_root('.git'),
--- 
---   -- Here you can configure eclipse.jdt.ls specific settings
---   -- See https://github.com/eclipse/eclipse.jdt.ls/wiki/Running-the-JAVA-LS-server-from-the-command-line#initialize-request
---   -- for a list of options
---   settings = {
---     java = {
---     }
---   },
--- 
---   -- Language server `initializationOptions`
---   -- You need to extend the `bundles` with paths to jar files
---   -- if you want to use additional eclipse.jdt.ls plugins.
---   --
---   -- See https://github.com/mfussenegger/nvim-jdtls#java-debug-installation
---   --
---   -- If you don't plan on using the debugger or other eclipse.jdt.ls plugins you can remove this
---   init_options = {
---     bundles = {}
---   },
--- }
--- -- This starts a new client & server,
--- -- or attaches to an existing client & server depending on the `root_dir`.
--- require('jdtls').start_or_attach(config)
 local luadev = require("neodev").setup({
     library = {vimruntime = true, types = true, plugins = true},
     lspconfig = {
@@ -702,7 +642,7 @@ autocmd FileType rust nnoremap <leader>t :RustTest<CR>
 autocmd FileType rust nnoremap <leader>r :Cargo run<CR>
 autocmd FileType rust nnoremap <leader>gt :RustTest!<CR>
 autocmd FileType rust nnoremap <leader>f :RustFmt<CR>
-autocmd FileType rust :RustDisableInlayHints
+"autocmd FileType rust :RustDisableInlayHints
 "let g:rustfmt_autosave = 1
 
 autocmd FileType cpp nnoremap <leader>r :CMakeRun<CR>
@@ -728,7 +668,7 @@ require('rust-tools').setup({})
 --     enabled = { "ChainingHint" }
 -- }
 -- disable inlay hints
---require('rust-tools.inlay_hints').disable_inlay_hints()
+-- require('rust-tools.inlay_hints').disable_inlay_hints()
 
 local lspkind = require('lspkind')
 lspkind.init() -- @todo was init
