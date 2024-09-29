@@ -1,5 +1,8 @@
 vim.api.nvim_set_keymap('i', 'ö', '<Esc>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', 'ö', '<Esc>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('t', 'ö', '<C-\\><C-n>', { noremap = true, silent = true })
+
+
 
 vim.api.nvim_set_keymap('n', '<leader>H', ':wincmd h<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<leader>j', ':wincmd j<CR>', { noremap = true, silent = true })
@@ -14,8 +17,8 @@ vim.api.nvim_set_keymap('v', 'K', '5k', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<leader>7', ':nohl<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('v', '<leader>7', ':nohl<CR>', { noremap = true, silent = true })
 
-vim.api.nvim_set_keymap('n', '<C-f>', 'tabp<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<C-h>', 'tabn<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<C-f>', ':tabp<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<C-h>', ':tabn<CR>', { noremap = true, silent = true })
 
 vim.api.nvim_set_keymap('n', '<leader>n', ':cnext<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<leader>p', ':cprev<CR>', { noremap = true, silent = true })
@@ -32,6 +35,7 @@ vim.opt.signcolumn = 'yes:1'
 vim.opt.scrolloff = 2
 vim.opt.wrap = false
 vim.opt.splitright = true
+vim.opt.swapfile = false
 
 vim.opt.undofile = true
 vim.opt.wildmode = 'list:longest'

@@ -26,3 +26,5 @@ vim.api.nvim_create_autocmd('FileType', {
     vim.keymap.set("n", "<leader>sf", crates.show_features_popup, opts)
   end
 })
+
+vim.cmd('packadd termdebug')
