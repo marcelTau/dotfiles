@@ -7,7 +7,7 @@ mason.setup({
 })
 
 mason_lspconfig.setup({
-    ensure_installed = { "rust_analyzer", "lua_ls", "tsserver", "pyright" },
+    ensure_installed = { "rust_analyzer", "lua_ls", "ts_ls", "pyright" },
 })
 
 vim.keymap.set('n', '<leader>qf', vim.lsp.buf.code_action, {})
@@ -48,8 +48,9 @@ mason_lspconfig.setup_handlers({
     ["lua_ls"] = function()
         lspconfig.lua_ls.setup({})
     end,
-    ["tsserver"] = function()
-        lspconfig.tsserver.setup({
+    ["ts_ls"] = function()
+        lspconfig.ts_ls.setup({
+            on_attach = function() end,
             filetypes = { ".git", "javascript", "typescript", "typescriptreact", "typescript.tsx" },
         })
     end,
