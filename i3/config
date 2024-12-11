@@ -11,8 +11,8 @@
 
 set $mod Mod4
 
-gaps inner 0
-gaps outer 0
+gaps inner 10
+gaps outer 10
 
 for_window [class="qemu"] floating enable
 for_window [class="qemu"] default_border normal
@@ -29,26 +29,30 @@ for_window [title="/snap/discord/132/usr/share/discord/Discord"] floating enable
 for_window [title="bin/Discord"] default_border normal
 for_window [title="bin/Discord"] floating enable
 
-exec --no-startup-id picom -CGb
-exec killall -q notifier
-exec --no-startup-id dunst
+for_window [class="gnome-control-center" instance="gnome-control-center"] floating enable
+
+# exec --no-startup-id picom -CGb
+# exec killall -q notifier
+# exec --no-startup-id dunst
 
 # ============================================================================
 # Setup stuff
 # ============================================================================
-exec_always --no-startup-id keyd-application-mapper -d
-exec_always xset r rate 200 35
-exec_always xinput set-prop "SYNA7DB5:01 06CB:CD7E Touchpad" "libinput Tapping Enabled" 1
+# exec_always --no-startup-id keyd-application-mapper -d
+# exec_always xset r rate 200 35
+# exec_always xinput set-prop "SYNA7DB5:01 06CB:CD7E Touchpad" "libinput Tapping Enabled" 1
 
 # ============================================================================
 # Binds
 # ============================================================================
 bindsym --release $mod+x exec --no-startup-id maim -s /tmp/ss.png && xclip -sel clip -t image/png -i /tmp/ss.png
-bindsym --release $mod+b exec --no-startup-id bash $HOME/git/personal/dotfiles/scripts/connectAirPods.sh
-bindsym $mod+Return exec kitty --config $HOME/git/personal/dotfiles/kitty/kitty.conf
+# bindsym --release $mod+b exec --no-startup-id bash $HOME/git/personal/dotfiles/scripts/connectAirPods.sh
+bindsym $mod+Return exec kitty --config $HOME/.config/kitty/kitty.conf
 bindsym $mod+d exec rofi -show drun
 bindsym $mod+m exec firefox
-bindsym $mod+s exec gnome-control-center
+# bindsym $mod+s exec gnome-control-center
+
+bindsym $mod+s exec XDG_CURRENT_DESKTOP=GNOME gnome-control-center
 
 
 
@@ -74,11 +78,11 @@ exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 exec --no-startup-id nm-applet
 
 # Use pactl to adjust volume in PulseAudio.
-set $refresh_i3status killall -SIGUSR1 i3status
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
-bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
+# set $refresh_i3status killall -SIGUSR1 i3status
+# bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
+# bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
+# bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
+# bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod

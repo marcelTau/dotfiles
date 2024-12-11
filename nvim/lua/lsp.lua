@@ -3,11 +3,11 @@ local mason_lspconfig = require("mason-lspconfig")
 local lspconfig = require("lspconfig")
 -- Initialize Mason
 mason.setup({
-    ensure_installed = { "prettier" }
+    -- ensure_installed = { "prettier" }
 })
 
 mason_lspconfig.setup({
-    ensure_installed = { "rust_analyzer", "lua_ls", "ts_ls", "pyright" },
+    ensure_installed = { "rust_analyzer", "lua_ls", "pyright", "typescript_language_server"},
 })
 
 vim.keymap.set('n', '<leader>qf', vim.lsp.buf.code_action, {})
@@ -48,10 +48,28 @@ mason_lspconfig.setup_handlers({
     ["lua_ls"] = function()
         lspconfig.lua_ls.setup({})
     end,
-    ["ts_ls"] = function()
-        lspconfig.ts_ls.setup({
-            on_attach = function() end,
-            filetypes = { ".git", "javascript", "typescript", "typescriptreact", "typescript.tsx" },
-        })
+    -- ["ts_ls"] = function()
+    --     lspconfig.ts_ls.setup({
+    --         on_attach = function() end,
+    --         filetypes = { ".git", "javascript", "typescript", "typescriptreact", "typescript.tsx" },
+    --     })
+    -- end,
+    ["solidity_ls"] = function()
+        lspconfig.solidity_ls.setup({})
+    end
+})
+
+
+require("conform").setup({
+    formatters_by_ft = {
+      javascript = { "prettierd", "prettier", stop_after_first = true },
+      typescriptreact = { "prettierd", "prettier", stop_after_first = true },
+      typescript = { "prettierd", "prettier", stop_after_first = true },
+    },
+})
+vim.api.nvim_create_autocmd("BufWritePre", {
+    pattern = "*",
+    callback = function(args)
+      require("conform").format({ bufnr = args.buf })
     end,
 })
