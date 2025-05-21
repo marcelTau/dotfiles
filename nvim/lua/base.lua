@@ -2,8 +2,6 @@ vim.api.nvim_set_keymap('i', 'ö', '<Esc>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', 'ö', '<Esc>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('t', 'ö', '<C-\\><C-n>', { noremap = true, silent = true })
 
-
-
 vim.api.nvim_set_keymap('n', '<leader>H', ':wincmd h<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<leader>j', ':wincmd j<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<leader>k', ':wincmd k<CR>', { noremap = true, silent = true })
@@ -28,7 +26,7 @@ vim.api.nvim_set_keymap('v', '<leader>p', ':cprev<CR>', { noremap = true, silent
 vim.api.nvim_set_keymap('n', '<Leader>+', ':vertical resize +10<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<Leader>-', ':vertical resize -10<CR>', { noremap = true, silent = true })
 
-vim.opt.number = true
+vim.opt.number = false
 vim.opt.conceallevel = 0
 vim.opt.laststatus = 3
 vim.opt.signcolumn = 'yes:1'
@@ -47,8 +45,15 @@ vim.opt.expandtab = true
 vim.opt.smartcase = true
 vim.opt.ignorecase = true
 vim.opt.incsearch = true
-vim.opt.cmdheight = 1
+vim.opt.cmdheight = 0
 vim.opt.inccommand = 'split'
 vim.opt.clipboard = 'unnamedplus'
 vim.opt.autoread = true
 vim.opt.hidden = true
+-- vim.opt.guicursor = ""
+
+-- vim.cmd([[colorscheme default]])
+-- vim.api.nvim_set_hl(0, 'Normal', { bg = 'none' })
+-- vim.api.nvim_set_hl(0, 'NormalFloat', { bg = 'none' })
+-- vim.api.nvim_set_hl(0, 'FloatBorder', { bg = 'none' })
+-- vim.api.nvim_set_hl(0, 'Pmenu', { bg = 'none' })

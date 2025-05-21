@@ -8,5 +8,3 @@ require("telescope")
 require("rust")
 require("javascript")
 require("debug_rust")
-
-vim.print("done loading")

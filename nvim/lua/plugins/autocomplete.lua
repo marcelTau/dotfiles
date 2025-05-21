@@ -6,6 +6,8 @@ return {
     'hrsh7th/cmp-nvim-lua',
     'hrsh7th/cmp-calc',
     'hrsh7th/cmp-nvim-lsp-signature-help',
+    "hrsh7th/cmp-nvim-lsp-document-symbol",
+    "petertriho/cmp-git",
     'saadparwaiz1/cmp_luasnip',
     'kristijanhusak/vim-dadbod-completion',
     'L3MON4D3/LuaSnip',

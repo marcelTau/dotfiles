@@ -7,7 +7,7 @@ mason.setup({
 })
 
 mason_lspconfig.setup({
-    ensure_installed = { "rust_analyzer", "lua_ls", "pyright", "typescript_language_server"},
+    ensure_installed = { "rust_analyzer", "lua_ls", "pyright"},
 })
 
 vim.keymap.set('n', '<leader>qf', vim.lsp.buf.code_action, {})
