@@ -1,13 +1,23 @@
 [user]
 	name = marcel
 	email = marcel.taubert@epitech.eu
+
 [alias]
 	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
 	co = checkout
+    me = mergetool
+    rc = rebase --continue
+    amend = commit --amend --no-edit
+    recent = "!f() { \
+              for b in $(git for-each-ref --format='%(refname:short)' refs/heads); do \
+              if git log \"$b\" --since='24 hours ago' --oneline | grep -q .; then \
+              echo \"$b\"; \
+              fi; \
+              done; \
+              }; f"
 
 [core]
 	whitespace = tabwidth=4
-	#pager = less -x4 -FRSX
     pager = delta
     editor = nvim
 [interactive]
