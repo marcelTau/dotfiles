@@ -11,11 +11,11 @@
 
 set $mod Mod4
 
-gaps inner 10
-gaps outer 10
+gaps inner 0
+gaps outer 0
 
-for_window [class="qemu"] floating enable
-for_window [class="qemu"] default_border normal
+for_window [class="QEMU"] floating enable
+for_window [class="QEMU"] default_border normal
 for_window [title="(?i)babel"] floating enable
 for_window [title="(?i)babel"] default_border normal
 for_window [title="bin/babel"] default_border normal
@@ -29,7 +29,10 @@ for_window [title="/snap/discord/132/usr/share/discord/Discord"] floating enable
 for_window [title="bin/Discord"] default_border normal
 for_window [title="bin/Discord"] floating enable
 
+for_window [class="Qemu-system-x86_64"] floating enable
 for_window [class="gnome-control-center" instance="gnome-control-center"] floating enable
+
+# exec_always --no-startup-id picom
 
 # exec --no-startup-id picom -CGb
 # exec killall -q notifier
@@ -50,12 +53,13 @@ bindsym --release $mod+x exec --no-startup-id maim -s /tmp/ss.png && xclip -sel 
 bindsym $mod+Return exec kitty --config $HOME/.config/kitty/kitty.conf
 bindsym $mod+d exec rofi -show drun
 bindsym $mod+m exec firefox
+
+bindsym $mod+b exec st
+bindsym $mod+w exec ~/.config/emacs/bin/doom emacs
+
 # bindsym $mod+s exec gnome-control-center
 
 bindsym $mod+s exec XDG_CURRENT_DESKTOP=GNOME gnome-control-center
-
-
-
 
 popup_during_fullscreen smart
 # Font for window titles. Will also be used by the bar unless a different font
@@ -115,7 +119,7 @@ bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
 # split in horizontal orientation
-bindsym $mod+c split h
+# bindsym $mod+c split h
 
 # split in vertical orientation
 bindsym $mod+v split v
@@ -179,7 +183,7 @@ bindsym $mod+Shift+0 move container to workspace number $ws10
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
-# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+# rcmestart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
 bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
@@ -219,4 +223,3 @@ bar {
         position bottom
         workspace_min_width 40
 }
-
