@@ -28,7 +28,7 @@ vim.api.nvim_set_keymap('n', '<Leader>-', ':vertical resize -10<CR>', { noremap 
 
 vim.opt.number = false
 vim.opt.conceallevel = 0
-vim.opt.laststatus = 3
+-- vim.opt.laststatus = 3
 vim.opt.signcolumn = 'yes:1'
 vim.opt.scrolloff = 2
 vim.opt.wrap = false
@@ -50,10 +50,8 @@ vim.opt.inccommand = 'split'
 vim.opt.clipboard = 'unnamedplus'
 vim.opt.autoread = true
 vim.opt.hidden = true
+vim.opt.termguicolors = true
+
 -- vim.opt.guicursor = ""
 
--- vim.cmd([[colorscheme default]])
--- vim.api.nvim_set_hl(0, 'Normal', { bg = 'none' })
--- vim.api.nvim_set_hl(0, 'NormalFloat', { bg = 'none' })
--- vim.api.nvim_set_hl(0, 'FloatBorder', { bg = 'none' })
--- vim.api.nvim_set_hl(0, 'Pmenu', { bg = 'none' })
+vim.api.nvim_set_hl(0, "Comment", { fg = "#ff8800", italic = true })

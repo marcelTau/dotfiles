@@ -5,12 +5,4 @@ return {
   "folke/neodev.nvim",
   "folke/which-key.nvim",
   "numToStr/Comment.nvim",
-  -- {
-  --   dir = "/home/marcel/.config/nvim/lua/plugins",
-  --   name = "aws_logs",
-  --   config = function()
-  --     require('plugins.aws_logs').setup()
-  --   end,
-  --   dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" },
-  -- },
 }
