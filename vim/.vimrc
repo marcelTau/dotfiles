@@ -26,6 +26,7 @@ set smartindent     " Smart auto-indentation for code
 set autoindent      " Copy indent from current line when starting a new line
 
 autocmd FileType rust setlocal formatoptions+=ro comments=:///,://!,://
+autocmd FileType make setlocal noexpandtab
 set guicursor=n-v-c:block,i:ver25,r:hor20
 
 set colorcolumn=80
