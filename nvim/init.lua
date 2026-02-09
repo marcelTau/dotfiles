@@ -4,6 +4,7 @@ require("lsp")
 require("autocomplete")
 require("git")
 require("telescope")
+require("gitlab_switcher")
 
 require("rust")
 require("javascript")
