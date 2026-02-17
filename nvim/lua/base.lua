@@ -26,7 +26,7 @@ vim.api.nvim_set_keymap('v', '<leader>p', ':cprev<CR>', { noremap = true, silent
 vim.api.nvim_set_keymap('n', '<Leader>+', ':vertical resize +10<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<Leader>-', ':vertical resize -10<CR>', { noremap = true, silent = true })
 
-vim.opt.number = false
+vim.opt.number = true
 vim.opt.conceallevel = 0
 -- vim.opt.laststatus = 3
 vim.opt.signcolumn = 'yes:1'
@@ -55,3 +55,5 @@ vim.opt.termguicolors = true
 -- vim.opt.guicursor = ""
 
 vim.api.nvim_set_hl(0, "Comment", { fg = "#ff8800", italic = true })
+vim.cmd([[colorscheme koehler]])
+

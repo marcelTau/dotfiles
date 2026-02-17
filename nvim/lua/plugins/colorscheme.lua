@@ -3,7 +3,7 @@ return {
 		lazy = false, -- load at start
 		priority = 1000, -- load first
 		config = function()
-			vim.cmd([[colorscheme gruvbox-dark-hard]])
+			-- vim.cmd([[colorscheme gruvbox-dark-hard]])
 			vim.o.background = 'dark'
 			-- XXX: hi Normal ctermbg=NONE
 			-- Make comments more prominent -- they are important.
@@ -19,8 +19,5 @@ return {
 			-- call Base16hi("CocHintSign", g:base16_gui03, "", g:base16_cterm03, "", "", "")
 		end
   },
-	{ "miikanissi/modus-themes.nvim", priority = 1000, config = function() 
-		-- vim.cmd([[colorscheme modus_operandi]])
-	end },
 	{ "yorickpeterse/vim-paper", config = function() end},
 }

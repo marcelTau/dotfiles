@@ -11,7 +11,7 @@ NVIM_VERSION ?= 0.11.6
 NVIM_APPIMAGE_URL ?= https://github.com/neovim/neovim/releases/download/v$(NVIM_VERSION)/nvim-linux-x86_64.appimage
 
 .PHONY: help install \
-	git vim zsh tmux i3 i3status kitty dunst nvim \
+	git vim zsh tmux i3 i3status kitty dunst opencode nvim \
 	keyd st st-sync st-build nvim-bin require-root nvim-init nvim-lua
 
 help:
@@ -27,7 +27,7 @@ help:
 	@echo "  NVIM_VERSION=$(NVIM_VERSION)"
 	@echo "  NVIM_APPIMAGE_URL=$(NVIM_APPIMAGE_URL)"
 
-install: git vim zsh tmux i3 i3status kitty dunst nvim keyd st nvim-bin
+install: git vim zsh tmux i3 i3status kitty dunst opencode nvim keyd st nvim-bin
 
 git:
 	@./link_dotfile.sh "$(DOTFILES_DIR)/git/.gitconfig" "$(TARGET_HOME)/.gitconfig"
@@ -52,6 +52,11 @@ kitty:
 
 dunst:
 	@./link_dotfile.sh "$(DOTFILES_DIR)/dunst/dunstrc" "$(TARGET_HOME)/.config/dunst/dunstrc"
+
+opencode:
+	@./link_dotfile.sh "$(DOTFILES_DIR)/opencode/opencode.json" "$(TARGET_HOME)/.config/opencode/opencode.json"
+	@./link_dotfile.sh "$(DOTFILES_DIR)/opencode/instructions/git.md" "$(TARGET_HOME)/.config/opencode/instructions/git.md"
+	@./link_dotfile.sh "$(DOTFILES_DIR)/opencode/skills/cwrs-logs/SKILL.md" "$(TARGET_HOME)/.config/opencode/skills/cwrs-logs/SKILL.md"
 
 nvim: nvim-init nvim-lua
 nvim-init:
