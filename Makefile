@@ -56,6 +56,7 @@ dunst:
 opencode:
 	@./link_dotfile.sh "$(DOTFILES_DIR)/opencode/opencode.json" "$(TARGET_HOME)/.config/opencode/opencode.json"
 	@./link_dotfile.sh "$(DOTFILES_DIR)/opencode/instructions/git.md" "$(TARGET_HOME)/.config/opencode/instructions/git.md"
+	@./link_dotfile.sh "$(DOTFILES_DIR)/opencode/agents/mentor.md" "$(TARGET_HOME)/.config/opencode/agents/mentor.md"
 	@./link_dotfile.sh "$(DOTFILES_DIR)/opencode/skills/cwrs-logs/SKILL.md" "$(TARGET_HOME)/.config/opencode/skills/cwrs-logs/SKILL.md"
 
 nvim: nvim-init nvim-lua
