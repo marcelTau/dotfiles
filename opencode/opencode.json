@@ -23,13 +23,36 @@
       "rg *": "allow",
       "glab": "allow",
       "glab *": "allow"
+    },
+    "external_directory": {
+      "/home/marcel/dev/**": "allow",
+      "/home/marcel/dotfiles/**": "allow"
+    },
+    "read": {
+      "/home/marcel/dev/**": "allow",
+      "/home/marcel/dotfiles/**": "allow"
+    },
+    "edit": {
+      "/home/marcel/dev/**": "allow",
+      "/home/marcel/dotfiles/**": "allow"
     }
   },
   "agent": {
     "plan": {
       "permission": {
-        "edit": "ask"
+        "edit": {
+          "*": "ask",
+          "/home/marcel/dev/**": "allow",
+          "/home/marcel/dotfiles/**": "allow"
+        }
       }
+    }
+  },
+  "mcp": {
+    "linear": {
+      "type": "remote",
+      "url": "https://mcp.linear.app/mcp",
+      "enabled": false
     }
   },
   "instructions": [
