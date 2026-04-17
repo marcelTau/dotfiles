@@ -14,7 +14,8 @@ tnoremap ö <C-\><C-n>
 
 set mouse=a
 
-colorscheme koehler
+colorscheme quiet
+set background=dark
 
 set tabstop=4
 set shiftwidth=4

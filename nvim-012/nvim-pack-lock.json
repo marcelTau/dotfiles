@@ -1,0 +1,32 @@
+{
+  "plugins": {
+    "committia.vim": {
+      "rev": "a187b8633694027ab5ef8a834527d33093282f95",
+      "src": "file:///home/marcel/.local/share/nvim/plugged/committia.vim"
+    },
+    "gitsigns.nvim": {
+      "rev": "2c2463dbd82eddd7dbab881c3a62cfbfbe3c67ae",
+      "src": "file:///home/marcel/.local/share/nvim/plugged/gitsigns.nvim"
+    },
+    "mini.nvim": {
+      "rev": "29447d7b0e1fc9bc9d0384953e63be3fae816736",
+      "src": "file:///home/marcel/.local/share/nvim-012/local-plugins/mini.nvim"
+    },
+    "nvim-lspconfig": {
+      "rev": "1917b562a02f20885900b1da0f0ea25028ccedab",
+      "src": "file:///home/marcel/.local/share/nvim/plugged/nvim-lspconfig"
+    },
+    "rust.vim": {
+      "rev": "889b9a7515db477f4cb6808bef1769e53493c578",
+      "src": "/home/marcel/.local/share/nvim/plugged/rust.vim"
+    },
+    "togglerust": {
+      "rev": "60c807cbaa4f85f54ab386469df2686d98edb0f7",
+      "src": "file:///home/marcel/.local/share/nvim/plugged/togglerust"
+    },
+    "vim-fugitive": {
+      "rev": "41beedabc7e948c787ea5696e04c3544c3674e23",
+      "src": "file:///home/marcel/.local/share/nvim/plugged/vim-fugitive"
+    }
+  }
+}

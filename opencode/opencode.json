@@ -9,6 +9,10 @@
       "cargo *": "allow",
       "yarn": "allow",
       "yarn *": "allow",
+      "npm test": "allow",
+      "npm test *": "allow",
+      "npm run typecheck": "allow",
+      "npm run typecheck *": "allow",
       "ls": "allow",
       "ls *": "allow",
       "cat": "allow",
@@ -55,7 +59,5 @@
       "enabled": false
     }
   },
-  "instructions": [
-    "./instructions/git.md"
-  ]
+  "instructions": ["./instructions/git.md"]
 }
