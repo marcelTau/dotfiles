@@ -1,10 +1,3 @@
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
-
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 export PATH=$HOME/.local/bin/:$PATH
@@ -12,208 +5,38 @@ export PATH=$HOME/.cargo/bin:$PATH
 export PATH=$HOME/.local/share/nvim/lsp_servers/rust:$PATH
 export PATH=$HOME/oclint-21.10/bin:$PATH
 export PATH=$HOME/Downloads/teams_1.5.00.10453_amd64/data/usr/share/teams:$PATH
+export PATH=$HOME/.opencode/bin:$PATH
 #export EDITOR=$HOME/.config/nvim/nvim-linux64/bin/nvim
 export EDITOR=nvim
 
 export shell=zsh
-export KITTY_LISTEN_ON=unix:/tmp/mykitty
 
 # Path to your oh-my-zsh installation.
-export ZSH="/home/mt/.oh-my-zsh"
-# Set name of the theme to load --- if set to "random", it will
-# load a random theme each time oh-my-zsh is loaded, in which case,
-# to know which specific one was loaded, run: echo $RANDOM_THEME
-# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-#ZSH_THEME="robbyrussell"
-#ZSH_THEME="spaceship"
-#ZSH_THEME="powerlevel10k/powerlevel10k"
-#ZSH_THEME='af-magic'
-#ZSH_THEME='MinimalisticWithGit'
-#ZSH_THEME='mlh'
-ZSH_THEME='gentoo'
-#ZSH_THEME='AAA'
-# steeef, gentoo <- good
-# ZSH_THEME='avit'
-#ZSH_THEME='daveverwer'
-#zhann
-#sammy
-#crunch
-#simple
-SPACESHIP_PROMPT_DEFAULT_PREFIX='/ '
-# eval spaceship_vi_mode_enable
-## Git replacement symbols
-#SPACESHIP_GIT_SYMBOL='git:'
-SPACESHIP_GIT_SYMBOL=
-
-SPACESHIP_GIT_STATUS_UNTRACKED='?'
-SPACESHIP_GIT_STATUS_AHEAD='^'
-SPACESHIP_GIT_STATUS_BEHIND='v'
-SPACESHIP_GIT_STATUS_DIVERGED='<diverged>'
-SPACESHIP_GIT_BRANCH_COLOR='green'
-
-## Pyenv
-#SPACESHIP_PYENV_SYMBOL="pyenv:"
-#export SPACESHIP_PROMPT_DEFAULT_PREFIX='❯ '
-
-## Time
-SPACESHIP_TIME_SHOW=true
-SPACESHIP_EXIT_CODE_SHOW=true
-SPACESHIP_EXIT_CODE_SYMBOL=
-SPACESHIP_EXIT_CODE_SUFFIX=' '
-SPACESHIP_EXIT_CODE_PREFIX=
-
-SPACESHIP_VI_MODE_COLOR=243
-
-SPACESHIP_PROMPT_ORDER=(
-    dir
-    git
-    exec_time
-    line_sep
-    exit_code
-    vi_mode
-    char
-)
-
-# Hacks to get RPOMPT on top line :)
-function spaceship_rprompt_prefix() {
-  echo -n '%{'$'\e[1A''%}'
-}
-
-function spaceship_rprompt_suffix() {
-  echo -n '%{'$'\e[1B''%}'
-}
-
-# RPROMPT
-SPACESHIP_RPROMPT_ORDER=(
-  rprompt_prefix
-  time
-  rprompt_suffix
-)
-# Prompt replacement symbols
-# Set list of themes to pick from when loading at random
-# Setting this variable when ZSH_THEME=random will cause zsh to load
-# a theme from this variable instead of looking in $ZSH/themes/
-# If set to an empty array, this variable will have no effect.
-# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
-
-# Uncomment the following line to use case-sensitive completion.
-# CASE_SENSITIVE="true"
-
-# Uncomment the following line to use hyphen-insensitive completion.
-# Case-sensitive completion must be off. _ and - will be interchangeable.
-# HYPHEN_INSENSITIVE="true"
-
-# Uncomment the following line to disable bi-weekly auto-update checks.
-# DISABLE_AUTO_UPDATE="true"
-
-# Uncomment the following line to automatically update without prompting.
-# DISABLE_UPDATE_PROMPT="true"
-
-# Uncomment the following line to change how often to auto-update (in days).
-# export UPDATE_ZSH_DAYS=13
-
-# Uncomment the following line if pasting URLs and other text is messed up.
-# DISABLE_MAGIC_FUNCTIONS="true"
-
-# Uncomment the following line to disable colors in ls.
-# DISABLE_LS_COLORS="true"
-
-# Uncomment the following line to disable auto-setting terminal title.
-# DISABLE_AUTO_TITLE="true"
-
-# Uncomment the following line to enable command auto-correction.
-# ENABLE_CORRECTION="true"
-
-
-# Uncomment the following line to display red dots whilst waiting for completion.
-# Caution: this setting can cause issues with multiline prompts (zsh 5.7.1 and newer seem to work)
-# See https://github.com/ohmyzsh/ohmyzsh/issues/5765
-# COMPLETION_WAITING_DOTS="true"
-
-# Uncomment the following line if you want to disable marking untracked files
-# under VCS as dirty. This makes repository status check for large repositories
-# much, much faster.
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
-
-# Uncomment the following line if you want to change the command execution time
-# stamp shown in the history command output.
-# You can set one of the optional three formats:
-# "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
-# or set a custom format using the strftime function format specifications,
-# see 'man strftime' for details.
-# HIST_STAMPS="mm/dd/yyyy"
-
-# Would you like to use another custom folder than $ZSH/custom?
-# ZSH_CUSTOM=/path/to/new-custom-folder
-
-# Which plugins would you like to load?
-# Standard plugins can be found in $ZSH/plugins/
-# Custom plugins may be added to $ZSH_CUSTOM/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
+export ZSH="/home/marcel/.oh-my-zsh"
 
 #ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=60'
-plugins=(sudo colored-man-pages colorize extract zsh-autosuggestions zsh-history-substring-search fzf-zsh-plugin zsh-syntax-highlighting)
+plugins=(sudo extract zsh-autosuggestions zsh-syntax-highlighting)
 
 bindkey 'ö' autosuggest-accept
-
-#plugins=(
-	#git
-	#colored-man-pages
-	#colorize
-	#command-not-found
-	#zsh-autosuggestions
-	#zsh-syntax-highlighting
-#)
-#AUTOSUGGESTION_HIGHLIGHT_COLOR="fg=cyan"
 export RPS1="%{$reset_color%}"
 source $ZSH/oh-my-zsh.sh
-#ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=60'
-#ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#ff00ff,bg=cyan,bold,underline"
+_git_branch() {
+  local branch
+  branch=$(git symbolic-ref --short HEAD 2>/dev/null) || \
+  branch=$(git rev-parse --short HEAD 2>/dev/null) || return
+  echo " %F{green}$branch%f"
+}
+
+_aws_env() {
+  [[ -n "$AWS_VAULT" ]] && echo " %F{208}[aws:$AWS_VAULT]%f"
+}
+
+setopt PROMPT_SUBST
+PROMPT='%F{blue}%~%f$(_git_branch)$(_aws_env) %F{white}$%f '
+RPROMPT=''
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=2"
-# Prefix
 # Prompt replacement symbols
 # User configuration
-
-# export MANPATH="/usr/local/man:$MANPATH"
-
-# You may need to manually set your language environment
-# export LANG=en_US.UTF-8
-
-# Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
-
-# Compilation flags
-# export ARCHFLAGS="-arch x86_64"
-
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
-#
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
-
-#typeset -A ZSH_HIGHLIGHT_STYLES
-#ZSH_HIGHLIGHT_STYLES[comment]='fg=#909090'
-
-
-# typos
-alias clera="clear"
-alias claer="clear"
-alias vmi="vim"
-
-# map vim to be nvim
-# alias vim="~/.config/nvim/nvim.appimage"
-#alias vim="~/.config/nvim/nvim-linux64/bin/nvim"
-#alias vim="~/Downloads/nvim6"
-#alias vim="~/.config/nvim/nvim0-7release.appimage"
-alias vim="nvim"
 
 # my startup routine
 alias startup="~/git/personal/dotfiles/scripts/realstart.sh"
@@ -223,79 +46,21 @@ alias keys="sudo systemctl restart keyd && sudo systemctl enable keyd && sudo sy
 # GIT remaps
 alias ga="git add"
 alias gap="git add -p"
-alias gcm="git commit -m"
 alias gs="git status"
-alias gss="git status --short --branch"
 alias gd="git diff"
 alias sfind="~/git/personal/dotfiles/scripts/sfind.sh"
 
 # Quickly finding my repos rararara // Is this really doing anything
 alias mfind=". ~/git/personal/dotfiles/scripts/find.sh"
 
-alias ll="exa -l"
+# alias ll="exa -l"
 alias ls='ls --color=auto'
 
-# tmux settings
-alias ta="tmux attach"
-alias tn="tmux new"
-alias tl="tmux ls"
-alias tks="tmux kill-server"
-alias tss="tmux switch -t"
-alias td="tmux detach"
-alias tfind="~/git/personal/dotfiles/scripts/tmux_session.sh"
-alias hgrep="history | grep"
-
-alias sshserv="kitty +kitten ssh admin_backend@x2024dynafood545437452001.westeurope.cloudapp.azure.com -p 54646"
-alias sshdb="kitty +kitten ssh db_vm@x2024dynafood545437452001.westeurope.cloudapp.azure.com -p 62222"
-#alias sshdb="ssh admin_backend@x2024dynafood545437452001.westeurope.cloudapp.azure.com -p 64133"
-
-alias luamake=/home/mt/.config/nvim/lua-language-server/3rd/luamake/luamake
-function tfind() { tfind && ta ; zle reset-prompt; zle redisplay}
-zle -N tfind
- #bindkey '^t' tfind
-
-export EDITOR=nvim
-alias vim=nvim
-alias vimdiff='vim -d'
-
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-# [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-# [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-
-# show me the usage of a random cli program, when I open a new terminal
-#tldr --random
-
-if test -n "$KITTY_INSTALLATION_DIR"; then
-    export KITTY_SHELL_INTEGRATION="enabled"
-    autoload -Uz -- "$KITTY_INSTALLATION_DIR"/shell-integration/zsh/kitty-integration
-    kitty-integration
-    unfunction kitty-integration
-fi
-
-function iplot {
-    cat <<EOF | gnuplot
-    set terminal pngcairo enhanced font 'Fira Sans,10'
-    set autoscale
-    set samples 1000
-    set output '|kitty +kitten icat --stdin yes'
-    set object 1 rectangle from screen 0,0 to screen 1,1 fillcolor rgb"#fdf6e3" behind
-    plot $@
-    set output '/dev/null'
-EOF
-}
-
-pass() {
-    bw get password "$1" | xclip -se c
-}
-
-#tldr --random
-
 # pnpm
-export PNPM_HOME="/home/mt/.local/share/pnpm"
+export PNPM_HOME="$HOME/.local/share/pnpm"
 export PATH="$PNPM_HOME:$PATH"
 # pnpm end
+#
+source $HOME/.cactusenv
+
+source . <$(tfrunner completions)

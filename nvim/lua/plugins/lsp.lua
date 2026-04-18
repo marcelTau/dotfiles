@@ -6,7 +6,10 @@ return {
     {
         "mason-org/mason-lspconfig.nvim",
         opts = {
-            ensure_installed = { "rust_analyzer", "lua_ls", "pyright", "postgrestools"}
+            ensure_installed = { "rust_analyzer", "lua_ls", "pyright", "postgrestools"},
+            automatic_enable = {
+                exclude = { "rust_analyzer" },
+            },
         },
         dependencies = {
             { "mason-org/mason.nvim", opts = {} },

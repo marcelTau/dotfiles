@@ -52,8 +52,5 @@ vim.opt.autoread = true
 vim.opt.hidden = true
 vim.opt.termguicolors = true
 
+vim.cmd.colorscheme('marcel-light')
 -- vim.opt.guicursor = ""
-
-vim.api.nvim_set_hl(0, "Comment", { fg = "#ff8800", italic = true })
-vim.cmd([[colorscheme koehler]])
-
