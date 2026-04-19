@@ -9,6 +9,27 @@ local function expand(path)
   return vim.fs.normalize(vim.fn.expand(path))
 end
 
+local function joinpath(...)
+  return vim.fs.normalize(vim.fs.joinpath(...))
+end
+
+local home = vim.fs.normalize(vim.env.HOME)
+local data_home = vim.fs.normalize(vim.env.XDG_DATA_HOME or joinpath(home, ".local", "share"))
+local shared_nvim_data = joinpath(data_home, "nvim")
+local shared_nvim_config = joinpath(home, ".config", "nvim")
+
+local function github(repo)
+  return ("https://github.com/%s.git"):format(repo)
+end
+
+local function shared_plugin_candidates(name)
+  return {
+    joinpath(shared_nvim_data, "plugged", name),
+    joinpath(shared_nvim_config, "autoload", "plugged", name),
+    joinpath(shared_nvim_data, "lazy", name),
+  }
+end
+
 local function first_existing_path(candidates)
   for _, candidate in ipairs(candidates) do
     local resolved = expand(candidate)
@@ -18,51 +39,14 @@ local function first_existing_path(candidates)
   end
 end
 
-local function plugin_source(name, candidates)
-  local source = first_existing_path(candidates)
-  if source then
-    return {
-      name = name,
-      src = "file://" .. source,
-    }
-  end
-
-  error(("Missing plugin source for %s"):format(name))
-end
-
 vim.pack.add({
-  plugin_source("gitsigns.nvim", {
-    "~/.local/share/nvim/plugged/gitsigns.nvim",
-    "~/.config/nvim/autoload/plugged/gitsigns.nvim",
-    "~/.local/share/nvim/lazy/gitsigns.nvim",
-  }),
-  plugin_source("mini.nvim", {
-    "~/.local/share/nvim-012/local-plugins/mini.nvim",
-  }),
-  plugin_source("vim-fugitive", {
-    "~/.local/share/nvim/plugged/vim-fugitive",
-    "~/.config/nvim/autoload/plugged/vim-fugitive",
-    "~/.local/share/nvim/lazy/vim-fugitive",
-  }),
-  plugin_source("committia.vim", {
-    "~/.local/share/nvim/plugged/committia.vim",
-    "~/.config/nvim/autoload/plugged/committia.vim",
-    "~/.local/share/nvim/lazy/committia.vim",
-  }),
-  plugin_source("rust.vim", {
-    "~/.local/share/nvim/plugged/rust.vim",
-    "~/.config/nvim/autoload/plugged/rust.vim",
-  }),
-  plugin_source("togglerust", {
-    "~/.local/share/nvim/plugged/togglerust",
-    "~/.config/nvim/autoload/plugged/togglerust",
-    "~/.local/share/nvim/lazy/togglerust",
-  }),
-  plugin_source("nvim-lspconfig", {
-    "~/.local/share/nvim/plugged/nvim-lspconfig",
-    "~/.config/nvim/autoload/plugged/nvim-lspconfig",
-    "~/.local/share/nvim/lazy/nvim-lspconfig",
-  }),
+  { name = "gitsigns.nvim", src = github("lewis6991/gitsigns.nvim") },
+  { name = "mini.nvim", src = github("echasnovski/mini.nvim") },
+  { name = "vim-fugitive", src = github("tpope/vim-fugitive") },
+  { name = "committia.vim", src = github("rhysd/committia.vim") },
+  { name = "rust.vim", src = github("rust-lang/rust.vim") },
+  { name = "togglerust", src = github("togglebyte/togglerust") },
+  { name = "nvim-lspconfig", src = github("neovim/nvim-lspconfig") },
 }, {
   confirm = false,
   load = true,
@@ -77,14 +61,13 @@ local function add_runtimepath(candidates)
 end
 
 add_runtimepath({
-  "~/.config/nvim/autoload/plugged/nvim-treesitter",
-  "~/.local/share/nvim/plugged/nvim-treesitter",
+  unpack(shared_plugin_candidates("nvim-treesitter")),
 })
 
 local treesitter_parsers = {}
 
-local function add_treesitter_parser(lang, candidates)
-  local parser_path = first_existing_path(candidates)
+local function add_treesitter_parser(lang)
+  local parser_path = first_existing_path(vim.api.nvim_get_runtime_file(("parser/%s.so"):format(lang), false))
   if not parser_path then
     return false
   end
@@ -97,15 +80,8 @@ local function add_treesitter_parser(lang, candidates)
   return ok
 end
 
-add_treesitter_parser("rust", {
-  "~/.config/nvim/autoload/plugged/nvim-treesitter/parser/rust.so",
-  "~/.local/share/nvim/plugged/nvim-treesitter/parser/rust.so",
-})
-
-add_treesitter_parser("sql", {
-  "~/.config/nvim/autoload/plugged/nvim-treesitter/parser/sql.so",
-  "~/.local/share/nvim/plugged/nvim-treesitter/parser/sql.so",
-})
+add_treesitter_parser("rust")
+add_treesitter_parser("sql")
 
 vim.keymap.set("i", "ö", "<Esc>", { noremap = true, silent = true })
 vim.keymap.set("n", "ö", "<Esc>", { noremap = true, silent = true })
@@ -254,10 +230,31 @@ if ok_mini_pick then
   mini_pick.setup()
   vim.ui.select = ui_select_orig
 
+  local grep_picker_opts = {
+    mappings = {
+      send_all_to_quickfix = {
+        char = "<C-q>",
+        func = function()
+          local matches = mini_pick.get_picker_matches()
+          local items = matches and matches.all or {}
+          if #items == 0 then
+            vim.notify("No grep matches to send to quickfix", vim.log.levels.INFO)
+            return false
+          end
+
+          mini_pick.default_choose_marked(items)
+          return true
+        end,
+      },
+    },
+  }
+
   vim.keymap.set("n", "<leader>ff", mini_pick.builtin.files, { silent = true })
-  vim.keymap.set("n", "<leader>lg", mini_pick.builtin.grep_live, { silent = true })
+  vim.keymap.set("n", "<leader>lg", function()
+    mini_pick.builtin.grep_live(nil, grep_picker_opts)
+  end, { silent = true })
   vim.keymap.set("n", "<leader>lw", function()
-    mini_pick.builtin.grep({ pattern = vim.fn.expand("<cword>") })
+    mini_pick.builtin.grep({ pattern = vim.fn.expand("<cword>") }, grep_picker_opts)
   end, { silent = true })
 end
 
@@ -314,6 +311,12 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
 require("debug_rust")
+
+if vim.fn.exists(":LspInfo") == 0 then
+  vim.api.nvim_create_user_command("LspInfo", function()
+    vim.cmd("checkhealth vim.lsp")
+  end, { desc = "Show Neovim LSP health information" })
+end
 
 local lsp_group = vim.api.nvim_create_augroup("Nvim012Lsp", { clear = true })
 
@@ -443,14 +446,23 @@ local function register_rust_analyzer()
         cargo_crate_dir .. "/Cargo.toml",
       }, { text = true }, function(output)
         if output.code == 0 and output.stdout then
-          local result = vim.json.decode(output.stdout)
-          local workspace_root = result.workspace_root and vim.fs.normalize(result.workspace_root) or cargo_crate_dir
-          on_dir(workspace_root)
+          local ok, result = pcall(vim.json.decode, output.stdout)
+          if ok and type(result) == "table" then
+            local workspace_root = result.workspace_root and vim.fs.normalize(result.workspace_root) or cargo_crate_dir
+            on_dir(workspace_root)
+            return
+          end
+
+          vim.schedule(function()
+            vim.notify("[rust_analyzer] failed to decode cargo metadata output", vim.log.levels.WARN)
+          end)
         else
           vim.schedule(function()
             vim.notify("[rust_analyzer] cargo metadata failed: " .. (output.stderr or ""), vim.log.levels.WARN)
           end)
         end
+
+        on_dir(cargo_crate_dir)
       end)
     end,
     settings = {

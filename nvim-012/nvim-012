@@ -1,7 +1,11 @@
 #!/bin/sh
 set -eu
 
-NVIM_BIN="$HOME/.local/share/nvim-0.12/bin/nvim"
+SCRIPT_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+CONFIG_HOME=$(dirname "$SCRIPT_DIR")
+DATA_HOME="${XDG_DATA_HOME:-$HOME/.local/share}"
+NVIM_BIN="${NVIM_BIN:-$DATA_HOME/nvim-0.12/bin/nvim}"
+MASON_BIN="$DATA_HOME/nvim/mason/bin"
 
 if [ ! -x "$NVIM_BIN" ]; then
   echo "missing Neovim 0.12 binary at $NVIM_BIN" >&2
@@ -9,7 +13,10 @@ if [ ! -x "$NVIM_BIN" ]; then
 fi
 
 export NVIM_APPNAME="nvim-012"
-export XDG_CONFIG_HOME="$HOME/dotfiles"
-export PATH="$HOME/.local/share/nvim/mason/bin:$PATH"
+export XDG_CONFIG_HOME="$CONFIG_HOME"
+
+if [ -d "$MASON_BIN" ]; then
+  export PATH="$MASON_BIN:$PATH"
+fi
 
 exec "$NVIM_BIN" "$@"

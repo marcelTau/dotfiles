@@ -41,6 +41,7 @@ ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=2"
 # my startup routine
 alias startup="~/git/personal/dotfiles/scripts/realstart.sh"
 alias keys="sudo systemctl restart keyd && sudo systemctl enable keyd && sudo systemctl start keyd && setxkbmap -option compose:menu"
+alias nv="$HOME/dotfiles/nvim-012/nv"
 
 
 # GIT remaps
