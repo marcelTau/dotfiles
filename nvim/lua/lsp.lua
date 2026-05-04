@@ -3,8 +3,9 @@ local mason_lspconfig = require("mason-lspconfig")
 local lspconfig = require("lspconfig")
 local util = require("lspconfig.util")
 
-local lemon_shark_root = vim.uv.fs_realpath("/home/marcel/fooo/lemon_shark")
-local lemon_shark_cargo = "/home/marcel/fooo/lemon_shark/Cargo.toml"
+local lemon_shark_path = vim.fn.expand("~/fooo/lemon_shark")
+local lemon_shark_root = vim.uv.fs_realpath(lemon_shark_path)
+local lemon_shark_cargo = vim.fs.joinpath(lemon_shark_root or lemon_shark_path, "Cargo.toml")
 local default_rust_root = util.root_pattern("Cargo.toml", "rust-project.json", ".git")
 
 local function is_lemon_shark(root_dir)

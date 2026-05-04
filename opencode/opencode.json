@@ -29,16 +29,16 @@
       "glab *": "allow"
     },
     "external_directory": {
-      "/home/marcel/dev/**": "allow",
-      "/home/marcel/dotfiles/**": "allow"
+      "~/dev/**": "allow",
+      "~/dotfiles/**": "allow"
     },
     "read": {
-      "/home/marcel/dev/**": "allow",
-      "/home/marcel/dotfiles/**": "allow"
+      "~/dev/**": "allow",
+      "~/dotfiles/**": "allow"
     },
     "edit": {
-      "/home/marcel/dev/**": "allow",
-      "/home/marcel/dotfiles/**": "allow"
+      "~/dev/**": "allow",
+      "~/dotfiles/**": "allow"
     }
   },
   "agent": {
@@ -46,8 +46,8 @@
       "permission": {
         "edit": {
           "*": "ask",
-          "/home/marcel/dev/**": "allow",
-          "/home/marcel/dotfiles/**": "allow"
+          "~/dev/**": "allow",
+          "~/dotfiles/**": "allow"
         }
       }
     }

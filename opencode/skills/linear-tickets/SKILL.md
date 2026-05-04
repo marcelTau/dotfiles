@@ -8,7 +8,7 @@ compatibility: opencode
 
 - Use the Linear MCP for Linear issue reads and updates.
 - Explore the codebase before coding, especially files or modules mentioned in the issue.
-- Create a git worktree in `/home/marcel/dev/{project-name}-{issue-id}`.
+- Create a git worktree in `~/dev/{project-name}-{issue-id}`.
 - Make and discuss a plan with the human unless they explicitly said planning discussion is not needed.
 - Use TDD for bug fixes and logic changes.
 - Group changes into logical commits with reviewer-friendly messages.
@@ -23,7 +23,7 @@ Use this when the user asks to pick up, investigate, or complete a Linear ticket
 
 1. Use the Linear MCP to fetch the issue details, comments, attachments, linked documents, and project context.
 2. Before coding, explore the codebase. If the issue mentions important files, directories, modules, tests, APIs, or docs, inspect those first.
-3. Create a git worktree in `/home/marcel/dev/{project-name}-{issue-id}`.
+3. Create a git worktree in `~/dev/{project-name}-{issue-id}`.
    - Use the project or repository name for `{project-name}`.
    - Use the Linear issue identifier for `{issue-id}`.
    - Sanitize the project name to lowercase kebab-case.

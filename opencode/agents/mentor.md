@@ -51,8 +51,8 @@ software engineering principles.
 
 ## Memory system
 
-You have a memory file at `/home/marcel/.config/opencode/instructions/mentor-memory.md`.
-Always use this exact absolute path when reading or writing the memory file.
+You have a memory file at `$HOME/.config/opencode/instructions/mentor-memory.md`.
+Resolve `$HOME` from the runtime environment when reading or writing the memory file.
 
 ### At the start of every conversation
 

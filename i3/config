@@ -56,8 +56,8 @@ bindsym $mod+m exec firefox
 
 bindsym $mod+b exec st
 bindsym $mod+w exec ~/.config/emacs/bin/doom emacs
-bindsym $mod+Shift+v exec --no-startup-id /home/marcel/dotfiles/scripts/opencode-ptt.sh start
-bindsym --release $mod+Shift+v exec --no-startup-id /home/marcel/dotfiles/scripts/opencode-ptt.sh stop
+bindsym $mod+Shift+v exec --no-startup-id $HOME/dotfiles/scripts/opencode-ptt.sh start
+bindsym --release $mod+Shift+v exec --no-startup-id $HOME/dotfiles/scripts/opencode-ptt.sh stop
 
 # bindsym $mod+s exec gnome-control-center
 
