@@ -47,6 +47,7 @@ vim.pack.add({
   { name = "rust.vim", src = github("rust-lang/rust.vim") },
   { name = "togglerust", src = github("togglebyte/togglerust") },
   { name = "nvim-lspconfig", src = github("neovim/nvim-lspconfig") },
+  { name = "journal.nvim", src = "git@github.com:marcelTau/journal.nvim.git" },
 }, {
   confirm = false,
   load = true,
@@ -277,6 +278,7 @@ end
 vim.keymap.set("n", "<leader>gvd", "<Cmd>Gvdiffsplit<CR>", { silent = false })
 
 require("git_tools").setup()
+require("journal").setup({ dir = vim.fn.expand("~/journal") })
 
 vim.api.nvim_create_autocmd("FileType", {
   pattern = { "rust", "sql" },

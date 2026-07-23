@@ -8,6 +8,10 @@
       "rev": "8d82c240f190fc33723d48c308ccc1ed8baad69d",
       "src": "https://github.com/lewis6991/gitsigns.nvim.git"
     },
+    "journal.nvim": {
+      "rev": "ed5f74d24b523d6c42e1208e8af5fc342eb8f5be",
+      "src": "git@github.com:marcelTau/journal.nvim.git"
+    },
     "mini.nvim": {
       "rev": "418ef4930ddabe80f449c6f1323f8b6abb172d1c",
       "src": "https://github.com/echasnovski/mini.nvim.git"
