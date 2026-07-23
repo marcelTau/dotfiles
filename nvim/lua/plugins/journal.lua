@@ -1,5 +1,5 @@
 return {
-  dir = vim.fn.expand("~/dev/journal.nvim"),
+  url = "git@github.com:marcelTau/journal.nvim.git",
   name = "journal.nvim",
   cmd = "Journal",
   config = function()

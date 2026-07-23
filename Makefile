@@ -11,8 +11,8 @@ NVIM_VERSION ?= 0.11.6
 NVIM_APPIMAGE_URL ?= https://github.com/neovim/neovim/releases/download/v$(NVIM_VERSION)/nvim-linux-x86_64.appimage
 
 .PHONY: help install \
-	git vim zsh tmux i3 i3status kitty dunst opencode nvim \
-	keyd st st-sync st-build nvim-bin require-root nvim-init nvim-lua
+		git vim zsh tmux i3 i3status kitty dunst opencode nvim \
+		keyd st st-sync st-build nvim-bin require-root nvim-init nvim-lua nvim-colors
 
 help:
 	@echo "Shortcuts:"
@@ -62,12 +62,15 @@ opencode:
 	@./link_dotfile.sh "$(DOTFILES_DIR)/opencode/skills/commit-messages/SKILL.md" "$(TARGET_HOME)/.config/opencode/skills/commit-messages/SKILL.md"
 	@./link_dotfile.sh "$(DOTFILES_DIR)/opencode/plugins/tmux-notify.js" "$(TARGET_HOME)/.config/opencode/plugins/tmux-notify.js"
 
-nvim: nvim-init nvim-lua
+nvim: nvim-init nvim-lua nvim-colors
 nvim-init:
 	@./link_dotfile.sh "$(DOTFILES_DIR)/nvim/init.lua" "$(TARGET_HOME)/.config/nvim/init.lua"
 
 nvim-lua:
 	@./link_dotfile.sh "$(DOTFILES_DIR)/nvim/lua" "$(TARGET_HOME)/.config/nvim/lua"
+
+nvim-colors:
+	@./link_dotfile.sh "$(DOTFILES_DIR)/nvim/colors" "$(TARGET_HOME)/.config/nvim/colors"
 
 keyd: require-root
 	@set -eu; \
